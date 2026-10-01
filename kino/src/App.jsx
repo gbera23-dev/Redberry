@@ -1,9 +1,10 @@
+import LoginModal from "../src/features/auth/modals/LoginModal"
 
 function App() {
   return (
-    <div>
-      <p>Hello!</p>
-    </div>
+    <section>
+      <LoginModal />
+    </section>
   ); 
 }
 
