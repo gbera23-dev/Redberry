@@ -1,14 +1,9 @@
-import SignUpModal from "../src/features/auth/modals/SignUpModal"
-import LoginModal from "../src/features/auth/modals/LoginModal"
+import Auth from "../src/features/auth/pages/Auth"
+
 function App() {
   return (
     <section>
-      <LoginModal
-        onClose={() => console.log("close")} 
-        onSwitch= {() => console.log("switch")}
-        onSubmit= {() => console.log("submit")}
-      >
-      </LoginModal>
+      <Auth />
     </section>
   ); 
 }

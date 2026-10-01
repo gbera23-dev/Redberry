@@ -8,11 +8,11 @@ function useRegistrationForm() {
  const [username, setUsername] = useState("");
  const [email, setEmail] = useState("");
  const [password, setPassword] = useState("");
- const [confirm, setConfirm] = useState("");
+ const [password_confirmation, setConfirm] = useState("");
 
  return {
     fileRef, avatar, setAvatar, preview, setPreview, username, setUsername, 
-    email, setEmail, password, setPassword, confirm, setConfirm, 
+    email, setEmail, password, setPassword, password_confirmation, setConfirm, 
  }
 }
 

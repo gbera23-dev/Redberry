@@ -3,13 +3,13 @@ import useRegistrationForm from "../hooks/useRegistrationForm";
 
 export default function SignupModal({ onClose, onSwitch, onSubmit }) {
   const {fileRef, avatar, setAvatar, preview, setPreview, username, setUsername, 
-    email, setEmail, password, setPassword, confirm, setConfirm} = useRegistrationForm(); 
+    email, setEmail, password, setPassword, password_confirmation, setConfirm} = useRegistrationForm(); 
 
   const canSubmit =
     username.trim() !== "" &&
     email.trim() !== "" &&
     password !== "" &&
-    password === confirm;
+    password === password_confirmation;
 
   const handleFile = (e) => {
     const file = e.target.files?.[0];
@@ -20,7 +20,7 @@ export default function SignupModal({ onClose, onSwitch, onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (canSubmit) onSubmit?.({ avatar, username, email, password });
+    if (canSubmit) onSubmit?.({ username, email, password, password_confirmation, avatar });
   };
 
   return (
@@ -120,7 +120,7 @@ export default function SignupModal({ onClose, onSwitch, onSubmit }) {
                 type="password"
                 autoComplete="new-password"
                 placeholder="••••••••"
-                value={confirm}
+                value={password_confirmation}
                 onChange={(e) => setConfirm(e.target.value)}
               />
             </div>
