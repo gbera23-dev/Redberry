@@ -1,4 +1,5 @@
 import httpClient from "./httpClient";
+import { setToken, clearToken } from "../utils/tokenUtils"; 
 
 async function register(payload) {
   const response = await httpClient.post("/register", payload);
@@ -12,7 +13,7 @@ async function login(credentials) {
 
 async function logout() {
     const response = await httpClient.post("/logout");
-    //To be implemented: clearing a saved token
+    clearToken(); 
     return response.data;  
 }
 
