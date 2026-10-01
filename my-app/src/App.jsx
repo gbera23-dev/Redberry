@@ -1,12 +1,12 @@
 import { useState } from 'react'
+import HomeLayout from "/src/layouts/HomeLayout.jsx"
+import HomePage from "/src/pages/HomePage.jsx"
 
 function App() {
-    console.log("Hello!"); 
   return (
-    <div>
-      <h1>Welcome to My Website!</h1>
-      <p>There is nothing to see here yet...</p>
-    </div>
+    <HomeLayout>
+      <HomePage />
+    </HomeLayout>
   );
 }
 
