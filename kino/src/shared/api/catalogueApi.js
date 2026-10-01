@@ -36,3 +36,7 @@ async function notifyOnTitle(movie) {
     const response = await httpClient.post(`${BASE_PATH}/${movie}/notify`);
     return response.data; 
 }
+
+export const catalogueApi = { search, nowPlaying, comingSoon, featured, 
+    getMovie, movieSessions, notifyOnTitle
+ };
