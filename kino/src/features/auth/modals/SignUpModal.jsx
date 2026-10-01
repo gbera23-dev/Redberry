@@ -1,14 +1,9 @@
-import { useRef, useState } from "react";
 import "./AuthModal.css";
+import useRegistrationForm from "../hooks/useRegistrationForm";
 
 export default function SignupModal({ onClose, onSwitch, onSubmit }) {
-  const fileRef = useRef(null);
-  const [avatar, setAvatar] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const {fileRef, avatar, setAvatar, preview, setPreview, username, setUsername, 
+    email, setEmail, password, setPassword, confirm, setConfirm} = useRegistrationForm(); 
 
   const canSubmit =
     username.trim() !== "" &&
