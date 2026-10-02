@@ -1,15 +1,17 @@
 import "./AuthModal.css";
 import useRegistrationForm from "../hooks/useRegistrationForm";
+import { useAuth } from "../providers/Auth"
 
-export default function SignupModal({ onClose, onSwitch, onSubmit, active }) {
-
-  if (active !== "register") {
-    return null; 
-  }
+export default function SignupModal() {
 
   const {fileRef, avatar, setAvatar, preview, setPreview, username, setUsername, 
     email, setEmail, password, setPassword, password_confirmation, setConfirm} = useRegistrationForm(); 
 
+  const { closeModal, openLogin, wrapRegister, activeModal } = useAuth();
+    
+  if (activeModal !== "register") {
+    return null; 
+  }
 
   const canSubmit =
     username.trim() !== "" &&
@@ -26,11 +28,11 @@ export default function SignupModal({ onClose, onSwitch, onSubmit, active }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (canSubmit) onSubmit?.({ username, email, password, password_confirmation, avatar });
+    if (canSubmit) wrapRegister?.({ username, email, password, password_confirmation, avatar });
   };
 
   return (
-    <div className="auth-overlay" onClick={onClose}>
+    <div className="auth-overlay" onClick={closeModal}>
       <div
         className="auth-modal auth-modal--wide"
         role="dialog"
@@ -43,7 +45,7 @@ export default function SignupModal({ onClose, onSwitch, onSubmit, active }) {
             <h2 id="signup-title" className="auth-title">Sign up</h2>
             <p className="auth-subtitle">Welcome to Kino XII</p>
           </div>
-          <button type="button" className="auth-close" aria-label="Close" onClick={onClose}>
+          <button type="button" className="auth-close" aria-label="Close" onClick={closeModal}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M2 2l12 12M14 2L2 14" />
             </svg>
@@ -139,7 +141,7 @@ export default function SignupModal({ onClose, onSwitch, onSubmit, active }) {
 
         <p className="auth-switch">
           Already have an account?
-          <button type="button" className="auth-switch__link" onClick={onSwitch}>
+          <button type="button" className="auth-switch__link" onClick={openLogin}>
             Log in
           </button>
         </p>

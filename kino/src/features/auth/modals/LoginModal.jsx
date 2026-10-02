@@ -1,24 +1,27 @@
-import { useState } from "react";
 import "./AuthModal.css";
 import useLoginForm from "../hooks/useLoginForm"
+import { useAuth } from "../providers/Auth"
 
-export default function LoginModal({ onClose, onSwitch, onSubmit, active }) {
-
-  if (active !== "login") {
-    return null; 
-  }
+export default function LoginModal() {
   
   const {email, setEmail, password, setPassword} = useLoginForm(); 
+
+  const { closeModal, openRegister, wrapLogin, activeModal } = useAuth();
+
+
+  if (activeModal !== "login") {
+      return null; 
+  }
 
   const canSubmit = email.trim() !== "" && password !== "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (canSubmit) onSubmit?.({ email, password });
+    if (canSubmit) wrapLogin?.({ email, password });
   };
 
   return (
-    <div className="auth-overlay" onClick={onClose}>
+    <div className="auth-overlay" onClick={closeModal}>
       <div
         className="auth-modal"
         role="dialog"
@@ -31,7 +34,7 @@ export default function LoginModal({ onClose, onSwitch, onSubmit, active }) {
             <h2 id="login-title" className="auth-title">Log in</h2>
             <p className="auth-subtitle">Welcome back to Kino XII</p>
           </div>
-          <button type="button" className="auth-close" aria-label="Close" onClick={onClose}>
+          <button type="button" className="auth-close" aria-label="Close" onClick={closeModal}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <path d="M2 2l12 12M14 2L2 14" />
             </svg>
@@ -72,7 +75,7 @@ export default function LoginModal({ onClose, onSwitch, onSubmit, active }) {
 
         <p className="auth-switch">
           Don&apos;t have an account?
-          <button type="button" className="auth-switch__link" onClick={onSwitch}>
+          <button type="button" className="auth-switch__link" onClick={openRegister}>
             Sign up
           </button>
         </p>
