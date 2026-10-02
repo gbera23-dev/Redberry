@@ -1,0 +1,16 @@
+.coming-soon {
+  padding: 40px var(--gutter) 48px;
+}
+
+.coming-soon__row {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.coming-soon__row::-webkit-scrollbar {
+  display: none;
+}

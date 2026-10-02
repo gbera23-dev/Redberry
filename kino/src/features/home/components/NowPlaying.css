@@ -1,0 +1,16 @@
+.now-playing {
+  padding: 32px var(--gutter) 8px;
+}
+
+.now-playing__row {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.now-playing__row::-webkit-scrollbar {
+  display: none;
+}
