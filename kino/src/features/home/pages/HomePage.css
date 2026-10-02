@@ -1,0 +1,19 @@
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.home main {
+  flex: 1;
+}
+
+.home__top {
+  position: relative;
+}
+
+.home__status {
+  padding: 48px var(--gutter);
+  font-size: 12px;
+  color: var(--muted);
+}
