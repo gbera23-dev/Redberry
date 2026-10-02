@@ -8,10 +8,10 @@
   justify-content: space-between;
   gap: 24px;
   padding: 16px var(--gutter);
-  background: rgba(10, 12, 19, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
+  background: transparent;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-bottom: 1px black var(--border);
 }
 
 .header__left {
