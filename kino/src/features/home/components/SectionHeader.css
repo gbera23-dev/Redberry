@@ -1,0 +1,23 @@
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.section-header h2 {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.section-header a {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent-hover);
+}
+
+.section-header a:hover {
+  text-decoration: underline;
+}

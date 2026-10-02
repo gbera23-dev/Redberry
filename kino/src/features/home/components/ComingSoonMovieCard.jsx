@@ -1,9 +1,9 @@
 import { formatDuration } from '../../../shared/utils/format.js';
 import { BellIcon } from './Icons.jsx';
-import './ComingMovieCard.css';
+import './ComingSoonMovieCard.css';
 import useMovie from "../hooks/useMovie.js";
 
-export default function MovieCard({ slug }) {
+export default function ComingSoonMovieCard({ slug }) {
   const { movie, loading } = useMovie(slug);
 
   const onNotify = () => console.log("notify"); 
