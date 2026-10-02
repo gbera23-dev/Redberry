@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { catalogueApi } from '../../../api/catalogueApi.js'
+import { useEffect, useState } from "react"
+import { catalogueApi } from "../../../api/catalogueApi.js"
 
 const NOW_PLAYING_LIMIT = 10
 const COMING_SOON_LIMIT = 8

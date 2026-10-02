@@ -1,0 +1,113 @@
+/* Header Container */
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px var(--gutter);
+  background: rgba(10, 12, 19, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+/* Brand / Logo */
+.header__brand {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.header__brand span {
+  margin-left: 2px;
+  color: var(--accent);
+}
+
+/* Navigation Links */
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header__nav a {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.header__nav a:hover {
+  color: var(--text);
+}
+
+/* Search Bar */
+.header__search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 320px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.header__search:focus-within {
+  border-color: var(--accent);
+  background: var(--surface-2);
+  box-shadow: 0 0 0 3px rgba(229, 36, 43, 0.15);
+  color: var(--text);
+}
+
+.header__search svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.header__search input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+}
+
+.header__search input::placeholder {
+  color: var(--muted);
+}
+
+/* Action Group */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 720px) {
+  .header__search {
+    display: none;
+  }
+}
