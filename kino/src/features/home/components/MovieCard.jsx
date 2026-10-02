@@ -4,18 +4,21 @@ import useMovie from "../hooks/useMovie.js"
 
 const CURRENCY = "₾"; 
 
-export default function MovieCard( { slug, movie } ) {
+export default function MovieCard( { slug, movie, onBuy } ) {
 
-  if (movie == null) {
-    const {movie, loading} = useMovie(slug); 
-  
-    if (loading) return <div className="movie-card-loading">Loading movie...</div>;
+  const { movie: fetchedMovie, loading } = useMovie(movie ? null : slug);
 
-    if (!movie) return <div className="movie-card-error">Movie not found.</div>;
+  if (fetchedMovie != null) {
+    movie = fetchedMovie;
   }
 
-  
-  const onBuy = (id) => console.log("buy %d", id); 
+  if (loading && !movie) {
+    return <div className="movie-card-loading">Loading movie...</div>;
+  }
+
+  if (!movie) {
+    return <div className="movie-card-error">Movie not found.</div>;
+  }
 
   const genreList = Array.isArray(movie.genres) 
     ? movie.genres.map((g) => (typeof g === 'object' ? g.name : g)).join(', ')

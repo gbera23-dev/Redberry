@@ -1,10 +1,9 @@
 
-import { catalogueApi } from "../../../shared/api/catalogueApi";
 import {useState, useEffect} from "react"
 
-const NOW_PLAYING_DISPLAY_LIMIT = 6; 
+const DISPLAY_LIMIT = 6; 
 
-export default function useMovies() {
+export default function useMovies( apiCall ) {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,7 +12,7 @@ export default function useMovies() {
     async function fetchMovies() {
       try {
         setLoading(true);
-        const response = await catalogueApi.nowPlaying(NOW_PLAYING_DISPLAY_LIMIT); 
+        const response = await apiCall(DISPLAY_LIMIT); 
         const data = response?.data || response || [];
         setMovies(data);
       } catch (err) {

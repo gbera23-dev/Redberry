@@ -2,10 +2,11 @@ import MovieCard from './MovieCard.jsx'
 import SectionHeader from './SectionHeader.jsx'
 import './NowPlaying.css'
 import useMovies from "../hooks/useMovies.js"
+import { catalogueApi } from "../../../shared/api/catalogueApi";
 
 export default function NowPlaying() {
   const onBuy = () => console.log("buy");
-  const { movies, loading, error } = useMovies();
+  const { movies, loading, error } = useMovies(catalogueApi.nowPlaying);
 
   if (loading) return <div className="now-playing__loading">Loading...</div>;
 
@@ -20,7 +21,7 @@ export default function NowPlaying() {
       />
       <div className="now-playing__row">
         {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} onBuy={onBuy} />
+          <MovieCard key={movie.id} slug={movie.slug} movie={movie} onBuy={onBuy} />
         ))}
       </div>
     </section>

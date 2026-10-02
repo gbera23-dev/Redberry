@@ -43,3 +43,27 @@
   object-fit: cover;
   display: block;
 }
+
+.movie-card {
+  max-width: 320px;
+  width: 100%;
+  margin: 0 auto;  
+  background-color: #1a1d29; 
+  border-radius: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.movie-card-loading,
+.movie-card-error {
+  max-width: 320px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 16px;
+  background-color: #1a1d29;
+  border-radius: 16px;
+  text-align: center;
+  color: #9aa1b5;
+  font-size: 14px;
+  box-sizing: border-box;
+}

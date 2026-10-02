@@ -2,6 +2,7 @@ import {useState, useEffect} from "react"
 import {catalogueApi} from "../../../shared/api/catalogueApi"
 
 export default function useMovie(slug) {
+
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -16,6 +17,12 @@ export default function useMovie(slug) {
   }
 
   useEffect(() => {
+    
+    if (!slug) {
+      setLoading(false);
+      return;
+    }
+
     async function handleData() {
       const data = await wrapFetchMovie(slug);
       setMovie(data);
