@@ -1,0 +1,45 @@
+.movie-card__age-badge {
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ff3b30;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+.movie-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.btn--primary {
+  background-color: #ff3b1d;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.movie-card {
+  max-width: 320px;
+  width: 100%;
+  margin: 0 auto;  
+  background-color: #1a1d29; 
+  border-radius: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.movie-card__poster img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+}
