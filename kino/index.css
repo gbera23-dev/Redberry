@@ -87,3 +87,14 @@ img {
     --gutter: 16px;
   }
 }
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.layout__main {
+  flex: 1;
+}
