@@ -2,7 +2,7 @@ import { useState } from "react"
 import { SearchIcon } from "./Icons.jsx"
 import "./Header.css"
 import { useAuth } from "../../auth/providers/Auth.jsx"
-import { BRAND_NAME, BRAND_ACCENT } from "../../../config.js"
+import { BRAND_NAME, BRAND_NUMBER } from "../../../config.js"
 
 export default function Header() {
   const [query, setQuery] = useState('')
@@ -21,7 +21,7 @@ export default function Header() {
       <div className="header__left">
         <a className="header__brand">
           {BRAND_NAME}
-          <span>{BRAND_ACCENT}</span>
+          <span>{BRAND_NUMBER}</span>
         </a>
         <nav className="header__nav">
           <a>Showtimes</a>
