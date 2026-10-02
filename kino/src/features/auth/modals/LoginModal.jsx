@@ -2,7 +2,11 @@ import { useState } from "react";
 import "./AuthModal.css";
 import useLoginForm from "../hooks/useLoginForm"
 
-export default function LoginModal({ onClose, onSwitch, onSubmit }) {
+export default function LoginModal({ onClose, onSwitch, onSubmit, active }) {
+
+  if (active !== "login") {
+    return null; 
+  }
   
   const {email, setEmail, password, setPassword} = useLoginForm(); 
 

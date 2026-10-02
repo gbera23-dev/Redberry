@@ -12,7 +12,7 @@ export function useAuthModal() {
 
     async function wrapRegister(payload) {
         try {
-            registerUser(payload)
+            await registerUser(payload)
         }
         catch (error) {
             clearToken();
@@ -26,7 +26,7 @@ export function useAuthModal() {
 
     async function wrapLogin(payload) {
         try {
-            loginUser(payload); 
+            await loginUser(payload); 
         }
         catch (error) {
             clearToken();
@@ -40,7 +40,7 @@ export function useAuthModal() {
 
     async function wrapLogout() {
         try {
-            logoutUser(); 
+            await logoutUser(); 
         }
         catch (error) {
             console.log("Authorization error");
@@ -53,7 +53,7 @@ export function useAuthModal() {
 
     async function wrapMe() {
         try {
-            getUserProfile();
+            await getUserProfile();
         }
         catch (error) {
             console.log("Authorization error");

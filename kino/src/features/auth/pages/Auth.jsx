@@ -43,23 +43,19 @@ function Auth() {
             </svg>
             me
             </button>
-            {/* Uses short - circuiting technique for now 
-            to render data if condition is satisfied */}
-            {activeModal === "register" && (
-                <SignUpModal
-                    onClose={closeModal} 
-                    onSwitch={openLogin}
-                    onSubmit={wrapRegister}
-                />
-            )}
+            <SignUpModal
+                onClose={closeModal} 
+                onSwitch={openLogin}
+                onSubmit={wrapRegister}
+                active={activeModal}
+            />
 
-            {activeModal === "login" && (
-                <LoginModal
-                    onClose={closeModal} 
-                    onSwitch={openRegister}
-                    onSubmit={wrapLogin}
-                />
-            )}
+            <LoginModal
+                onClose={closeModal} 
+                onSwitch={openRegister}
+                onSubmit={wrapLogin}
+                active={activeModal}
+            />
         </section>
     );
 }

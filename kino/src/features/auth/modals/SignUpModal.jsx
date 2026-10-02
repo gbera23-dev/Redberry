@@ -1,9 +1,15 @@
 import "./AuthModal.css";
 import useRegistrationForm from "../hooks/useRegistrationForm";
 
-export default function SignupModal({ onClose, onSwitch, onSubmit }) {
+export default function SignupModal({ onClose, onSwitch, onSubmit, active }) {
+
+  if (active !== "register") {
+    return null; 
+  }
+
   const {fileRef, avatar, setAvatar, preview, setPreview, username, setUsername, 
     email, setEmail, password, setPassword, password_confirmation, setConfirm} = useRegistrationForm(); 
+
 
   const canSubmit =
     username.trim() !== "" &&
