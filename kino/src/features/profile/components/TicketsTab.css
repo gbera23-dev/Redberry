@@ -1,0 +1,12 @@
+.tickets-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.tickets-tab__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
