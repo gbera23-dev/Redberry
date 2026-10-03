@@ -1,0 +1,42 @@
+.tickets-filters {
+  display: inline-flex;
+  align-self: flex-start;
+  background: #151522;
+  padding: 4px;
+  border-radius: 10px;
+  gap: 4px;
+}
+
+.tickets-filters__btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tickets-filters__btn:hover {
+  color: #ffffff;
+}
+
+.tickets-filters__btn--active {
+  background: #252538;
+  color: #ffffff;
+}
+
+.tickets-filters__count {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.tickets-filters__btn--active .tickets-filters__count {
+  color: rgba(255, 255, 255, 0.8);
+}
