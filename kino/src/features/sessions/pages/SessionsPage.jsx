@@ -1,11 +1,9 @@
 import useSessionsPage from "../hooks/useSessionsPage";
 // import { FilterSidebar } from "./FilterSidebar";
-// import { MovieSessionRow } from "./MovieSessionRow";
+import { MovieSessionRow } from "../components/MovieSessionRow";
 // import { Pagination } from "./Pagination";
 import Header from "../../home/components/Header"
 import Footer from "../../home/components/Footer"
-import SessionCard from "../components/SessionCard";
-import SimpleMovieCard from "../components/SimpleMovieCard";
 import { MOCK_SESSIONS } from "../../../shared/data/ticketsData";
 import "./SessionsPage.css";
 
@@ -18,6 +16,9 @@ export const SessionsPage = () => {
     filters,
     setFilters,
   } = useSessionsPage();
+
+
+  const numMovies = MOCK_SESSIONS.length;
 
   return (
     <div className="sessions-page">
@@ -37,23 +38,9 @@ export const SessionsPage = () => {
         /> */}
 
         <section className="main-sessions-view">
-          {/* Just a simple session+movie card addition for test */}
-          <SimpleMovieCard 
-            poster = {MOCK_SESSIONS[0].poster}
-            title = {MOCK_SESSIONS[0].title}
-            ageRating = {MOCK_SESSIONS[0].ageRating}
-            runtime= {MOCK_SESSIONS[0].runtime}
-          />
-        {MOCK_SESSIONS[0].sessions.map(session => 
-          <SessionCard
-            key={session.id}
-            session={session}
-            onSelectSession={() => console.log("select session")}
-          />
-        )}
 
-          {/* <div className="sessions-top-bar">
-            <span className="sessions-count">Showing 12 sessions</span>
+          <div className="sessions-top-bar">
+            <span className="sessions-count">Showing {numMovies} sessions</span>
             <div className="sort-dropdown">
               <span>Sort:</span>
               <select
@@ -64,13 +51,13 @@ export const SessionsPage = () => {
                 <option value="latest">Showtime: latest first</option>
               </select>
             </div>
-          </div> */}
+          </div> 
 
-          {/* <div className="movies-list">
+          <div className="movies-list">
             {MOCK_SESSIONS.map((movie) => (
               <MovieSessionRow key={movie.id} movie={movie} />
             ))}
-          </div> */}
+          </div>
 
           {/* <Pagination /> */}
         </section>
