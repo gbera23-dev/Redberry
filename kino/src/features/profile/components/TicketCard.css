@@ -1,0 +1,200 @@
+.ticket-card {
+  display: flex;
+  gap: 24px;
+  background: #181827;
+  border-radius: 16px;
+  padding: 20px 24px;
+  align-items: stretch;
+  box-sizing: border-box;
+}
+
+.ticket-card__poster {
+  width: 90px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.ticket-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ticket-card__header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.ticket-card__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+.ticket-card__age {
+  font-size: 10px;
+  font-weight: 700;
+  color: #f5320f;
+}
+
+.ticket-card__duration {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.ticket-card__details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ticket-card__detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ticket-card__detail-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ticket-card__detail-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ticket-card__seats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ticket-card__seats-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ticket-card__seat-badge {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.ticket-card__right {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.ticket-card__order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ticket-card__order-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ticket-card__order-id {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.ticket-card__price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: auto;
+  margin-bottom: 12px;
+}
+
+.ticket-card__price-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.ticket-card__price-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.ticket-card__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ticket-card__refund-btn {
+  width: 100%;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.ticket-card__refund-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.ticket-card__refund-btn:active {
+  transform: scale(0.98);
+}
+
+.ticket-card__refund-note {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+}
+
+@media (max-width: 850px) {
+  .ticket-card {
+    flex-direction: column;
+  }
+
+  .ticket-card__right {
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 16px;
+    margin-top: 8px;
+  }
+
+  .ticket-card__details-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}

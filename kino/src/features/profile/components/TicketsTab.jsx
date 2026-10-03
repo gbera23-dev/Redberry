@@ -1,6 +1,6 @@
 import { useState } from "react";
 // import TicketFilters from "./TicketFilters";
-// import TicketCard from "./TicketCard";
+import TicketCard from "./TicketCard";
 import "./TicketsTab.css";
 
 const MOCK_TICKETS = [
@@ -34,8 +34,9 @@ const MOCK_TICKETS = [
   },
 ];
 
-export default function TicketsTab({ active, tickets = MOCK_TICKETS, onRefund }) {
+export default function TicketsTab({ active, tickets = MOCK_TICKETS}) {
   const [subTab, setSubTab] = useState("upcoming");
+  const onRefund = () => console.log("refund"); 
 
   if (active !== "tickets") {
     return null;
@@ -52,7 +53,7 @@ export default function TicketsTab({ active, tickets = MOCK_TICKETS, onRefund })
         onSelectTab={setSubTab}
         upcomingCount={upcomingTickets.length}
         pastCount={pastTickets.length || 10}
-      />
+      /> */}
 
       <div className="tickets-tab__list">
         {displayedTickets.map((ticket, index) => (
@@ -62,7 +63,7 @@ export default function TicketsTab({ active, tickets = MOCK_TICKETS, onRefund })
             onRefund={onRefund}
           />
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }
