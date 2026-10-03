@@ -1,5 +1,5 @@
 import useSessionsPage from "../hooks/useSessionsPage";
-// import { FilterSidebar } from "./FilterSidebar";
+import FilterSideBar  from "../components/FilterSideBar";
 import { MovieSessionRow } from "../components/MovieSessionRow";
 import { Pagination } from "../components/Pagination";
 import Header from "../../home/components/Header"
@@ -26,10 +26,37 @@ export default function SessionsPage() {
     setCurrentPage(p);
   };
 
-  const numMovies = MOCK_SESSIONS.length;
+
+  const hasIntersection = (ls1, ls2) => {
+    for (const elem1 of ls1) {
+      for (const elem2 of ls2) {
+        console.log("elem1 %s, elem 2 %s", elem1, elem2); 
+        if (elem1 === elem2) return true; 
+      }
+    }
+    return false; 
+  }
+
+const survivesFiltering = (ls1, ls2) => {
+  const hasNoContent = ls1==null || !ls1.some(item => item?.trim());  
+  return hasNoContent || hasIntersection(ls1, ls2);
+};
+
+  const applyFilters = () => {
+    return MOCK_SESSIONS.filter((mv) => 
+      survivesFiltering(filters.languages, mv.sessions.map((s) => s.language)) && 
+      survivesFiltering(filters.formats, mv.sessions.map((s) => s.format)) && 
+      survivesFiltering(filters.times, mv.sessions.map((s) => s.time)) && 
+      survivesFiltering(filters.venues, mv.sessions.map((s) => s.venue)) && 
+      survivesFiltering(Array.of(selectedDate), mv.sessions.map((s) => s.date)));
+  }
+
+  const filteredSessions = applyFilters(); 
+
+  const numMovies = filteredSessions.length;
 
   const session_chunk = (a, b) => {
-    return MOCK_SESSIONS.slice(a, b);
+    return filteredSessions.slice(a, b);
   }
 
   return (
@@ -42,12 +69,12 @@ export default function SessionsPage() {
       </div>
 
       <div className="sessions-content">
-        {/* <FilterSidebar
+        <FilterSideBar
           filters={filters}
           setFilters={setFilters}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
-        /> */}
+        />
 
         <section className="main-sessions-view">
 

@@ -4,9 +4,8 @@ const MOVIES_PER_PAGE = 4;
 
 export const Pagination = ({ currentPage, onPageChange, numMovies }) => {
 
-  const numPages = numMovies % MOVIES_PER_PAGE == 0 ? (numMovies / MOVIES_PER_PAGE) :
-  (numMovies / MOVIES_PER_PAGE) + 1;
-  const pages = [1, 2, 3, "...", numPages];
+  const numPages = Math.ceil(numMovies / MOVIES_PER_PAGE);
+  const pages = [1, 2, "...", numPages];
 
   const shiftLeft = () => {
     onPageChange(currentPage == 1 ? numPages : (currentPage - 1))
