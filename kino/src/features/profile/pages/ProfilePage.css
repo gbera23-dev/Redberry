@@ -1,0 +1,55 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.profile {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px; 
+  margin: left;
+  padding: 80px 28px 80px 30px;
+  color: #ffffff;
+  font-family: inherit;
+}
+
+.profile__title {
+  margin: 0 0 20px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.profile__hint {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.profile__date {
+  color-scheme: dark;
+  font-weight: 400;
+}
+
+.profile__date::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.profile__tickets {
+  min-height: 200px;
+}
+
+@media (max-width: 600px) {
+  .profile {
+    padding: 20px 16px 60px;
+  }
+
+  .profile__tabs {
+    gap: 20px;
+  }
+
+  .profile__form {
+    max-width: 100%;
+  }
+}
