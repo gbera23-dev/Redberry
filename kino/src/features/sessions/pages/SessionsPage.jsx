@@ -1,13 +1,15 @@
 import useSessionsPage from "../hooks/useSessionsPage";
 // import { FilterSidebar } from "./FilterSidebar";
 import { MovieSessionRow } from "../components/MovieSessionRow";
-// import { Pagination } from "./Pagination";
+import { Pagination } from "../components/Pagination";
 import Header from "../../home/components/Header"
 import Footer from "../../home/components/Footer"
 import { MOCK_SESSIONS } from "../../../shared/data/ticketsData";
 import "./SessionsPage.css";
 
-export const SessionsPage = () => {
+const MOVIES_PER_PAGE = 4; 
+
+export default function SessionsPage() {
   const {
     selectedDate,
     setSelectedDate,
@@ -15,10 +17,20 @@ export const SessionsPage = () => {
     setSortOrder,
     filters,
     setFilters,
+    currentPage,
+    setCurrentPage
   } = useSessionsPage();
 
+  const changePage = (p) => {
+    console.log("changing page to %d", p); 
+    setCurrentPage(p);
+  };
 
   const numMovies = MOCK_SESSIONS.length;
+
+  const session_chunk = (a, b) => {
+    return MOCK_SESSIONS.slice(a, b);
+  }
 
   return (
     <div className="sessions-page">
@@ -54,12 +66,16 @@ export const SessionsPage = () => {
           </div> 
 
           <div className="movies-list">
-            {MOCK_SESSIONS.map((movie) => (
+            {session_chunk(MOVIES_PER_PAGE*(currentPage - 1), MOVIES_PER_PAGE*currentPage).map((movie) => (
               <MovieSessionRow key={movie.id} movie={movie} />
             ))}
           </div>
 
-          {/* <Pagination /> */}
+          <Pagination 
+          currentPage={ currentPage }
+          onPageChange={ changePage }
+          numMovies = {numMovies}
+          />
         </section>
       </div>
     </main>
@@ -67,5 +83,3 @@ export const SessionsPage = () => {
     </div>
   );
 };
-
-export default SessionsPage;

@@ -10,6 +10,8 @@ export default function useSessionsPage() {
     times: [],
   });
 
+  const [currentPage, setCurrentPage] = useState(1); 
+
   return {
     selectedDate,
     setSelectedDate,
@@ -17,5 +19,7 @@ export default function useSessionsPage() {
     setSortOrder,
     filters,
     setFilters,
+    currentPage,
+    setCurrentPage
   };
 }
