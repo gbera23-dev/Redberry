@@ -4,6 +4,9 @@ import useSessionsPage from "../hooks/useSessionsPage";
 // import { Pagination } from "./Pagination";
 import Header from "../../home/components/Header"
 import Footer from "../../home/components/Footer"
+import SessionCard from "../components/SessionCard";
+import SimpleMovieCard from "../components/SimpleMovieCard";
+import { MOCK_SESSIONS } from "../../../shared/data/ticketsData";
 import "./SessionsPage.css";
 
 export const SessionsPage = () => {
@@ -34,6 +37,21 @@ export const SessionsPage = () => {
         /> */}
 
         <section className="main-sessions-view">
+          {/* Just a simple session+movie card addition for test */}
+          <SimpleMovieCard 
+            poster = {MOCK_SESSIONS[0].poster}
+            title = {MOCK_SESSIONS[0].title}
+            ageRating = {MOCK_SESSIONS[0].ageRating}
+            runtime= {MOCK_SESSIONS[0].runtime}
+          />
+        {MOCK_SESSIONS[0].sessions.map(session => 
+          <SessionCard
+            key={session.id}
+            session={session}
+            onSelectSession={() => console.log("select session")}
+          />
+        )}
+
           {/* <div className="sessions-top-bar">
             <span className="sessions-count">Showing 12 sessions</span>
             <div className="sort-dropdown">
