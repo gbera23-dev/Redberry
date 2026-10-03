@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./ProfilePage.css";
 import Header from "../../home/components/Header"
 import Footer from "../../home/components/Footer"
@@ -16,7 +15,6 @@ export default function ProfilePage({ ticketCount = 2 }) {
     <main className="profile">
       <h1 className="profile__title">My Profile</h1>
 
-      {/* Will slowly add each component */}
       <ProfileTab 
       activate={setActiveTab}
       active={activeTab}
