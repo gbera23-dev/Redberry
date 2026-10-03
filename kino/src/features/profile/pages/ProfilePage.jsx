@@ -4,6 +4,7 @@ import Header from "../../home/components/Header"
 import Footer from "../../home/components/Footer"
 import useProfilePage from "../hooks/useProfilePage";
 import ProfileTab from "../components/ProfileTab"
+import InfoTab from "../components/InfoTab"
 
 export default function ProfilePage({ ticketCount = 2 }) {
   const {activeTab, setActiveTab, form, setForm} = useProfilePage(); 
@@ -21,11 +22,13 @@ export default function ProfilePage({ ticketCount = 2 }) {
       count={ticketCount}
       />
 
-      {/* <infoTab 
+      <InfoTab 
+      form={form}
+      setForm={setForm}
       active={activeTab}
       />
 
-      <ticketsTab 
+      {/* <ticketsTab 
       active={activeTab}
       /> */}
     </main>
