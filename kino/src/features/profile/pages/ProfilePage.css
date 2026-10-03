@@ -21,53 +21,6 @@
   line-height: 1.2;
 }
 
-.profile__tabs {
-  display: flex;
-  gap: 32px;
-  margin-bottom: 28px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.profile__tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 0 12px;
-  margin-bottom: -1px;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 12px;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.profile__tab:hover {
-  color: #ffffff;
-}
-
-.profile__tab--active {
-  color: #ffffff;
-  border-bottom-color: #f5320f;
-}
-
-.profile__badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 5px;
-  border-radius: 999px;
-  background: #f5320f;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 600;
-}
-
 .profile__form {
   display: flex;
   flex-direction: column;
