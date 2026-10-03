@@ -24,7 +24,7 @@ export default function Header() {
           <span>{BRAND_NUMBER}</span>
         </a>
         <nav className="header__nav">
-          <a>Showtimes</a>
+          <a>SESSIONS</a>
         </nav>
       </div>
 
