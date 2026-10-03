@@ -1,0 +1,89 @@
+.session-card {
+  background-color: var(--bg-card, #131627);
+  border-radius: 15px;
+  padding: 5px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.session-card.hovered {
+  background-color: var(--bg-card-hover, #1b1e34);
+  transform: translateY(-2px);
+}
+
+.session-card.sold-out {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.session-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.session-time {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main, #ffffff);
+}
+
+.session-format {
+  font-size: 9px;
+  background: var(--bg-input, #1b1e33);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--text-sub, #8e95a5);
+}
+
+.session-card-middle {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.session-lang {
+  font-size: 11px;
+  color: var(--text-sub, #8e95a5);
+}
+
+.seat-badge {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.seat-badge.ok {
+  color: var(--accent-green, #34c759);
+}
+
+.seat-badge.low {
+  color: var(--accent-red, #ff3b30);
+}
+
+.seat-badge.sold {
+  color: var(--text-sub, #8e95a5);
+}
+
+.session-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 4px;
+}
+
+.session-venue {
+  font-size: 10px;
+  color: var(--text-sub, #8e95a5);
+}
+
+.session-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main, #ffffff);
+}

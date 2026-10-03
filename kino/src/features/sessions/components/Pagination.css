@@ -1,0 +1,27 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.page-num, .page-arrow {
+  background: var(--bg-card, #131627);
+  border: none;
+  color: var(--text-sub, #8e95a5);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.page-num.active {
+  background: var(--accent-red, #ff3b30);
+  color: #ffffff;
+}
+
+.page-dots {
+  color: var(--text-sub, #8e95a5);
+}

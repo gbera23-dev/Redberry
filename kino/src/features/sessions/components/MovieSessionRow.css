@@ -1,0 +1,12 @@
+.movie-session-row {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sessions-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,70 @@
+:root {
+  --bg-main: #0a0c16;
+  --bg-card: #131627;
+  --bg-card-hover: #1b1e34;
+  --bg-input: #1b1e33;
+  --text-main: #ffffff;
+  --text-sub: #8e95a5;
+  --accent-red: #ff3b30;
+  --accent-green: #34c759;
+  --border-color: #23273e;
+}
+
+.sessions-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.sessions-container {
+  padding: 80px 30px 40px;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.page-heading h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.page-heading p {
+  color: var(--text-sub);
+  margin: 4px 0 24px 0;
+  font-size: 14px;
+}
+
+.sessions-content {
+  display: flex;
+  gap: 30px;
+}
+
+.main-sessions-view {
+  flex: 1;
+}
+
+.sessions-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+.sort-dropdown select {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-weight: 600;
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+.no-sessions-found {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--text-sub);
+}
