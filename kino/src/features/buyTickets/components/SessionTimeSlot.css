@@ -1,0 +1,57 @@
+.session-slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background-color: #131926;
+  border: 1px solid #1f283a;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  text-align: left;
+}
+
+.session-slot:hover {
+  border-color: var(--accent);
+  background-color: #182030;
+}
+
+.session-slot__main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.session-slot__time {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.session-slot__meta {
+  display: flex;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.session-slot__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.session-slot__price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.session-slot__seats {
+  font-size: 10px;
+  color: var(--muted);
+}
