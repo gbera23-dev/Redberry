@@ -42,7 +42,7 @@ export default function SessionsSection({ dates = [], venues = [], movieDetails,
           </div>
         </div>
 
-        <MovieDetails details={movieDetails} />
+        <MovieDetails movieDetails={movieDetails} />
       </div>
     </section>
   );
