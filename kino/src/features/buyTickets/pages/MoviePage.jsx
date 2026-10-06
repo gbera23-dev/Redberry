@@ -16,8 +16,8 @@ export default function MoviePage({
     synopsis: "While her husband maps a coast he will never sail, she keeps a second atlas of the places he leaves out, and it becomes the more accurate of the two.",
     duration: "134 Min",
     format: "PANORAMA",
-    posterUrl: "/images/odyssey-poster.jpg",
-    backdropUrl: "/images/odyssey-backdrop.jpg",
+    posterUrl: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=300&q=80",
+    backdropUrl: "https://image.tmdb.org/t/p/w1280/ytoLEl5yDaxB8AtZ52uKWjaQ9ql.jpg",
   },
   dates = [
     { day: "Mon", date: "15" },
