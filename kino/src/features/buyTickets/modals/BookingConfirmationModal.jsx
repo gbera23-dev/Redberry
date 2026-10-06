@@ -14,9 +14,10 @@ export default function BookingConfirmationModal({
   totalPaid = 32,
   onViewTickets,
   onBackToHome,
+  onClose = () => console.log("closing")
 }) {
   return (
-    <div className="booking-confirm-modal-overlay">
+    <div className="booking-confirm-modal-overlay" onClick={onClose}>
     <div className="booking-confirm-modal">
       <div className="booking-confirm-modal__content">
         <div className="booking-confirm-modal__header">

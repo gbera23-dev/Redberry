@@ -9,7 +9,7 @@ import CheckoutFields from "../components/CheckoutFields"
 
 const POSSIBLE_TABS = {Seats : "SEATS", Checkout : "CHECKOUT"} 
 
-export default function SeatSelectionModal({ movieDetails }) {
+export default function SeatSelectionModal({ movieDetails, onClose = () => console.log("closing") } ) {
   const {
     activeTab,
     setActiveTab,
@@ -31,12 +31,11 @@ export default function SeatSelectionModal({ movieDetails }) {
     "Galleria Tbilisi · Hall B · Tuesday 15 September · 16:30 · Standard · Original + Subtitles";
 
     //temporary place for functions not written yet, will be later moved onto hooks calling service methods(which in turn send api calls)
-  const closeModal = () => {console.log("Closing modal")}
   const canPay = false
   const onPay = () => {console.log("trying to pay")}
 
   return (
-    <div className="seat-overlay" onClick={closeModal}>
+    <div className="seat-overlay" onClick={onClose}>
       <div
         className="seat-modal"
         role="dialog"

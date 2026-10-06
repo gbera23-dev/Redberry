@@ -6,18 +6,15 @@ import ProfilePage from "./features/profile/pages/ProfilePage"
 import SessionsPage from "./features/sessions/pages/SessionsPage"; 
 import SeatSelectionModal from "./features/buyTickets/modals/SeatSelectionModal";
 import BookingConfirmationModal from "./features/buyTickets/modals/BookingConfirmationModal"
+import MoviePage from "./features/buyTickets/pages/MoviePage";
 
 function App() {
   return (
     <section>
       <Auth>
-        <SessionsPage />
         <SignupModal />
         <LoginModal />
-        <BookingConfirmationModal 
-        onViewTickets={() => console.log("trying to view tickets")}
-        onBackToHome={() => console.log("trying to go home :(")}
-        />
+        <MoviePage />
       </Auth>
     </section>
   ); 
