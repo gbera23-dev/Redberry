@@ -4,6 +4,7 @@ import SignupModal from "./features/auth/modals/SignUpModal";
 import LoginModal from "./features/auth/modals/LoginModal";
 import ProfilePage from "./features/profile/pages/ProfilePage"
 import SessionsPage from "./features/sessions/pages/SessionsPage"; 
+import SeatSelectionModal from "./features/buyTickets/modals/SeatSelectionModal";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <SessionsPage />
         <SignupModal />
         <LoginModal />
+        <SeatSelectionModal /> 
       </Auth>
     </section>
   ); 
