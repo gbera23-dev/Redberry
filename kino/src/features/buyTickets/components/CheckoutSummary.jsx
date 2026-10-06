@@ -3,7 +3,9 @@ import "./CheckoutSummary.css";
 export default function CheckoutSummary({
     movieDetails,
     ticketSummary,
-    seats = []
+    seats = [],
+    totalPaid = 0, 
+    isConfirmedPage=false
 }) {
   const formattedSeats = seats.length > 0 ? seats.join(", ") : "None";
 
@@ -29,6 +31,18 @@ export default function CheckoutSummary({
             <span className="checkout-summary__label">Tickets</span>
             <span className="checkout-summary__value">{ticketSummary}</span>
           </div>
+
+          {isConfirmedPage && (
+            <div className="checkout-summary__row checkout-summary__row--total">
+              <span className="checkout-summary__label checkout-summary__label--total">
+                TOTAL PAID
+              </span>
+              <span className="checkout-summary__value checkout-summary__value--total">
+                ₾ {totalPaid}
+              </span>
+            </div>
+          )}
+          
         </div>
       </div>
     </div>

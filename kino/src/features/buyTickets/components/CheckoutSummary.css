@@ -56,3 +56,41 @@
   color: #ffffff;
   font-weight: 600;
 }
+
+.checkout-summary__header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.checkout-summary__poster {
+  width: 44px;
+  height: 58px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.checkout-summary__meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-summary__row--total {
+  border-top: 1px solid #202738;
+  margin-top: 6px;
+  padding-top: 12px;
+  align-items: center;
+}
+
+.checkout-summary__label--total {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #8f9bb3;
+}
+
+.checkout-summary__value--total {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}

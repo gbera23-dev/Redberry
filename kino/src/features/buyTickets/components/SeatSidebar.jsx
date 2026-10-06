@@ -8,7 +8,7 @@ const POSSIBLE_TABS = {Seats : "SEATS", Checkout : "CHECKOUT"}
 
 export default function SeatSidebar({ 
     selectedSeats, maxSeats = 3, 
-    subtotal = 0, canProceed = false, onProceed, onRemoveSeat, activeTab, movieDetails }) {
+    subtotal = 0, canProceed = false, onProceed, canPay = false, onPay, onRemoveSeat, activeTab, movieDetails }) {
 
     const { getTicketType, handleSelectTicketType, calculateSeatPrice } = useSidebarState();
 
@@ -62,14 +62,23 @@ export default function SeatSidebar({
           <strong className="seat-sidebar__price">₾ {subtotal}</strong>
         </div>
 
-        <button
+        {activeTab == POSSIBLE_TABS.Seats && <button
           type="button"
           className="seat-sidebar__submit"
           disabled={!canProceed}
           onClick={onProceed}
         >
           Next: Checkout
-        </button>
+        </button>}
+        {activeTab == POSSIBLE_TABS.Checkout && <button
+          type="button"
+          className="seat-sidebar__submit"
+          disabled={!canPay}
+          onClick={onPay}
+        >
+          Pay: Complete order
+        </button>}
+
       </div>
     </aside>
   );

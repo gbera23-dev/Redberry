@@ -5,6 +5,7 @@ import LoginModal from "./features/auth/modals/LoginModal";
 import ProfilePage from "./features/profile/pages/ProfilePage"
 import SessionsPage from "./features/sessions/pages/SessionsPage"; 
 import SeatSelectionModal from "./features/buyTickets/modals/SeatSelectionModal";
+import BookingConfirmationModal from "./features/buyTickets/modals/BookingConfirmationModal"
 
 function App() {
   return (
@@ -13,7 +14,10 @@ function App() {
         <SessionsPage />
         <SignupModal />
         <LoginModal />
-        <SeatSelectionModal /> 
+        <BookingConfirmationModal 
+        onViewTickets={() => console.log("trying to view tickets")}
+        onBackToHome={() => console.log("trying to go home :(")}
+        />
       </Auth>
     </section>
   ); 

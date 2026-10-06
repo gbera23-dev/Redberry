@@ -30,7 +30,10 @@ export default function SeatSelectionModal({ movieDetails }) {
     movieDetails?.subtitle ||
     "Galleria Tbilisi · Hall B · Tuesday 15 September · 16:30 · Standard · Original + Subtitles";
 
+    //temporary place for functions not written yet, will be later moved onto hooks calling service methods(which in turn send api calls)
   const closeModal = () => {console.log("Closing modal")}
+  const canPay = false
+  const onPay = () => {console.log("trying to pay")}
 
   return (
     <div className="seat-overlay" onClick={closeModal}>
@@ -84,6 +87,8 @@ export default function SeatSelectionModal({ movieDetails }) {
           subtotal={subtotal}
           canProceed={canProceed}
           onProceed={() => setActiveTab(POSSIBLE_TABS.Checkout)}
+          canPay={canPay}
+          onPay={onPay}
           onRemoveSeat={removeSeat}
           activeTab={activeTab}
           movieDetails={movieDetails}
