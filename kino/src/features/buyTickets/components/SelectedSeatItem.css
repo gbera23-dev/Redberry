@@ -1,0 +1,76 @@
+.selected-seat-card {
+  background-color: #131826;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selected-seat-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-seat-card__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #8f9bb3;
+}
+
+.selected-seat-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selected-seat-card__price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.selected-seat-card__remove {
+  background: transparent;
+  border: none;
+  color: #8f9bb3;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  transition: color 0.15s ease;
+}
+
+.selected-seat-card__remove:hover {
+  color: #ff331f;
+}
+
+.selected-seat-card__pills {
+  display: flex;
+  gap: 6px;
+}
+
+.selected-seat-card__pill {
+  flex: 1;
+  padding: 6px 0;
+  border: none;
+  border-radius: 16px;
+  background-color: #1a2233;
+  color: #8f9bb3;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.selected-seat-card__pill:hover:not(.selected-seat-card__pill--active) {
+  background-color: #242f46;
+  color: #ffffff;
+}
+
+.selected-seat-card__pill--active {
+  background-color: #ff331f;
+  color: #ffffff;
+}
