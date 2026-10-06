@@ -1,0 +1,78 @@
+.seat-map__label {
+  font-size: 11px;
+  color: #8f9bb3;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.seat-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.seat-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.seat-row__label {
+  width: 16px;
+  font-size: 13px;
+  color: #8f9bb3;
+  font-weight: 600;
+}
+
+.seat-row__seats {
+  display: flex;
+  gap: 8px;
+}
+
+/* Individual Seat Nodes */
+.seat-node {
+  width: 38px;
+  height: 44px;
+  border-radius: 8px;
+  border: none;
+  background-color: #1e2638;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+.seat-node--aisle {
+  margin-right: 20px;
+}
+
+.seat-node:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background-color: #2b364e;
+}
+
+.seat-node--selected {
+  background-color: #ff331f !important;
+  color: #ffffff;
+}
+
+.seat-node--sold {
+  background-color: #131826;
+  color: #3b455b;
+  cursor: not-allowed;
+}
+
+.seat-node--held {
+  background-color: #1a2233;
+  color: #3b455b;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(255, 255, 255, 0.05) 4px,
+    rgba(255, 255, 255, 0.05) 8px
+  );
+  cursor: not-allowed;
+}
