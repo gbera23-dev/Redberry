@@ -4,6 +4,7 @@ import { useState } from "react";
 export default function useSeatSelection({ maxSeats = 3, pricePerSeat = 15 } = {}) {
   const [activeTab, setActiveTab] = useState("SEATS"); 
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [checkoutData, setCheckoutData] = useState(null);
 
   const isSeatSold = (row, num) =>
     (row === "B" && [6, 7, 8, 9].includes(num)) || (row === "D" && num === 2);

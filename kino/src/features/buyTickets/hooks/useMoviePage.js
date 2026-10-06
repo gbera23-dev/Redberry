@@ -5,7 +5,7 @@ export default function useMoviePage() {
       const [selectedSession, setSelectedSession] = useState(null);
     
       const handleOpenModal = (sessionInfo) => {
-        setSelectedSession(sessionInfo);
+        setSelectedSession(sessionInfo.openModal);
       };
     
       const handleCloseModal = () => {

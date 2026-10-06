@@ -96,6 +96,7 @@ export default function MoviePage({
             dateTime: `Mon 15 Sep · ${selectedSession.time}`,
             posterUrl: movie.posterUrl,
           }}
+          onPay={() => handleOpenModal({openModal: MODAL_OPEN.BookingConfirmedModal})}
           onClose={handleCloseModal}
         />
       )}

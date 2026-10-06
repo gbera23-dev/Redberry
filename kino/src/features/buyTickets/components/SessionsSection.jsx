@@ -3,6 +3,8 @@ import HallCard from "./HallCard";
 import MovieDetails from "./MovieDetails";
 import "./SessionsSection.css";
 
+const MODAL_OPEN = {SeatModal : "SEAT_MODAL", BookingConfirmedModal : "BOOKING_MODAL"}
+
 export default function SessionsSection({ dates = [], venues = [], movieDetails, onSlotClick }) {
   return (
     <section className="sessions-section">
@@ -16,7 +18,6 @@ export default function SessionsSection({ dates = [], venues = [], movieDetails,
                 key={idx}
                 day={item.day}
                 date={item.date}
-                isActive={idx === 0}
               />
             ))}
           </div>
@@ -32,7 +33,7 @@ export default function SessionsSection({ dates = [], venues = [], movieDetails,
                       hallName={hall.name}
                       slots={hall.slots}
                       onSlotClick={(hallName, slot) =>
-                        onSlotClick({ venue: venue.name, hall: hallName, ...slot })
+                        onSlotClick({ openModal: MODAL_OPEN.SeatModal ,venue: venue.name, hall: hallName, ...slot })
                       }
                     />
                   ))}
