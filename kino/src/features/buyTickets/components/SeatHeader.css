@@ -1,0 +1,42 @@
+.seat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.seat-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.seat-subtitle {
+  font-size: 13px;
+  color: #8f9bb3;
+  margin: 0;
+}
+
+.seat-timer {
+  background-color: #131927;
+  border: 1px solid #1f273b;
+  border-radius: 8px;
+  padding: 8px 16px;
+  text-align: center;
+}
+
+.seat-timer__label {
+  display: block;
+  font-size: 10px;
+  color: #8f9bb3;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.seat-timer__value {
+  font-size: 16px;
+  color: #ffffff;
+}
