@@ -1,12 +1,29 @@
 import "./SeatSidebar.css"
 import useSidebarState from "../hooks/useSidebarState"
 import SelectedSeatItem from "../components/SelectedSeatItem"
+import CheckoutSummary from "../components/CheckoutSummary";
+
+
+const POSSIBLE_TABS = {Seats : "SEATS", Checkout : "CHECKOUT"} 
 
 export default function SeatSidebar({ 
     selectedSeats, maxSeats = 3, 
-    subtotal = 0, canProceed = false, onProceed, onRemoveSeat }) {
+    subtotal = 0, canProceed = false, onProceed, onRemoveSeat, activeTab, movieDetails }) {
 
     const { getTicketType, handleSelectTicketType, calculateSeatPrice } = useSidebarState();
+
+  const formatTicketSummary = () => {
+    const counts = {};
+
+    selectedSeats.forEach((seat) => {
+      const type = getTicketType(seat) || "Adult"; 
+      counts[type] = (counts[type] || 0) + 1;
+    });
+
+    return Object.entries(counts)
+      .map(([type, count]) => `${count} x ${type}`)
+      .join(", ");
+  };
 
     return (
     <aside className="seat-sidebar">
@@ -20,7 +37,7 @@ export default function SeatSidebar({
       </div>
 
       <div className="seat-sidebar__list">
-        {selectedSeats.map((seat) => (
+        {activeTab == POSSIBLE_TABS.Seats && selectedSeats.map((seat) => (
           <SelectedSeatItem
             key={seat}
             seat={seat}
@@ -30,6 +47,13 @@ export default function SeatSidebar({
             onRemove={onRemoveSeat}
           />
         ))}
+        {activeTab == POSSIBLE_TABS.Checkout && 
+        <CheckoutSummary 
+        movieDetails={movieDetails}
+        ticketSummary={formatTicketSummary()}
+        seats={selectedSeats}
+        />
+        }
       </div>
 
       <div className="seat-sidebar__footer">

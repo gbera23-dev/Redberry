@@ -7,7 +7,7 @@ import SeatSidebar from "../components/SeatSidebar";
 import CheckoutFields from "../components/CheckoutFields"
 
 
-const POSSIBLE_TABS = {"Seats" : "SEATS", "Checkout" : "CHECKOUT"} 
+const POSSIBLE_TABS = {Seats : "SEATS", Checkout : "CHECKOUT"} 
 
 export default function SeatSelectionModal({ movieDetails }) {
   const {
@@ -47,33 +47,33 @@ export default function SeatSelectionModal({ movieDetails }) {
           <div className="seat-tabs">
             <button
               type="button"
-              className={`seat-tab ${activeTab === "SEATS" ? "seat-tab--active" : ""}`}
-              onClick={() => setActiveTab("SEATS")}
+              className={`seat-tab ${activeTab === POSSIBLE_TABS.Seats ? "seat-tab--active" : ""}`}
+              onClick={() => setActiveTab(POSSIBLE_TABS.Seats )}
             >
               SEATS
             </button>
             <button
               type="button"
-              className={`seat-tab ${activeTab === "CHECKOUT" ? "seat-tab--active" : ""}`}
-              onClick={() => setActiveTab("CHECKOUT")}
+              className={`seat-tab ${activeTab === POSSIBLE_TABS.Checkout ? "seat-tab--active" : ""}`}
+              onClick={() => setActiveTab(POSSIBLE_TABS.Checkout)}
             >
               CHECKOUT
             </button>
           </div>
 
           <div className="seat-screen">SCREEN</div>
-          {activeTab=="SEATS" && <SeatGrid
+          {activeTab==POSSIBLE_TABS.Seats && <SeatGrid
             selectedSeats={selectedSeats}
             toggleSeat={toggleSeat}
             isSeatSold={isSeatSold}
             isSeatHeldByOther={isSeatHeldByOther}
           />
           }
-          {activeTab=="SEATS" && <SeatLegend />
+          {activeTab==POSSIBLE_TABS.Seats && <SeatLegend />
           }
           
-          {activeTab=="CHECKOUT" && <CheckoutFields
-            handleFormDataChange
+          {activeTab==POSSIBLE_TABS.Checkout && <CheckoutFields
+            onFormDataChange={handleFormDataChange}
           />
           }
           </div>
@@ -83,8 +83,10 @@ export default function SeatSelectionModal({ movieDetails }) {
           maxSeats={maxSeats}
           subtotal={subtotal}
           canProceed={canProceed}
-          onProceed={() => setActiveTab("CHECKOUT")}
+          onProceed={() => setActiveTab(POSSIBLE_TABS.Checkout)}
           onRemoveSeat={removeSeat}
+          activeTab={activeTab}
+          movieDetails={movieDetails}
         />
       </div>
     </div>
