@@ -11,6 +11,7 @@ export default function SeatSelectionModal({ movieDetails }) {
     setActiveTab,
     selectedSeats,
     toggleSeat,
+    removeSeat,
     isSeatSold,
     isSeatHeldByOther,
     maxSeats,
@@ -68,10 +69,12 @@ export default function SeatSelectionModal({ movieDetails }) {
         </div>
 
         <SeatSidebar
+          selectedSeats={selectedSeats}
           maxSeats={maxSeats}
           subtotal={subtotal}
           canProceed={canProceed}
           onProceed={() => setActiveTab("CHECKOUT")}
+          onRemoveSeat={removeSeat}
         />
       </div>
     </div>
