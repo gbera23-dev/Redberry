@@ -23,10 +23,15 @@ export default function useSeatSelection({ maxSeats = 3, pricePerSeat = 15 } = {
     });
   };
 
+  const handleFormDataChange = (data) => {
+    console.log("trying to purchase tickets, data is %s", data) 
+    setCheckoutData(data);
+  };
+
   const removeSeat = (seatId) => {
     setSelectedSeats((prev) => prev.filter((s) => s !== seatId));  
   }
-
+  
   const subtotal = selectedSeats.length * pricePerSeat;
   const canProceed = selectedSeats.length > 0;
 
@@ -41,5 +46,6 @@ export default function useSeatSelection({ maxSeats = 3, pricePerSeat = 15 } = {
     maxSeats,
     subtotal,
     canProceed,
+    handleFormDataChange,
   };
 }

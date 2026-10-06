@@ -4,6 +4,10 @@ import SeatHeader from "../components/SeatHeader";
 import SeatGrid from "../components/SeatGrid";
 import SeatLegend from "../components/SeatLegend";
 import SeatSidebar from "../components/SeatSidebar";
+import CheckoutFields from "../components/CheckoutFields"
+
+
+const POSSIBLE_TABS = {"Seats" : "SEATS", "Checkout" : "CHECKOUT"} 
 
 export default function SeatSelectionModal({ movieDetails }) {
   const {
@@ -17,6 +21,7 @@ export default function SeatSelectionModal({ movieDetails }) {
     maxSeats,
     subtotal,
     canProceed,
+    handleFormDataChange, 
   } = useSeatSelections();
 
 
@@ -57,16 +62,21 @@ export default function SeatSelectionModal({ movieDetails }) {
           </div>
 
           <div className="seat-screen">SCREEN</div>
-
-          <SeatGrid
+          {activeTab=="SEATS" && <SeatGrid
             selectedSeats={selectedSeats}
             toggleSeat={toggleSeat}
             isSeatSold={isSeatSold}
             isSeatHeldByOther={isSeatHeldByOther}
           />
-
-          <SeatLegend />
-        </div>
+          }
+          {activeTab=="SEATS" && <SeatLegend />
+          }
+          
+          {activeTab=="CHECKOUT" && <CheckoutFields
+            handleFormDataChange
+          />
+          }
+          </div>
 
         <SeatSidebar
           selectedSeats={selectedSeats}
