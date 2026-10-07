@@ -53,11 +53,6 @@ export default function useUserProfileModal() {
     };
   }, []);
 
-  const handleLogout = () => {
-    console.log("Logging out user...");
-    logoutUser()
-  };
-
   const handleNavigateProfile = () => {
     console.log("Navigating to My Profile...");
   };
@@ -70,7 +65,6 @@ export default function useUserProfileModal() {
     user,
     isLoading,
     error,
-    handleLogout,
     handleNavigateProfile,
     handleNavigateTickets,
   };

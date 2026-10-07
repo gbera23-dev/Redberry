@@ -1,11 +1,10 @@
 import useUserProfileModal from "../hooks/useUserProfileModal";
 import "./UserProfileModal.css";
     
-export default function UserProfileModal() {
+export default function UserProfileModal({ handleLogout }) {
   const {
     user,
     isLoading,
-    handleLogout,
     handleNavigateProfile,
     handleNavigateTickets,
   } = useUserProfileModal();

@@ -15,8 +15,7 @@ function App() {
       <Auth>
         <SignupModal />
         <LoginModal />
-        {/* <MoviePage /> */}
-        <UserProfileModal />
+        <MoviePage />
       </Auth>
     </section>
   ); 
