@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 
+
+const DEBOUNCE_TIME = 300 
+
 export default function useSearchOverlay(query) {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -73,7 +76,7 @@ export default function useSearchOverlay(query) {
       } finally {
         if (isMounted) setIsLoading(false);
       }
-    }, 300); 
+    }, DEBOUNCE_TIME); 
 
     return () => {
       isMounted = false;
