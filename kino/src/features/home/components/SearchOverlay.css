@@ -1,0 +1,109 @@
+.search-overlay {
+  width: 440px;
+  background-color: #0b0f19;
+  border: 1px solid #161c2a;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-overlay--prompt,
+.search-overlay--empty,
+.search-overlay--loading {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 240px;
+}
+
+.search-overlay__icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #151c2c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.search-overlay__icon {
+  width: 20px;
+  height: 20px;
+  color: #a0aec0;
+}
+
+.search-overlay__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 6px 0;
+}
+
+.search-overlay__subtitle {
+  font-size: 13px;
+  color: #718096;
+  margin: 0 0 20px 0;
+}
+
+.search-overlay__browse-btn {
+  background-color: #151c2c;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.search-overlay__browse-btn:hover {
+  background-color: #1e283d;
+}
+
+.search-overlay__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.search-overlay__section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #718096;
+  text-transform: uppercase;
+}
+
+.search-overlay__count {
+  font-size: 12px;
+  color: #718096;
+}
+
+.search-overlay__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.search-overlay__spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #ff331f;
+  border-radius: 50%;
+  animation: search-spinner 0.6s linear infinite;
+}
+
+@keyframes search-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

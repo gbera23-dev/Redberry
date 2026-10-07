@@ -1,4 +1,4 @@
-import "./SearchOverlay.css";
+import "./SearchResultCard.css";
 
 export default function SearchResultCard({
   title,
