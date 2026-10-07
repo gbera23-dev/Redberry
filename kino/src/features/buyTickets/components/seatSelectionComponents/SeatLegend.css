@@ -1,0 +1,43 @@
+.seat-legend {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: auto;
+}
+
+.seat-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #8f9bb3;
+}
+
+.seat-legend__swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.seat-legend__swatch--available {
+  background-color: #1e2638;
+}
+
+.seat-legend__swatch--selected {
+  background-color: #ff331f;
+}
+
+.seat-legend__swatch--sold {
+  background-color: #131826;
+}
+
+.seat-legend__swatch--held {
+  background-color: #1a2233;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.2) 2px,
+    rgba(255, 255, 255, 0.2) 4px
+  );
+}

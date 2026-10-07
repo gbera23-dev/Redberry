@@ -1,0 +1,72 @@
+/* Overlay Backdrop */
+.seat-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(5, 7, 13, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+
+/* Modal Frame */
+.seat-modal {
+  display: flex;
+  width: 100%;
+  max-width: 1080px;
+  background-color: #0b0f19;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Left Content Region */
+.seat-modal__main {
+  flex: 1;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation Tabs */
+.seat-tabs {
+  display: flex;
+  background-color: #131927;
+  border-radius: 24px;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.seat-tab {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  background: transparent;
+  color: #8f9bb3;
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.seat-tab--active {
+  background-color: #ff331f;
+  color: #ffffff;
+}
+
+/* Screen Banner */
+.seat-screen {
+  background-color: #1e2638;
+  color: #8f9bb3;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 32px;
+}
