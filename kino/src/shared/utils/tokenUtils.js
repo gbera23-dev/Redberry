@@ -1,7 +1,5 @@
 
-/**
- * Note here, we are using localStorage for token maintainance for now. 
- */
+
 const TOKEN_KEY = "session-token"
 
 export function setToken(token) {
@@ -14,4 +12,9 @@ export function getToken() {
 
 export function clearToken() {
     localStorage.removeItem(TOKEN_KEY); 
+}
+
+//we could have sent api request for this, but it is acceptable and simpler to stay in front. 
+export function tokenExists() {
+    return localStorage.getItem(TOKEN_KEY)!=null
 }

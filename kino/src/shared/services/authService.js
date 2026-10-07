@@ -25,6 +25,7 @@ import { setToken } from "../utils/tokenUtils"
         const result = await authApi.me(); 
         console.log("profile data retrieved!"); 
         console.log(result);  
+        return result
     }
 
 

@@ -7,6 +7,7 @@ import SessionsPage from "./features/sessions/pages/SessionsPage";
 import SeatSelectionModal from "./features/buyTickets/modals/SeatSelectionModal";
 import BookingConfirmationModal from "./features/buyTickets/modals/BookingConfirmationModal"
 import MoviePage from "./features/buyTickets/pages/MoviePage";
+import UserProfileModal from "./features/auth/modals/UserProfileModal";
 
 function App() {
   return (
