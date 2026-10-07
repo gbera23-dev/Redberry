@@ -3,6 +3,7 @@ import { SearchIcon } from "./Icons.jsx"
 import "./Header.css"
 import { useAuth } from "../../auth/providers/Auth.jsx"
 import { BRAND_NAME, BRAND_NUMBER } from "../../../config.js"
+import { tokenExists } from "../../../shared/utils/tokenUtils.js"
 
 export default function Header() {
   const [query, setQuery] = useState('')
