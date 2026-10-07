@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-export default function useSeatSelection({ maxSeats = 3, pricePerSeat = 15 } = {}) {
+export default function useSeatSelection({ onSubtotalChange, maxSeats = 3, pricePerSeat = 15 } = {}) {
   const [activeTab, setActiveTab] = useState("SEATS"); 
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [checkoutData, setCheckoutData] = useState(null);
@@ -22,6 +22,7 @@ export default function useSeatSelection({ maxSeats = 3, pricePerSeat = 15 } = {
       }
       return prev;
     });
+    onSubtotalChange(Math.min(maxSeats, (selectedSeats.length+1)) * pricePerSeat)
   };
 
   const handleFormDataChange = (data) => {
@@ -31,6 +32,7 @@ export default function useSeatSelection({ maxSeats = 3, pricePerSeat = 15 } = {
 
   const removeSeat = (seatId) => {
     setSelectedSeats((prev) => prev.filter((s) => s !== seatId));  
+    onSubtotalChange(Math.max((selectedSeats.length-1), 0) * pricePerSeat)
   }
   
   const subTotal = selectedSeats.length * pricePerSeat;

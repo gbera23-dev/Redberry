@@ -11,7 +11,7 @@ export default function BookingConfirmationModal({
   },
   seats = ["B3", "B4", "B5"],
   ticketSummary = "2 x Adult, 1 x Child",
-  totalPaid = 32,
+  totalPaid,
   onViewTickets,
   onBackToHome,
   onClose = () => console.log("closing")

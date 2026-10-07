@@ -10,8 +10,8 @@ import CheckoutFields from "../components/seatSelectionComponents/CheckoutFields
 const POSSIBLE_TABS = {Seats : "SEATS", Checkout : "CHECKOUT"} 
 
 
-export default function SeatSelectionModal({ movieDetails, onPay, onClose = () => console.log("closing")
- } ) {
+export default function SeatSelectionModal({ movieDetails, onPay, onClose = () => console.log("closing"),
+ onSubtotalChange} ) {
   const {
     activeTab,
     setActiveTab,
@@ -24,7 +24,8 @@ export default function SeatSelectionModal({ movieDetails, onPay, onClose = () =
     subTotal,
     canProceed,
     handleFormDataChange, 
-  } = useSeatSelections();
+  } = useSeatSelections({onSubtotalChange});
+
 
   const title = movieDetails?.title || "THE ODYSSEY";
   const subtitle =

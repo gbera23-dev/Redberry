@@ -72,7 +72,8 @@ export default function MoviePage({
   },
 }) {
 
-  const { selectedSession, handleOpenModal, handleCloseModal } = useMoviePage()
+  const { selectedSession, handleOpenModal, handleCloseModal, totalPrice, setTotalPrice } = useMoviePage()
+  console.log("what is the total price? %d", totalPrice)
 
   return (
     <div className="movie-page">
@@ -98,6 +99,7 @@ export default function MoviePage({
           }}
           onPay={() => handleOpenModal({openModal: MODAL_OPEN.BookingConfirmedModal})}
           onClose={handleCloseModal}
+          onSubtotalChange = {(v) => setTotalPrice(v)}
         />
       )}
 
@@ -106,6 +108,7 @@ export default function MoviePage({
         onViewTickets={() => console.log("view tickets :)")}
         onBackToHome={() => console.log("back to home :)")}
         onClose={handleCloseModal}
+        totalPaid={totalPrice}
         />
 
       )}
