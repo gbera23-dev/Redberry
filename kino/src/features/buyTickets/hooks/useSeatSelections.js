@@ -33,7 +33,7 @@ export default function useSeatSelection({ maxSeats = 3, pricePerSeat = 15 } = {
     setSelectedSeats((prev) => prev.filter((s) => s !== seatId));  
   }
   
-  const subtotal = selectedSeats.length * pricePerSeat;
+  const subTotal = selectedSeats.length * pricePerSeat;
   const canProceed = selectedSeats.length > 0;
 
   return {
@@ -45,7 +45,7 @@ export default function useSeatSelection({ maxSeats = 3, pricePerSeat = 15 } = {
     isSeatSold,
     isSeatHeldByOther,
     maxSeats,
-    subtotal,
+    subTotal,
     canProceed,
     handleFormDataChange,
   };

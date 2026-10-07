@@ -1,5 +1,5 @@
 import "./CheckoutFields.css";
-import useCheckoutForm from "../hooks/useCheckoutForm";
+import useCheckoutForm from "../../hooks/useCheckoutForm";
 
 export default function CheckoutFields({ onFormDataChange }) {
   const { formData, handleChange } = useCheckoutForm();

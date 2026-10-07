@@ -1,5 +1,5 @@
 import "./BookingConfirmationModal.css";
-import CheckoutSummary from "../components/CheckoutSummary";
+import CheckoutSummary from "../components/bookingConfirmationComponents/CheckoutSummary";
 
 export default function BookingConfirmationModal({
   orderNumber = "KX-48291",

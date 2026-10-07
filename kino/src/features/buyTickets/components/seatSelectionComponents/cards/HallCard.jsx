@@ -1,4 +1,4 @@
-import SessionTimeSlot from "./SessionTimeSlot";
+import SessionTimeSlot from "../SessionTimeSlot";
 import "./HallCard.css";
 
 export default function HallCard({ hallName, slots = [], onSlotClick }) {

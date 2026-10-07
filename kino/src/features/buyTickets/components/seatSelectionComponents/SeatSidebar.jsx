@@ -1,18 +1,18 @@
 import "./SeatSidebar.css"
-import useSidebarState from "../hooks/useSidebarState"
-import SelectedSeatItem from "../components/SelectedSeatItem"
-import CheckoutSummary from "../components/CheckoutSummary";
+import useSidebarState from "../../hooks/useSidebarState"
+import SelectedSeatItem from "./SelectedSeatItem"
+import CheckoutSummary from "../bookingConfirmationComponents/CheckoutSummary";
 
 
 const POSSIBLE_TABS = {Seats : "SEATS", Checkout : "CHECKOUT"} 
 
 export default function SeatSidebar({ 
     selectedSeats, maxSeats = 3, 
-    subtotal = 0, canProceed = false, onProceed, canPay = false, onPay, onRemoveSeat, activeTab, movieDetails }) {
+    subtotal, canProceed = false, onProceed, canPay = false, onPay, onRemoveSeat, activeTab, movieDetails }) {
 
     const { getTicketType, handleSelectTicketType, calculateSeatPrice } = useSidebarState();
 
-  const formatTicketSummary = () => {
+  const formatTicketSummary = () => {subTotal
     const counts = {};
 
     selectedSeats.forEach((seat) => {

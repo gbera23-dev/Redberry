@@ -1,15 +1,17 @@
 import "./SeatSelectionModal.css";
 import useSeatSelections from "../hooks/useSeatSelections";
-import SeatHeader from "../components/SeatHeader";
-import SeatGrid from "../components/SeatGrid";
-import SeatLegend from "../components/SeatLegend";
-import SeatSidebar from "../components/SeatSidebar";
-import CheckoutFields from "../components/CheckoutFields"
+import SeatHeader from "../components/seatSelectionComponents/SeatHeader";
+import SeatGrid from "../components/seatSelectionComponents/SeatGrid";
+import SeatLegend from "../components/seatSelectionComponents/SeatLegend";
+import SeatSidebar from "../components/seatSelectionComponents/SeatSidebar";
+import CheckoutFields from "../components/seatSelectionComponents/CheckoutFields"
 
 
 const POSSIBLE_TABS = {Seats : "SEATS", Checkout : "CHECKOUT"} 
 
-export default function SeatSelectionModal({ movieDetails, onPay, onClose = () => console.log("closing") } ) {
+
+export default function SeatSelectionModal({ movieDetails, onPay, onClose = () => console.log("closing")
+ } ) {
   const {
     activeTab,
     setActiveTab,
@@ -19,20 +21,19 @@ export default function SeatSelectionModal({ movieDetails, onPay, onClose = () =
     isSeatSold,
     isSeatHeldByOther,
     maxSeats,
-    subtotal,
+    subTotal,
     canProceed,
     handleFormDataChange, 
   } = useSeatSelections();
-
 
   const title = movieDetails?.title || "THE ODYSSEY";
   const subtitle =
     movieDetails?.subtitle ||
     "Galleria Tbilisi · Hall B · Tuesday 15 September · 16:30 · Standard · Original + Subtitles";
 
-    //temporary place for functions not written yet, will be later moved onto hooks calling service methods(which in turn send api calls)
+  //temporary place for functions not written yet, will be later moved onto hooks calling service methods(which in turn send api calls)
   const canPay = true
-
+  
   return (
     <div className="seat-overlay" onClick={onClose}>
       <div
@@ -78,11 +79,10 @@ export default function SeatSelectionModal({ movieDetails, onPay, onClose = () =
           />
           }
           </div>
-
         <SeatSidebar
           selectedSeats={selectedSeats}
           maxSeats={maxSeats}
-          subtotal={subtotal}
+          subtotal={subTotal}
           canProceed={canProceed}
           onProceed={() => setActiveTab(POSSIBLE_TABS.Checkout)}
           canPay={canPay}

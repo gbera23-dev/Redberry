@@ -1,5 +1,5 @@
-import DateCard from "./DateCard";
-import HallCard from "./HallCard";
+import DateCard from "../seatSelectionComponents/cards/DateCard";
+import HallCard from "../seatSelectionComponents/cards/HallCard";
 import MovieDetails from "./MovieDetails";
 import "./SessionsSection.css";
 
