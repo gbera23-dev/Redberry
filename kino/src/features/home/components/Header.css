@@ -126,3 +126,33 @@
     display: none;
   }
 }
+
+.header__search-container {
+  position: relative;
+}
+
+.header__search-clear {
+  background: transparent;
+  border: none;
+  color: var(--muted, #718096);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: color 0.15s ease;
+}
+
+.header__search-clear:hover {
+  color: var(--text, #ffffff);
+}
+
+.header__search-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  z-index: 1000;
+  animation: dropdownFadeIn 0.15s ease-out;
+}

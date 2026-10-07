@@ -6,12 +6,16 @@ import { BRAND_NAME, BRAND_NUMBER } from "../../../config.js"
 import { tokenExists } from "../../../shared/utils/tokenUtils.js"
 import UserProfileModal from "../../auth/modals/UserProfileModal.jsx"
 import UserProfileTrigger from "../../profile/components/UserProfileTrigger.jsx"
+import SearchOverlay from "../../home/components/SearchOverlay.jsx"
 import { logoutUser } from "../../../shared/services/authService.js"
 
 export default function Header() {
   const [query, setQuery] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const dropdownRef = useRef(null)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+
+  const profileRef = useRef(null)
+  const searchRef = useRef(null)
 
   const { openRegister, openLogin } = useAuth();
 
@@ -22,18 +26,38 @@ export default function Header() {
     onSearch?.(query.trim())
   }
 
-  const toggleModal = () => {
-    setIsModalOpen((prev) => !prev)
+  const toggleProfile = () => {
+    setIsProfileOpen((prev) => !prev)
+  }
+
+  const handleClearSearch = () => {
+    setQuery('')
   }
 
   useEffect(() => {
     function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsModalOpen(false)
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false)
+      }
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setIsSearchOpen(false)
       }
     }
+
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setIsSearchOpen(false)
+        setIsProfileOpen(false)
+      }
+    }
+
     document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
+    document.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("keydown", handleKeyDown)
+    }
   }, [])
 
   return (
@@ -48,16 +72,39 @@ export default function Header() {
         </nav>
       </div>
 
-      <form className="header__search" onSubmit={handleSubmit}>
-        <SearchIcon />
-        <input
-          type="search"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search films and live events"
-          aria-label="Search films"
-        />
-      </form>
+      <div className="header__search-container" ref={searchRef}>
+        <form className="header__search" onSubmit={handleSubmit}>
+          <SearchIcon />
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            onFocus={() => setIsSearchOpen(true)}
+            placeholder="Search films and live events"
+            aria-label="Search films"
+          />
+          {query && (
+            <button
+              type="button"
+              className="header__search-clear"
+              onClick={handleClearSearch}
+              aria-label="Clear search"
+            >
+              ✕
+            </button>
+          )}
+        </form>
+
+        {isSearchOpen && (
+          <div className="header__search-dropdown">
+            <SearchOverlay
+              query={query}
+              onBrowseAll={() => setIsSearchOpen(false)}
+              onSelectMovie={() => setIsSearchOpen(false)}
+            />
+          </div>
+        )}
+      </div>
 
       {!tokenExists() ? (
         <div className="header__actions">
@@ -69,18 +116,17 @@ export default function Header() {
           </button>
         </div>
       ) : (
-        <div className="header__actions" ref={dropdownRef}>
-          <UserProfileTrigger onClick={toggleModal} isOpen={isModalOpen} />
+        <div className="header__actions" ref={profileRef}>
+          <UserProfileTrigger onClick={toggleProfile} isOpen={isProfileOpen} />
 
-          {isModalOpen && (
+          {isProfileOpen && (
             <div className="header__profile-dropdown">
               <UserProfileModal 
-              handleLogout={()=> {
-                console.log("logging out user");
+              handleLogout = {() => { 
                 logoutUser()
-                setIsModalOpen(false)
-                window.location.href = "/"
-                }
+                setIsProfileOpen(false)
+                window.location.href = "/"  
+              }
               }
               />
             </div>

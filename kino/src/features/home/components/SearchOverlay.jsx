@@ -1,4 +1,4 @@
-import useSearchOverlay from "./hooks/useSearchOverlay";
+import useSearchOverlay from "../hooks/useSearchOverlay";
 import SearchResultCard from "../components/SearchResultCard";
 import "./SearchOverlay.css";
 
