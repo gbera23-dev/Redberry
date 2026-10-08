@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { getUserProfile, logoutUser } from "../../../shared/services/authService";
+import { useNavbar } from "../../../shared/navigation/Navbar"
 
 export default function useUserProfileModal() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { goToProfilePage } = useNavbar();
 
   useEffect(() => {
     let isMounted = true;
@@ -45,7 +47,7 @@ export default function useUserProfileModal() {
         }
       }
     }
-
+    
     fetchUserData();
 
     return () => {
@@ -55,10 +57,12 @@ export default function useUserProfileModal() {
 
   const handleNavigateProfile = () => {
     console.log("Navigating to My Profile...");
+    goToProfilePage()
   };
 
   const handleNavigateTickets = () => {
     console.log("Navigating to My Tickets...");
+    goToProfilePage()
   };
 
   return {

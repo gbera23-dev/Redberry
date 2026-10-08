@@ -8,10 +8,7 @@ const SLIDE_DURATION_MS = 5000;
 
 export default function HeroSlider() {
 
-  const onBuyTickets = () => console.log("buy tickets");
-  const onAllSessions = () => console.log("all sessions"); 
-
-  const { index, setIndex, slides = [], loading, error } = useFeaturedMovies();
+  const { index, setIndex, slides = [], loading, error, onBuyTickets, onAllSessions } = useFeaturedMovies();
 
   const total = slides.length;
 

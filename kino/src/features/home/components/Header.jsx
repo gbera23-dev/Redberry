@@ -1,74 +1,24 @@
-import { useState, useRef, useEffect } from "react"
 import { SearchIcon } from "./Icons.jsx"
 import "./Header.css"
-import { useAuth } from "../../auth/providers/Auth.jsx"
 import { BRAND_NAME, BRAND_NUMBER } from "../../../config.js"
-import { tokenExists } from "../../../shared/utils/tokenUtils.js"
 import UserProfileModal from "../../auth/modals/UserProfileModal.jsx"
 import UserProfileTrigger from "../../profile/components/UserProfileTrigger.jsx"
 import SearchOverlay from "../../home/components/SearchOverlay.jsx"
-import { logoutUser } from "../../../shared/services/authService.js"
+import useHeader from "../hooks/useHeader.js"
 
 export default function Header() {
-  const [query, setQuery] = useState('')
-  const [isProfileOpen, setIsProfileOpen] = useState(false)
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
-
-  const profileRef = useRef(null)
-  const searchRef = useRef(null)
-
-  const { openRegister, openLogin } = useAuth();
-
-  const onSearch = () => console.log(query);
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    onSearch?.(query.trim())
-  }
-
-  const toggleProfile = () => {
-    setIsProfileOpen((prev) => !prev)
-  }
-
-  const handleClearSearch = () => {
-    setQuery('')
-  }
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (profileRef.current && !profileRef.current.contains(event.target)) {
-        setIsProfileOpen(false)
-      }
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setIsSearchOpen(false)
-      }
-    }
-
-    function handleKeyDown(event) {
-      if (event.key === "Escape") {
-        setIsSearchOpen(false)
-        setIsProfileOpen(false)
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside)
-    document.addEventListener("keydown", handleKeyDown)
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-      document.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [])
-
+  const { query, setQuery, isProfileOpen, setIsProfileOpen, isSearchOpen, setIsSearchOpen,
+        profileRef, searchRef, openRegister, openLogin, wrapLogout, userIsAuthorized, 
+        onSearch, handleSubmit, toggleProfile, handleClearSearch, goToHomePage, goToSessionsPage, goToMoviePage } = useHeader()
   return (
     <header className="header">
       <div className="header__left">
-        <a className="header__brand">
+        <a className="header__brand" onClick={goToHomePage}>
           {BRAND_NAME}
           <span>{BRAND_NUMBER}</span>
         </a>
         <nav className="header__nav">
-          <a>SESSIONS</a>
+          <a onClick={goToSessionsPage}>SESSIONS</a>
         </nav>
       </div>
 
@@ -99,14 +49,14 @@ export default function Header() {
           <div className="header__search-dropdown">
             <SearchOverlay
               query={query}
-              onBrowseAll={() => setIsSearchOpen(false)}
-              onSelectMovie={() => setIsSearchOpen(false)}
+              onBrowseAll={() => goToSessionsPage()}
+              onSelectMovie={() => goToMoviePage(null)}
             />
           </div>
         )}
       </div>
 
-      {!tokenExists() ? (
+      {!userIsAuthorized ? (
         <div className="header__actions">
           <button type="button" className="btn btn--primary" onClick={openRegister}>
             Sign up
@@ -123,9 +73,8 @@ export default function Header() {
             <div className="header__profile-dropdown">
               <UserProfileModal 
               handleLogout = {() => { 
-                logoutUser()
+                wrapLogout()
                 setIsProfileOpen(false)
-                window.location.href = "/"  
               }
               }
               />

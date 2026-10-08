@@ -1,13 +1,13 @@
 
 import {useState, useEffect} from "react"
-
+import { useNavbar } from "../../../shared/navigation/Navbar";
 const DISPLAY_LIMIT = 6; 
 
 export default function useMovies( apiCall ) {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const { goToHomePage, goToProfilePage, goToMoviePage, goToSessionsPage } = useNavbar()
   useEffect(() => {
     async function fetchMovies() {
       try {
@@ -25,5 +25,5 @@ export default function useMovies( apiCall ) {
 
     fetchMovies();
   }, []);    
-  return {movies, loading, error}; 
+  return {movies, loading, error, goToHomePage, goToProfilePage, goToMoviePage, goToSessionsPage}; 
 }

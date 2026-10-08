@@ -22,18 +22,18 @@ async function featured() {
     return response.data; 
 }
 
-async function getMovie(movie) {
-    const response = await httpClient.get(`${BASE_PATH}/${movie}`)
+async function getMovie(slug) {
+    const response = await httpClient.get(`${BASE_PATH}/${slug}`)
     return response.data; 
 }
 
-async function movieSessions(movie, date) {
-    const response = await httpClient.get(`${BASE_PATH}/${movie}/sessions`, { params : { date } })
+async function movieSessions(slug, date) {
+    const response = await httpClient.get(`${BASE_PATH}/${slug}/sessions`, { params : { date } })
     return response.data; 
 }
 
-async function notifyOnTitle(movie) {
-    const response = await httpClient.post(`${BASE_PATH}/${movie}/notify`);
+async function notifyOnTitle(slug) {
+    const response = await httpClient.post(`${BASE_PATH}/${slug}/notify`);
     return response.data; 
 }
 
