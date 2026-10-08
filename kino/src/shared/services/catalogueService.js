@@ -1,8 +1,10 @@
 import { catalogueApi } from "../api/catalogueApi";
+import { transformMovieData } from "../mappers/movieMapper";
 
 //used to cache often fetched movies, home page loads slowly, this will speed it up 
 var nowPlayingCache = new Map()
 var comingSoonCache = new Map() 
+var currentMovieCache = new Map()
 var featuredCache = null
 
 async function searchMovies(query) {
@@ -15,7 +17,7 @@ async function getNowPlaying(limit) {
         return nowPlayingCache.get(limit)
     }
     const result = await catalogueApi.nowPlaying(limit);
-    nowPlayingCache.set(result)
+    nowPlayingCache.set(limit, result)
     return result;
 }
 
@@ -24,7 +26,7 @@ async function getComingSoon(limit) {
         return comingSoonCache.get(limit)
     }
     const result = await catalogueApi.comingSoon(limit);
-    comingSoonCache.set(result)
+    comingSoonCache.set(limit, result)
     return result;
 }
 
@@ -37,9 +39,14 @@ async function getFeatured() {
     return result;
 }
 
-async function getMovieById(slug) {
+async function getMovieBySlug(slug) {
+    if (currentMovieCache.has(slug)) {
+        return currentMovieCache.get(slug)
+    }
     const result = await catalogueApi.getMovie(slug);
-    return result;
+    console.log("required api request")
+    currentMovieCache.set(slug, transformMovieData(result.data)) 
+    return currentMovieCache.get(slug)
 }
 
 async function getMovieSessions(slug, date) {
@@ -57,7 +64,7 @@ export const catalogueService = {
     getNowPlaying,
     getComingSoon,
     getFeatured,
-    getMovieById,
+    getMovieBySlug,
     getMovieSessions,
     notifyOnMovieTitle
 };

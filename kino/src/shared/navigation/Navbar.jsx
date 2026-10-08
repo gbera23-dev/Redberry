@@ -33,8 +33,8 @@ export default function Nav() {
         changePage({url:NAV_PROFILEPAGE})
     }
 
-    const goToMoviePage = (movieId) => {
-        changePage({url:NAV_MOVIEPAGE})
+    const goToMoviePage = (movieSlug) => {
+        changePage({url:NAV_MOVIEPAGE, args:movieSlug})
     }
 
     const goToSessionsPage = () => {
@@ -52,7 +52,9 @@ export default function Nav() {
             <ProfilePage />
             }
             {currentPageUrl==NAV_MOVIEPAGE &&
-            <MoviePage />
+            <MoviePage 
+            slug={argsForPage} 
+            />
             }
             {currentPageUrl==NAV_SESSIONSPAGE && 
             <SessionsPage />
