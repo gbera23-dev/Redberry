@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { catalogueApi } from "../../../shared/api/catalogueApi";
+import { catalogueService } from "../../../shared/services/catalogueService";
+import { useNavbar } from "../../../shared/navigation/Navbar"
 
 export default function useFeaturedMovies() {
   const [slides, setSlides] = useState([]);
@@ -7,13 +8,15 @@ export default function useFeaturedMovies() {
   const [error, setError] = useState(null);
   const [index, setIndex] = useState(0);
 
+  const { goToHomePage, goToProfilePage, goToSessionsPage, goToMoviePage } = useNavbar();
+
   useEffect(() => {
     let isMounted = true;
 
     async function fetchFeatured() {
       try {
         setLoading(true);
-        const response = await catalogueApi.featured();
+        const response = await catalogueService.getFeatured();
         const data = response?.data || response || [];
         if (isMounted) {
           setSlides(data);
@@ -37,5 +40,9 @@ export default function useFeaturedMovies() {
     };
   }, []);
 
-  return { index, setIndex, slides, loading, error };
+
+  const onBuyTickets = () => goToMoviePage(null) //null for now, will replace it later
+  const onAllSessions = () => goToSessionsPage()
+
+  return { index, setIndex, slides, loading, error, onBuyTickets, onAllSessions };
 }

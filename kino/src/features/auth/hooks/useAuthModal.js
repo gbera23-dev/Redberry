@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { registerUser, loginUser, logoutUser } from "../../../shared/services/authService"
-import { clearToken } from "../../../shared/utils/tokenUtils"
+import { clearToken, tokenExists } from "../../../shared/utils/tokenUtils"
 
 export function useAuthModal() {
     const [activeModal, setActiveModal] = useState(null);
-    const [userIsAuthorized, setUserIsAuthorized] = useState(false); 
+    const [userIsAuthorized, setUserIsAuthorized] = useState(tokenExists()); 
 
     const openLogin = () => setActiveModal("login");
     const openRegister = () => setActiveModal("register");

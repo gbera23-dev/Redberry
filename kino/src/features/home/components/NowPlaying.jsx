@@ -2,11 +2,11 @@ import MovieCard from './MovieCard.jsx'
 import SectionHeader from './SectionHeader.jsx'
 import './NowPlaying.css'
 import useMovies from "../hooks/useMovies.js"
-import { catalogueApi } from "../../../shared/api/catalogueApi";
+import { catalogueService } from "../../../shared/services/catalogueService.js";
 
 export default function NowPlaying() {
   const onBuy = () => console.log("buy");
-  const { movies, loading, error } = useMovies(catalogueApi.nowPlaying);
+  const { movies, loading, error } = useMovies( catalogueService.getNowPlaying );
 
   if (loading) return <div className="now-playing__loading">Loading...</div>;
 
