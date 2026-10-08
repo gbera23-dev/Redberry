@@ -46,7 +46,7 @@ export default function MovieCard( { slug, movie, onBuy } ) {
           <span className="movie-card__price">
             From {CURRENCY} {movie.fromPrice}
           </span>
-          <button type="button" className="btn btn--primary" onClick={() => onBuy?.(movie.id)}>
+          <button type="button" className="btn btn--primary" onClick={() => onBuy?.(movie.slug)}>
             Buy Ticket
           </button>
         </div>

@@ -56,6 +56,6 @@ export default function useHeader() {
       return {
         query, setQuery, isProfileOpen, setIsProfileOpen, isSearchOpen, setIsSearchOpen,
         profileRef, searchRef, openRegister, openLogin, wrapLogout, userIsAuthorized, 
-        onSearch, handleSubmit, toggleProfile, handleClearSearch, goToHomePage, goToSessionsPage
+        onSearch, handleSubmit, toggleProfile, handleClearSearch, goToHomePage, goToSessionsPage, goToMoviePage
       }
 }

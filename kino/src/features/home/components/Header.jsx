@@ -9,7 +9,7 @@ import useHeader from "../hooks/useHeader.js"
 export default function Header() {
   const { query, setQuery, isProfileOpen, setIsProfileOpen, isSearchOpen, setIsSearchOpen,
         profileRef, searchRef, openRegister, openLogin, wrapLogout, userIsAuthorized, 
-        onSearch, handleSubmit, toggleProfile, handleClearSearch, goToHomePage, goToSessionsPage } = useHeader()
+        onSearch, handleSubmit, toggleProfile, handleClearSearch, goToHomePage, goToSessionsPage, goToMoviePage } = useHeader()
   return (
     <header className="header">
       <div className="header__left">
@@ -49,8 +49,8 @@ export default function Header() {
           <div className="header__search-dropdown">
             <SearchOverlay
               query={query}
-              onBrowseAll={() => setIsSearchOpen(false)}
-              onSelectMovie={() => setIsSearchOpen(false)}
+              onBrowseAll={() => goToSessionsPage()}
+              onSelectMovie={() => goToMoviePage(null)}
             />
           </div>
         )}

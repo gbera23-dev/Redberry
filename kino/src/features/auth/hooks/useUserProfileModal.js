@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { getUserProfile, logoutUser } from "../../../shared/services/authService";
+import { useNavbar } from "../../../shared/navigation/Navbar"
 
 export default function useUserProfileModal() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-    //optimization here, we cache the result and use it instead of sending api request every time  
+  const { goToProfilePage } = useNavbar();
 
   useEffect(() => {
     let isMounted = true;
@@ -57,10 +57,12 @@ export default function useUserProfileModal() {
 
   const handleNavigateProfile = () => {
     console.log("Navigating to My Profile...");
+    goToProfilePage()
   };
 
   const handleNavigateTickets = () => {
     console.log("Navigating to My Tickets...");
+    goToProfilePage()
   };
 
   return {

@@ -2,9 +2,11 @@ import { useState } from "react";
 import TicketsFilter from "./TicketsFilter";
 import TicketCard from "./TicketCard";
 import "./TicketsTab.css";
-import MOCK_TICKETS from "../../../shared/data/ticketsData";
+import MOCK_DATA from "../../../shared/data/ticketsData";
 
-export default function TicketsTab({ active, tickets = MOCK_TICKETS}) {
+const DEFAULT_PAST_COUNT = 10 
+
+export default function TicketsTab({ active, tickets = MOCK_DATA.MOCK_TICKETS}) {
   const [subTab, setSubTab] = useState("upcoming");
   const onRefund = () => console.log("refund"); 
 
@@ -12,8 +14,10 @@ export default function TicketsTab({ active, tickets = MOCK_TICKETS}) {
     return null;
   }
 
-  const upcomingTickets = tickets.filter((t) => t.status === "upcoming");
-  const pastTickets = tickets.filter((t) => t.status === "past");
+  console.log(typeof(tickets))
+
+  const upcomingTickets = tickets.filter(t => t.status === "upcoming");
+  const pastTickets = tickets.filter(t => t.status === "past");
   const displayedTickets = subTab === "upcoming" ? upcomingTickets : pastTickets;
 
   return (
@@ -22,7 +26,7 @@ export default function TicketsTab({ active, tickets = MOCK_TICKETS}) {
         activeSubTab={subTab}
         onSelectTab={setSubTab}
         upcomingCount={upcomingTickets.length}
-        pastCount={pastTickets.length || 10}
+        pastCount={pastTickets.length || DEFAULT_PAST_COUNT}
       />
 
       <div className="tickets-tab__list">

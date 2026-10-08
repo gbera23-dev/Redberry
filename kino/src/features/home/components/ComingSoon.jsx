@@ -9,7 +9,7 @@ export default function ComingSoon() {
 
   const onNotify = () => console.log("notify"); 
 
-  const { movies, loading, error } = useMovies( catalogueService.getComingSoon );
+  const { movies, loading, error, goToSessionsPage } = useMovies( catalogueService.getComingSoon );
 
   if (loading) return <div className="coming-soon__loading">Loading...</div>;
 
@@ -20,7 +20,7 @@ export default function ComingSoon() {
             <SectionHeader 
               title="COMING SOON..." 
               actionLabel="See all" 
-              actionHref="" 
+              navFn = {goToSessionsPage}
             />
       <div className="coming-soon__row">
         {movies.map((movie) => (
