@@ -1,4 +1,5 @@
 import Auth from "../src/features/auth/providers/Auth"
+import Nav from "../src/shared/navigation/Navbar"
 import HomePage from "../src/features/home/pages/HomePage"
 import SignupModal from "./features/auth/modals/SignUpModal";
 import LoginModal from "./features/auth/modals/LoginModal";
@@ -15,7 +16,8 @@ function App() {
       <Auth>
         <SignupModal />
         <LoginModal />
-        <MoviePage />
+        <Nav>
+        </Nav>
       </Auth>
     </section>
   ); 

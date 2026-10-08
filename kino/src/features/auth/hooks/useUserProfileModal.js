@@ -6,6 +6,8 @@ export default function useUserProfileModal() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+    //optimization here, we cache the result and use it instead of sending api request every time  
+
   useEffect(() => {
     let isMounted = true;
 
@@ -45,7 +47,7 @@ export default function useUserProfileModal() {
         }
       }
     }
-
+    
     fetchUserData();
 
     return () => {

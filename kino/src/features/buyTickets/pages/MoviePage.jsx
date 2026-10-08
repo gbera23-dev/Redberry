@@ -73,7 +73,6 @@ export default function MoviePage({
 }) {
 
   const { selectedSession, handleOpenModal, handleCloseModal, totalPrice, setTotalPrice } = useMoviePage()
-  console.log("what is the total price? %d", totalPrice)
 
   return (
     <div className="movie-page">

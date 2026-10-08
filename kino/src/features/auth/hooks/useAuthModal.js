@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { registerUser, loginUser, logoutUser, getUserProfile } from "../../../shared/services/authService"
+import { registerUser, loginUser, logoutUser } from "../../../shared/services/authService"
 import { clearToken } from "../../../shared/utils/tokenUtils"
 
 export function useAuthModal() {
     const [activeModal, setActiveModal] = useState(null);
+    const [userIsAuthorized, setUserIsAuthorized] = useState(false); 
 
     const openLogin = () => setActiveModal("login");
     const openRegister = () => setActiveModal("register");
@@ -13,6 +14,7 @@ export function useAuthModal() {
     async function wrapRegister(payload) {
         try {
             await registerUser(payload)
+            setUserIsAuthorized(true)
         }
         catch (error) {
             clearToken();
@@ -27,6 +29,7 @@ export function useAuthModal() {
     async function wrapLogin(payload) {
         try {
             await loginUser(payload); 
+            setUserIsAuthorized(true)
         }
         catch (error) {
             clearToken();
@@ -41,6 +44,7 @@ export function useAuthModal() {
     async function wrapLogout() {
         try {
             await logoutUser(); 
+            setUserIsAuthorized(false)
         }
         catch (error) {
             console.log("Authorization error");
@@ -51,16 +55,6 @@ export function useAuthModal() {
         }         
     }
 
-    async function wrapMe() {
-        try {
-            await getUserProfile();
-        }
-        catch (error) {
-            console.log("Authorization error");
-            console.log(error); 
-        }        
-    }
-
     return {
         activeModal,
         openLogin,
@@ -69,6 +63,6 @@ export function useAuthModal() {
         wrapRegister,
         wrapLogin,
         wrapLogout,
-        wrapMe,
+        userIsAuthorized,
     };
 }

@@ -6,7 +6,7 @@ const AuthContext = createContext(null);
 export default function Auth( { children } ) {
 
     const auth = useAuthModal();
-
+    
     return (
         <AuthContext.Provider value={auth}>
             {children}

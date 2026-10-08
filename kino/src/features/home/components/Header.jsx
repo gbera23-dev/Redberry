@@ -3,11 +3,9 @@ import { SearchIcon } from "./Icons.jsx"
 import "./Header.css"
 import { useAuth } from "../../auth/providers/Auth.jsx"
 import { BRAND_NAME, BRAND_NUMBER } from "../../../config.js"
-import { tokenExists } from "../../../shared/utils/tokenUtils.js"
 import UserProfileModal from "../../auth/modals/UserProfileModal.jsx"
 import UserProfileTrigger from "../../profile/components/UserProfileTrigger.jsx"
 import SearchOverlay from "../../home/components/SearchOverlay.jsx"
-import { logoutUser } from "../../../shared/services/authService.js"
 
 export default function Header() {
   const [query, setQuery] = useState('')
@@ -17,7 +15,7 @@ export default function Header() {
   const profileRef = useRef(null)
   const searchRef = useRef(null)
 
-  const { openRegister, openLogin } = useAuth();
+  const { openRegister, openLogin, wrapLogout, userIsAuthorized } = useAuth();
 
   const onSearch = () => console.log(query);
 
@@ -106,7 +104,7 @@ export default function Header() {
         )}
       </div>
 
-      {!tokenExists() ? (
+      {!userIsAuthorized ? (
         <div className="header__actions">
           <button type="button" className="btn btn--primary" onClick={openRegister}>
             Sign up
@@ -123,9 +121,8 @@ export default function Header() {
             <div className="header__profile-dropdown">
               <UserProfileModal 
               handleLogout = {() => { 
-                logoutUser()
+                wrapLogout()
                 setIsProfileOpen(false)
-                window.location.href = "/"  
               }
               }
               />
