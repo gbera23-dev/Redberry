@@ -5,6 +5,8 @@ export default function useMoviePage({ slug }) {
   const [selectedSession, setSelectedSession] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
   const [movieData, setMovieData] = useState(null);
+  const [venues, setVenues] = useState([]);
+  const [currentDate, setCurrentDate] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -14,13 +16,19 @@ export default function useMoviePage({ slug }) {
       try {
         const res = await catalogueService.getMovieBySlug(slug);
         setMovieData(res);
+        const currDate = currentDate || res.dates[0].fullDate
+        setCurrentDate(currDate)
+        const venues = await catalogueService.getMovieSessions(slug, currDate)
+        console.log("venues: ")
+        console.log(venues)
+        setVenues(venues)
       } catch (err) {
         setError(err.message || "Failed to load movie");
       }
     }
 
     fetchMovieData();
-  }, [slug]);
+  }, [slug, currentDate]);
 
   const handleOpenModal = (sessionInfo) => {
     setSelectedSession(sessionInfo.openModal);
@@ -38,8 +46,10 @@ export default function useMoviePage({ slug }) {
     setTotalPrice,
     movie: movieData?.movie || null,
     dates: movieData?.dates || [],
-    venues: movieData?.venues || [],
     details: movieData?.details || null,
+    venues: venues || null, 
+    setCurrentDate,
+    currentDate,
     error,
   };
 }

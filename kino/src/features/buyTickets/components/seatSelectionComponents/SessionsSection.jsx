@@ -5,7 +5,7 @@ import "./SessionsSection.css";
 
 const MODAL_OPEN = {SeatModal : "SEAT_MODAL", BookingConfirmedModal : "BOOKING_MODAL"}
 
-export default function SessionsSection({ dates = [], venues = [], movieDetails, onSlotClick }) {
+export default function SessionsSection({ dates = [], venues = [], movieDetails, onSlotClick, onDateCardClick, chosenDate }) {
   return (
     <section className="sessions-section">
       <div className="sessions-section__container">
@@ -18,6 +18,8 @@ export default function SessionsSection({ dates = [], venues = [], movieDetails,
                 key={idx}
                 day={item.day}
                 date={item.date}
+                isActive={chosenDate==item.fullDate}
+                onClick= {() => {onDateCardClick(item.fullDate)}}
               />
             ))}
           </div>
@@ -27,7 +29,7 @@ export default function SessionsSection({ dates = [], venues = [], movieDetails,
               <div key={idx} className="sessions-section__venue">
                 <h3 className="sessions-section__venue-name">{venue.name}</h3>
                 <div className="sessions-section__halls">
-                  {venue.halls.map((hall, hIdx) => (
+                  {venue.hall.map((hall, hIdx) => (
                     <HallCard
                       key={hIdx}
                       hallName={hall.name}

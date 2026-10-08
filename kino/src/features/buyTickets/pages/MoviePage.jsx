@@ -11,12 +11,11 @@ import "./MoviePage.css";
 const MODAL_OPEN = {SeatModal : "SEAT_MODAL", BookingConfirmedModal : "BOOKING_MODAL"}
 
 export default function MoviePage({slug}) {
-  console.log(slug)
-  const { selectedSession, handleOpenModal, handleCloseModal, totalPrice, setTotalPrice, movie, dates, venues, 
-    details
+  const { selectedSession, handleOpenModal, handleCloseModal, totalPrice, setTotalPrice, movie, dates, 
+    details, venues, setCurrentDate, currentDate,
    } = 
   useMoviePage({ slug })
-
+  
   return (
     <div className="movie-page">
       <Header />
@@ -28,6 +27,8 @@ export default function MoviePage({slug}) {
           venues={venues}
           movieDetails={details}
           onSlotClick={handleOpenModal}
+          onDateCardClick={setCurrentDate}
+          chosenDate={currentDate}
         />
       </main>
 

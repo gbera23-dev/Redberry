@@ -43,3 +43,43 @@ export function transformMovieData(apiData) {
 
     return { movie, dates, venues: [], details };
 }
+
+
+export function transformSessionsData(apiResponse) {
+    if (!apiResponse?.data) return [];
+
+  return apiResponse.data.map((item) => {
+    const hallsMap = item.sessions.reduce((acc, session) => {
+      const hallId = session.hall.id;
+
+      if (!acc[hallId]) {
+        acc[hallId] = {
+          id: hallId,
+          name: session.hall.name,
+          slots: [],
+        };
+      }
+
+      acc[hallId].slots.push({
+        id: session.id,
+        time: session.time,
+        startsAt: session.startsAt,
+        price: session.price,
+        seatsLeft: session.seatsLeft,
+        isSoldOut: session.isSoldOut,
+        format: session.format?.name || "",    
+        language: session.language?.code || "",  
+      });
+
+      return acc;
+    }, {});
+
+    return {
+      id: item.venue.id,
+      name: item.venue.name,
+      slug: item.venue.slug,
+      city: item.venue.city,
+      hall: Object.values(hallsMap),
+    };
+  });    
+}
