@@ -61,13 +61,11 @@ export default function ComingSoonMovieCard({ slug, movie, onNotify }) {
         <div className="coming-soon-movie-card__footer">
           <button 
             type="button" 
-            className={`coming-soon-movie-card__notify-btn ${
-              movie.isNotified ? 'coming-soon-movie-card__notify-btn--active' : ''
-            }`}
-            onClick={() => onNotify?.(movie.id)}
+            className={`coming-soon-movie-card__notify-btn coming-soon-movie-card__notify-btn--active`}
+            onClick={() => onNotify(movie.slug)}
           >
             <BellIcon />
-            <span>{movie.isNotified ? 'Notified' : 'Notify Me'}</span>
+            <span>{'Notify Me'}</span>
           </button>
         </div>
       </div>

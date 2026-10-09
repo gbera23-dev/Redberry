@@ -61,6 +61,7 @@ async function getMovieSessions(slug, date) {
 
 async function notifyOnMovieTitle(slug) {
     const result = await catalogueApi.notifyOnTitle(slug);
+    console.log("api request sent notify")
     return result;
 }
 
