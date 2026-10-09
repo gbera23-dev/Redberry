@@ -21,9 +21,7 @@ export default function FilterSideBar({
   };
 
   const handleDateSelect = (dateVal) => {
-    if (selectedDate === dateVal) {
-      setSelectedDate("");
-    } else {
+    if (selectedDate != dateVal) {
       setSelectedDate(dateVal);
     }
   };

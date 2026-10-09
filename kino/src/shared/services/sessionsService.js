@@ -1,13 +1,30 @@
 import { sessionsApi } from "../api/sessionsApi";
+import { mapApiResponseToSessions, mapFiltersToApiRequest, mapApiResponseToFilters,
+    generateDateOptions
+ } from "../mappers/sessionsMapper";
+
+var filterOptionsCache = null;  
 
 async function getFilterOptions() {
+    if (filterOptionsCache) {
+        return filterOptionsCache
+    }
     const result = await sessionsApi.filterOptions();
-    return result;
+    filterOptionsCache = {...mapApiResponseToFilters(result),
+        DATES: generateDateOptions(),
+    }
+    return filterOptionsCache;
 }
 
-async function getSessions(params) {
-    const result = await sessionsApi.getSessions(params);
-    return result;
+async function getSessions({ filters, sortOrder, currentPage, selectedDate }) {
+    const apiRequestArgs = mapFiltersToApiRequest({ filters:filters, sortOrder:sortOrder, currentPage:currentPage, search:"",
+        date:selectedDate
+    })
+    console.log("api request args")
+    console.log(apiRequestArgs)
+    const result = await sessionsApi.getSessions(apiRequestArgs);
+    console.log("sessions request sent")
+    return mapApiResponseToSessions(result);
 }
 
 async function getSingleSession(sessionId) {
