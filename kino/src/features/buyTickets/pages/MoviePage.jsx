@@ -5,6 +5,7 @@ import SessionsSection from "../components/seatSelectionComponents/SessionsSecti
 import SeatSelectionModal from "../modals/SeatSelectionModal.jsx";
 import BookingConfirmationModal from "../modals/BookingConfirmationModal.jsx";
 import useMoviePage from "../hooks/useMoviePage.js";
+import { useNavbar } from "../../../shared/navigation/Navbar.jsx";
 import "./MoviePage.css";
 
 export default function MoviePage({ slug }) {
@@ -12,7 +13,7 @@ export default function MoviePage({ slug }) {
     selectedSession, 
     activeModal,
     handleOpenSeatModal, 
-    handleOpenBookingModal,
+    payForTickets,
     handleCloseModal, 
     totalPrice, 
     setTotalPrice, 
@@ -22,7 +23,10 @@ export default function MoviePage({ slug }) {
     venues, 
     setCurrentDate, 
     currentDate,
+    confirmationData,
   } = useMoviePage({ slug });
+
+  const { goToProfilePage, goToHomePage } = useNavbar()
 
   return (
     <div className="movie-page">
@@ -49,7 +53,7 @@ export default function MoviePage({ slug }) {
             dateTime: `${selectedSession.date || ""} · ${selectedSession.time || ""}`,
             posterUrl: movie?.posterUrl || "",
           }}
-          onPay={handleOpenBookingModal}
+          onPay={payForTickets}
           onClose={handleCloseModal}
           onSubtotalChange={(v) => setTotalPrice(v)}
         />
@@ -57,10 +61,14 @@ export default function MoviePage({ slug }) {
 
       {activeModal === "BOOKING_MODAL" && (
         <BookingConfirmationModal
-          onViewTickets={() => console.log("view tickets :)")}
-          onBackToHome={() => console.log("back to home :)")}
+          onViewTickets={goToProfilePage}
+          onBackToHome={goToHomePage}
           onClose={handleCloseModal}
-          totalPaid={totalPrice}
+          totalPaid={confirmationData.totalPaid}
+          orderNumber={confirmationData.orderNumber}
+          movieDetails={confirmationData.movieDetails}
+          seats={confirmationData.seats}
+          ticketSummary={confirmationData.ticketSummary}
         />
       )}
 

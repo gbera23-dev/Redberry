@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { catalogueService } from "../../../shared/services/catalogueService";
 import { getSingleSession } from "../../../shared/services/sessionsService"; 
+import { payAndCompleteOrder } from "../../../shared/services/bookingService";
 
 export default function useMoviePage({ slug }) {
   const [selectedSessionId, setSelectedSessionId] = useState(null);
@@ -11,6 +12,7 @@ export default function useMoviePage({ slug }) {
   const [venues, setVenues] = useState([]);
   const [currentDate, setCurrentDate] = useState(null);
   const [error, setError] = useState(null);
+  const [confirmationData, setConfirmationData] = useState(null)
 
   useEffect(() => {
     if (!slug) return;
@@ -57,9 +59,30 @@ export default function useMoviePage({ slug }) {
     setActiveModal("SEAT_MODAL");
   };
 
-  const handleOpenBookingModal = () => {
-    setActiveModal("BOOKING_MODAL");
+  const handleOpenBookingModal = (paymentSucceeded) => {
+    if (paymentSucceeded) {
+      setActiveModal("BOOKING_MODAL");
+    } else {
+      alert("Could not complete transaction!")
+    }
   };
+
+
+  const payForTickets = async ({holdData, formData}) => {
+      console.log("holdData")
+  console.log(holdData)
+  console.log("formdata")
+  console.log(formData)
+    try { 
+      const res = await payAndCompleteOrder({holdData:holdData, formData:formData})
+      setConfirmationData(res)
+      handleOpenBookingModal(true)
+    } catch(err) {
+      alert("error happened, while completing transaction")
+      console.log(err)
+      handleOpenBookingModal(false)
+    }
+  }
 
   const handleCloseModal = () => {
     setActiveModal(null);
@@ -71,7 +94,7 @@ export default function useMoviePage({ slug }) {
     selectedSession,
     activeModal:activeModal,
     handleOpenSeatModal,
-    handleOpenBookingModal,
+    payForTickets,
     handleCloseModal,
     totalPrice,
     setTotalPrice,
@@ -81,6 +104,7 @@ export default function useMoviePage({ slug }) {
     venues: venues || [], 
     setCurrentDate,
     currentDate,
+    confirmationData: confirmationData,
     error,
   };
 }

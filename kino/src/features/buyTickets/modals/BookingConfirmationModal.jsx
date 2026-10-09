@@ -2,19 +2,14 @@ import "./BookingConfirmationModal.css";
 import CheckoutSummary from "../components/bookingConfirmationComponents/CheckoutSummary";
 
 export default function BookingConfirmationModal({
-  orderNumber = "KX-48291",
-  movieDetails = {
-    title: "THE ODYSSEY",
-    hall: "Galleria Tbilisi · Hall B",
-    dateTime: "Tue 15 Sep · 16:30",
-    posterUrl: "",
-  },
-  seats = ["B3", "B4", "B5"],
-  ticketSummary = "2 x Adult, 1 x Child",
+  orderNumber,
+  movieDetails,
+  seats,
+  ticketSummary,
   totalPaid,
   onViewTickets,
   onBackToHome,
-  onClose = () => console.log("closing")
+  onClose
 }) {
   return (
     <div className="booking-confirm-modal-overlay" onClick={onClose}>

@@ -63,7 +63,7 @@ export default function SeatSidebar({
           <CheckoutSummary 
             movieDetails={movieDetails}
             ticketSummary={formatTicketSummary()}
-            seats={selectedSeats}
+            seats={selectedSeats.map(s => s.code)}
           />
         )}
       </div>

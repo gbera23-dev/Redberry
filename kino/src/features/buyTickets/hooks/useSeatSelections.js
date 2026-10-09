@@ -13,6 +13,7 @@ export default function useSeatSelection({
   const [seatLayout, setSeatLayout] = useState({ sections: [], soldSeats: [], heldSeats: [] });
   const [holdData, setHoldData] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [formData, setFormData] = useState({});
 
   const fetchSeatLayout = async () => {
     if (!sessionId) return;
@@ -52,6 +53,8 @@ export default function useSeatSelection({
         setHoldData(responseData); 
         setErrorMessage(null);
       } catch (err) {
+        alert("something went wrong...")
+        alert(err?.response?.message)
         console.error("Hold failed:", err);
       }
     }
@@ -129,6 +132,10 @@ export default function useSeatSelection({
     );
   };
 
+  const handleFormDataChange = (data) => {
+    setFormData(data || {});
+  };
+
   const subTotal = selectedSeats.length * pricePerSeat;
 
   useEffect(() => {
@@ -138,6 +145,15 @@ export default function useSeatSelection({
   }, [subTotal, onSubtotalChange]);
 
   const canProceed = selectedSeats.length > 0 && !!holdData;
+
+  const isFormFilled =
+    formData &&
+    Object.keys(formData).length > 0 &&
+    Object.values(formData).every((val) =>
+      typeof val === "string" ? val.trim().length > 0 : Boolean(val)
+    );
+
+  const canPay = canProceed && isFormFilled;
 
   return {
     activeTab,
@@ -151,9 +167,13 @@ export default function useSeatSelection({
     maxSeats,
     subTotal,
     canProceed,
+    canPay,
+    handleFormDataChange,
     errorMessage,
     expiresAt: holdData?.expiresAt,
     handleExpire,
     sections: seatLayout.sections,
+    holdData: holdData,
+    formData: formData
   };
 }
