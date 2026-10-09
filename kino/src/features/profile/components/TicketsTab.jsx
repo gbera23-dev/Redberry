@@ -2,19 +2,17 @@ import { useState } from "react";
 import TicketsFilter from "./TicketsFilter";
 import TicketCard from "./TicketCard";
 import "./TicketsTab.css";
-import MOCK_DATA from "../../../shared/data/ticketsData";
 
-const DEFAULT_PAST_COUNT = 10 
+const DEFAULT_PAST_COUNT = 0 
 
-export default function TicketsTab({ active, tickets = MOCK_DATA.MOCK_TICKETS}) {
+export default function TicketsTab({ active, tickets}) {
   const [subTab, setSubTab] = useState("upcoming");
-  const onRefund = () => console.log("refund"); 
-
+  const onRefund = () => console.log("refund");
+  console.log("tickets") 
+  console.log(tickets)
   if (active !== "tickets") {
     return null;
   }
-
-  console.log(typeof(tickets))
 
   const upcomingTickets = tickets.filter(t => t.status === "upcoming");
   const pastTickets = tickets.filter(t => t.status === "past");
