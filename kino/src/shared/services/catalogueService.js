@@ -1,13 +1,24 @@
 import { catalogueApi } from "../api/catalogueApi";
+import { transformMovieData, transformSessionsData, mapSearchResponseToResults } from "../mappers/movieMapper";
 
 //used to cache often fetched movies, home page loads slowly, this will speed it up 
 var nowPlayingCache = new Map()
 var comingSoonCache = new Map() 
+var currentMovieCache = new Map()
+var movieSessionsCache = new Map() 
+var queriedMoviesCache = new Map() 
 var featuredCache = null
 
 async function searchMovies(query) {
+    console.log("search movies request sent")
+    console.log(query)
+    if (queriedMoviesCache.has(query)) {
+        return queriedMoviesCache.get(query)
+    }
     const result = await catalogueApi.search(query);
-    return result;
+    const transformedRes = mapSearchResponseToResults(result)
+    queriedMoviesCache.set(query, transformedRes)
+    return queriedMoviesCache.get(query)
 }
 
 async function getNowPlaying(limit) {
@@ -15,7 +26,7 @@ async function getNowPlaying(limit) {
         return nowPlayingCache.get(limit)
     }
     const result = await catalogueApi.nowPlaying(limit);
-    nowPlayingCache.set(result)
+    nowPlayingCache.set(limit, result)
     return result;
 }
 
@@ -24,7 +35,7 @@ async function getComingSoon(limit) {
         return comingSoonCache.get(limit)
     }
     const result = await catalogueApi.comingSoon(limit);
-    comingSoonCache.set(result)
+    comingSoonCache.set(limit, result)
     return result;
 }
 
@@ -37,14 +48,23 @@ async function getFeatured() {
     return result;
 }
 
-async function getMovieById(slug) {
+async function getMovieBySlug(slug) {
+    if (currentMovieCache.has(slug)) {
+        return currentMovieCache.get(slug)
+    }
     const result = await catalogueApi.getMovie(slug);
-    return result;
+    currentMovieCache.set(slug, transformMovieData(result.data)) 
+    return currentMovieCache.get(slug)
 }
 
 async function getMovieSessions(slug, date) {
+    const key = slug+date; 
+    if (movieSessionsCache.has(key)) {
+        return movieSessionsCache.get(key)
+    }
     const result = await catalogueApi.movieSessions(slug, date);
-    return result;
+    movieSessionsCache.set(key, transformSessionsData(result))
+    return movieSessionsCache.get(key)
 }
 
 async function notifyOnMovieTitle(slug) {
@@ -57,7 +77,7 @@ export const catalogueService = {
     getNowPlaying,
     getComingSoon,
     getFeatured,
-    getMovieById,
+    getMovieBySlug,
     getMovieSessions,
     notifyOnMovieTitle
 };

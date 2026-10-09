@@ -1,23 +1,15 @@
 import "./InfoTab.css"
-
-const VENUES = ["Kino XII Rustaveli", "Kino XII East Point", "Kino XII Galleria"];
+import useInfoTab from "../hooks/useInfoTab.js"
+import {VENUES} from "../../../shared/data/filterData.js"
 
 export default function InfoTab({ form, setForm, active}) {
 
-    if (active !== "info") {
+  if (active !== "info") {
         return null; 
     }
-    
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    };
-
-    const saveChanges = () => console.log("save changes");  
+    console.log("venues")
+    console.log(VENUES)
+    const { handleChange, handleSubmit, saveChanges } = useInfoTab({form, setForm})
     
     return (
         <form className="profile__form" onSubmit={handleSubmit}>
@@ -67,8 +59,8 @@ export default function InfoTab({ form, setForm, active}) {
               <select id="venue" name="venue" value={form.venue} onChange={handleChange}>
                 <option value="">e.g. Text</option>
                 {VENUES.map((v) => (
-                  <option key={v} value={v}>
-                    {v}
+                  <option key={v.id} value={v.label}>
+                    {v.label}
                   </option>
                 ))}
               </select>

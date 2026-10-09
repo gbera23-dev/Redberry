@@ -29,12 +29,12 @@ export default function Nav() {
         changePage({url:NAV_HOMEPAGE})
     }
 
-    const goToProfilePage = () => {
-        changePage({url:NAV_PROFILEPAGE})
+    const goToProfilePage = (whichTab) => {
+        changePage({url:NAV_PROFILEPAGE, args:whichTab})
     }
 
-    const goToMoviePage = (movieId) => {
-        changePage({url:NAV_MOVIEPAGE})
+    const goToMoviePage = (movieSlug) => {
+        changePage({url:NAV_MOVIEPAGE, args:movieSlug})
     }
 
     const goToSessionsPage = () => {
@@ -49,10 +49,14 @@ export default function Nav() {
             <HomePage />   
             }
             {currentPageUrl==NAV_PROFILEPAGE && 
-            <ProfilePage />
+            <ProfilePage 
+            whichTab={argsForPage}
+            />
             }
             {currentPageUrl==NAV_MOVIEPAGE &&
-            <MoviePage />
+            <MoviePage 
+            slug={argsForPage} 
+            />
             }
             {currentPageUrl==NAV_SESSIONSPAGE && 
             <SessionsPage />

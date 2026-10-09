@@ -7,7 +7,14 @@ import useMovies from "../hooks/useMovies.js"
 
 export default function ComingSoon() { 
 
-  const onNotify = () => console.log("notify"); 
+  const onNotify = async (slug) => {
+    try { 
+      await catalogueService.notifyOnMovieTitle(slug)
+    } catch(err) {
+      console.log("error happened during sending notify")
+      console.log(err)
+    }
+  }
 
   const { movies, loading, error, goToSessionsPage } = useMovies( catalogueService.getComingSoon );
 

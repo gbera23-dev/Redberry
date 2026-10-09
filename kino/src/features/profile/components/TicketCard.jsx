@@ -1,6 +1,6 @@
 import "./TicketCard.css";
 
-export default function TicketCard({ ticket, onRefund }) {
+export default function TicketCard({ ticket, onRefund, isUpcoming }) {
   return (
     <div className="ticket-card">
       <img src={ticket.poster} alt={ticket.title} className="ticket-card__poster" />
@@ -52,11 +52,11 @@ export default function TicketCard({ ticket, onRefund }) {
           <span className="ticket-card__price-value">{ticket.totalPaid}</span>
         </div>
 
-        <div className="ticket-card__actions">
+        {isUpcoming && <div className="ticket-card__actions">
           <button
             type="button"
             className="ticket-card__refund-btn"
-            onClick={() => onRefund?.(ticket)}
+            onClick={() => onRefund?.(ticket.id)}
           >
             Refund
           </button>
@@ -65,7 +65,8 @@ export default function TicketCard({ ticket, onRefund }) {
               Refundable until {ticket.refundableUntil}
             </span>
           )}
-        </div>
+        </div>}
+
       </div>
     </div>
   );

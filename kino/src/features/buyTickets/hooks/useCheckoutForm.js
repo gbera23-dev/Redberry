@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function useCheckoutForm() {
   const [formData, setFormData] = useState({
     fullName: "",
-    email: "",
+    email: "giga@gmail.com",
     mobileNumber: "",
     cardNumber: "",
     expiry: "",

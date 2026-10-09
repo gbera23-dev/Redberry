@@ -4,11 +4,7 @@ import { MovieSessionRow } from "../components/MovieSessionRow";
 import { Pagination } from "../components/Pagination";
 import Header from "../../home/components/Header"
 import Footer from "../../home/components/Footer"
-import { MOCK_SESSIONS } from "../../../shared/data/ticketsData";
-import applyFilters from "../utils/filter";
 import "./SessionsPage.css";
-
-const MOVIES_PER_PAGE = 4; 
 
 export default function SessionsPage() {
   const {
@@ -19,7 +15,8 @@ export default function SessionsPage() {
     filters,
     setFilters,
     currentPage,
-    setCurrentPage
+    setCurrentPage, 
+    sessions, 
   } = useSessionsPage();
 
   const changePage = (p) => {
@@ -27,13 +24,7 @@ export default function SessionsPage() {
     setCurrentPage(p);
   };
 
-  const filteredSessions = applyFilters(MOCK_SESSIONS, filters, selectedDate); 
-
-  const numMovies = filteredSessions.length;
-
-  const session_chunk = (a, b) => {
-    return filteredSessions.slice(a, b);
-  }
+  const numMovies = sessions.length;
 
   return (
     <div className="sessions-page">
@@ -62,22 +53,21 @@ export default function SessionsPage() {
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value)}
               >
-                <option value="earliest">Showtime: earliest first</option>
-                <option value="latest">Showtime: latest first</option>
+                <option value="time_asc">Showtime: earliest first</option>
+                <option value="time_desc">Showtime: latest first</option>
               </select>
             </div>
           </div> 
 
           <div className="movies-list">
-            {session_chunk(MOVIES_PER_PAGE*(currentPage - 1), MOVIES_PER_PAGE*currentPage).map((movie) => (
+            {sessions.map((movie) => (
               <MovieSessionRow key={movie.id} movie={movie} />
             ))}
           </div>
 
           <Pagination 
-          currentPage={ currentPage }
-          onPageChange={ changePage }
-          numMovies = {numMovies}
+            currentPage={ currentPage }
+            onPageChange={ changePage }
           />
         </section>
       </div>

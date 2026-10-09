@@ -7,6 +7,7 @@ export default function CheckoutSummary({
     totalPaid = 0, 
     isConfirmedPage=false
 }) {
+  
   const formattedSeats = seats.length > 0 ? seats.join(", ") : "None";
 
   const title = movieDetails?.title || "THE ODYSSEY";

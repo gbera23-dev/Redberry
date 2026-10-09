@@ -6,18 +6,20 @@ const TICKET_TYPES = [
   { label: "Adult 100%", discount: 1.0 },
 ];
 
-export default function SelectedSeatItem({ seat, basePrice = 16, selectedType = "Adult 100%", onSelectType, onRemove } ) {
+export default function SelectedSeatItem({ seat, basePrice = 16, selectedType = "Adult 100%", onSelectType, onRemove }) {
+  const seatCode = typeof seat === "object" ? seat.code : seat;
+
   return (
     <div className="selected-seat-card">
       <div className="selected-seat-card__header">
-        <span className="selected-seat-card__label">Seat {seat}</span>
+        <span className="selected-seat-card__label">Seat {seatCode}</span>
         <div className="selected-seat-card__actions">
           <span className="selected-seat-card__price">₾ {basePrice}</span>
           <button
             type="button"
             className="selected-seat-card__remove"
-            aria-label={`Remove seat ${seat}`}
-            onClick={() => onRemove(seat)}
+            aria-label={`Remove seat ${seatCode}`}
+            onClick={onRemove}
           >
             ×
           </button>
@@ -34,7 +36,7 @@ export default function SelectedSeatItem({ seat, basePrice = 16, selectedType = 
               className={`selected-seat-card__pill ${
                 isActive ? "selected-seat-card__pill--active" : ""
               }`}
-              onClick={() => onSelectType(seat, type.label)}
+              onClick={() => onSelectType(type.label)}
             >
               {type.label}
             </button>

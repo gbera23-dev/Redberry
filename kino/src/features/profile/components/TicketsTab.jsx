@@ -2,23 +2,16 @@ import { useState } from "react";
 import TicketsFilter from "./TicketsFilter";
 import TicketCard from "./TicketCard";
 import "./TicketsTab.css";
-import MOCK_DATA from "../../../shared/data/ticketsData";
+import { useTicketsTab } from "../hooks/useTicketsTab";
 
-const DEFAULT_PAST_COUNT = 10 
+const DEFAULT_PAST_COUNT = 0 
 
-export default function TicketsTab({ active, tickets = MOCK_DATA.MOCK_TICKETS}) {
-  const [subTab, setSubTab] = useState("upcoming");
-  const onRefund = () => console.log("refund"); 
-
-  if (active !== "tickets") {
+export default function TicketsTab({ active, tickets }) {
+  if (active !== "tickets" || !tickets) {
     return null;
   }
 
-  console.log(typeof(tickets))
-
-  const upcomingTickets = tickets.filter(t => t.status === "upcoming");
-  const pastTickets = tickets.filter(t => t.status === "past");
-  const displayedTickets = subTab === "upcoming" ? upcomingTickets : pastTickets;
+  const { subTab, setSubTab, onRefund, upcomingTickets, pastTickets, displayedTickets,} = useTicketsTab(tickets)
 
   return (
     <div className="tickets-tab">
@@ -35,6 +28,7 @@ export default function TicketsTab({ active, tickets = MOCK_DATA.MOCK_TICKETS}) 
             key={`${ticket.id}-${index}`}
             ticket={ticket}
             onRefund={onRefund}
+            isUpcoming={ticket.status=="upcoming"}
           />
         ))}
       </div>

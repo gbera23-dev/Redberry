@@ -92,7 +92,7 @@ export default function SearchOverlay({ query = "", onBrowseAll, onSelectMovie }
           <SearchResultCard
             key={movie.id}
             {...movie}
-            onClick={() => onSelectMovie?.(movie)}
+            onClick={() => onSelectMovie(movie.slug)}
           />
         ))}
       </div>

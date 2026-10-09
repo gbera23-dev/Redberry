@@ -57,12 +57,12 @@ export default function useUserProfileModal() {
 
   const handleNavigateProfile = () => {
     console.log("Navigating to My Profile...");
-    goToProfilePage()
+    goToProfilePage("info")
   };
 
   const handleNavigateTickets = () => {
     console.log("Navigating to My Tickets...");
-    goToProfilePage()
+    goToProfilePage("tickets")
   };
 
   return {

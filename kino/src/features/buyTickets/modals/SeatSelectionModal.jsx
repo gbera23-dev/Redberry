@@ -4,14 +4,11 @@ import SeatHeader from "../components/seatSelectionComponents/SeatHeader";
 import SeatGrid from "../components/seatSelectionComponents/SeatGrid";
 import SeatLegend from "../components/seatSelectionComponents/SeatLegend";
 import SeatSidebar from "../components/seatSelectionComponents/SeatSidebar";
-import CheckoutFields from "../components/seatSelectionComponents/CheckoutFields"
+import CheckoutFields from "../components/seatSelectionComponents/CheckoutFields";
 
+const POSSIBLE_TABS = { Seats: "SEATS", Checkout: "CHECKOUT" };
 
-const POSSIBLE_TABS = {Seats : "SEATS", Checkout : "CHECKOUT"} 
-
-
-export default function SeatSelectionModal({ movieDetails, onPay, onClose = () => console.log("closing"),
- onSubtotalChange} ) {
+export default function SeatSelectionModal({ session, movieDetails, onPay, onSubtotalChange, onClose }) {
   const {
     activeTab,
     setActiveTab,
@@ -23,18 +20,17 @@ export default function SeatSelectionModal({ movieDetails, onPay, onClose = () =
     maxSeats,
     subTotal,
     canProceed,
+    canPay,
     handleFormDataChange, 
-  } = useSeatSelections({onSubtotalChange});
+    sections, 
+    expiresAt, 
+    holdData,
+    formData,
+  } = useSeatSelections({ sessionId: session.id, onSubtotalChange: onSubtotalChange, pricePerSeat: session.price });
 
+  const title = movieDetails?.title;
+  const subtitle = movieDetails?.subtitle;
 
-  const title = movieDetails?.title || "THE ODYSSEY";
-  const subtitle =
-    movieDetails?.subtitle ||
-    "Galleria Tbilisi · Hall B · Tuesday 15 September · 16:30 · Standard · Original + Subtitles";
-
-  //temporary place for functions not written yet, will be later moved onto hooks calling service methods(which in turn send api calls)
-  const canPay = true
-  
   return (
     <div className="seat-overlay" onClick={onClose}>
       <div
@@ -45,13 +41,13 @@ export default function SeatSelectionModal({ movieDetails, onPay, onClose = () =
         onClick={(e) => e.stopPropagation()}
       >
         <div className="seat-modal__main">
-          <SeatHeader title={title} subtitle={subtitle} />
+          <SeatHeader title={title} subtitle={subtitle} expiresAt={expiresAt} />
 
           <div className="seat-tabs">
             <button
               type="button"
               className={`seat-tab ${activeTab === POSSIBLE_TABS.Seats ? "seat-tab--active" : ""}`}
-              onClick={() => setActiveTab(POSSIBLE_TABS.Seats )}
+              onClick={() => setActiveTab(POSSIBLE_TABS.Seats)}
             >
               SEATS
             </button>
@@ -65,21 +61,21 @@ export default function SeatSelectionModal({ movieDetails, onPay, onClose = () =
           </div>
 
           <div className="seat-screen">SCREEN</div>
-          {activeTab==POSSIBLE_TABS.Seats && <SeatGrid
-            selectedSeats={selectedSeats}
-            toggleSeat={toggleSeat}
-            isSeatSold={isSeatSold}
-            isSeatHeldByOther={isSeatHeldByOther}
-          />
-          }
-          {activeTab==POSSIBLE_TABS.Seats && <SeatLegend />
-          }
+          {activeTab === POSSIBLE_TABS.Seats && (
+            <SeatGrid
+              selectedSeats={selectedSeats}
+              toggleSeat={toggleSeat}
+              isSeatSold={isSeatSold}
+              isSeatHeldByOther={isSeatHeldByOther}
+              sections={sections}
+            />
+          )}
+          {activeTab === POSSIBLE_TABS.Seats && <SeatLegend />}
           
-          {activeTab==POSSIBLE_TABS.Checkout && <CheckoutFields
-            onFormDataChange={handleFormDataChange}
-          />
-          }
-          </div>
+          {activeTab === POSSIBLE_TABS.Checkout && (
+            <CheckoutFields onFormDataChange={handleFormDataChange} />
+          )}
+        </div>
         <SeatSidebar
           selectedSeats={selectedSeats}
           maxSeats={maxSeats}
@@ -87,7 +83,7 @@ export default function SeatSelectionModal({ movieDetails, onPay, onClose = () =
           canProceed={canProceed}
           onProceed={() => setActiveTab(POSSIBLE_TABS.Checkout)}
           canPay={canPay}
-          onPay={onPay}
+          onPay={() => onPay({holdData:holdData, formData:formData})}
           onRemoveSeat={removeSeat}
           activeTab={activeTab}
           movieDetails={movieDetails}

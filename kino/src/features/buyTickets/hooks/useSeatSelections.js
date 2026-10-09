@@ -1,54 +1,179 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getSessionSeats } from "../../../shared/services/sessionsService"; 
+import { holdSessionSeats, releaseHold } from "../../../shared/services/bookingService";
 
-
-export default function useSeatSelection({ onSubtotalChange, maxSeats = 3, pricePerSeat = 15 } = {}) {
+export default function useSeatSelection({ 
+  sessionId, 
+  onSubtotalChange, 
+  maxSeats = 3, 
+  pricePerSeat = 15,
+} = {}) {
   const [activeTab, setActiveTab] = useState("SEATS"); 
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [checkoutData, setCheckoutData] = useState(null);
+  const [seatLayout, setSeatLayout] = useState({ sections: [], soldSeats: [], heldSeats: [] });
+  const [holdData, setHoldData] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [formData, setFormData] = useState({});
 
-  const isSeatSold = (row, num) =>
-    (row === "B" && [6, 7, 8, 9].includes(num)) || (row === "D" && num === 2);
+  const fetchSeatLayout = async () => {
+    if (!sessionId) return;
+    try {
+      const res = await getSessionSeats(sessionId);
+      setSeatLayout(res);
+    } catch (err) {
+      console.error("Failed to fetch seat layout:", err);
+    }
+  };
 
-  const isSeatHeldByOther = (row, num) =>
-    (row === "A" && num === 8) || (row === "C" && num === 2) || (row === "D" && [6, 7].includes(num));
+  useEffect(() => {
+    fetchSeatLayout();
+  }, [sessionId]);
 
-  const toggleSeat = (seatId) => {
-    setSelectedSeats((prev) => {
-      if (prev.includes(seatId)) {
-        return prev.filter((s) => s !== seatId);
+  useEffect(() => {
+    if (!sessionId || selectedSeats.length === 0) {
+      if (holdData?.holdId) {
+        releaseHold(holdData.holdId).catch(() => {});
       }
-      if (prev.length < maxSeats) {
-        return [...prev, seatId];
+      
+      setHoldData(null);
+      return;
+    }
+
+    async function holdSeats() {
+      const payload = {
+        seats: selectedSeats.map((seatItem) => ({
+          seatId: seatItem.id || seatItem.code,
+          ticketType: seatItem?.ticketType || "adult",
+        })),
+      };
+
+      try {
+        const res = await holdSessionSeats(sessionId, payload);
+        const responseData = res?.data?.expiresAt ? res.data : res;
+        setHoldData(responseData); 
+        setErrorMessage(null);
+      } catch (err) {
+        alert("something went wrong...")
+        alert(err?.response?.message)
+        console.error("Hold failed:", err);
+      }
+    }
+
+    holdSeats();
+  }, [sessionId, selectedSeats]);
+
+  useEffect(() => {
+    if (!holdData?.expiresAt) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const expiry = new Date(holdData.expiresAt).getTime();
+      if (expiry - now <= 0) {
+        clearInterval(interval);
+        handleExpire();
+        alert("Your seat hold has expired. Please select your seats again.");
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [holdData?.expiresAt]);
+
+  const handleExpire = () => {
+    setSelectedSeats([]);
+    setHoldData(null);
+    setActiveTab("SEATS");
+    fetchSeatLayout();
+  };
+
+  const isSeatSold = (row, num) => {
+    const seatCode = `${row}${num}`;
+    return seatLayout.soldSeats.includes(seatCode);
+  };
+
+  const isSeatHeldByOther = (row, num) => {
+    const seatCode = `${row}${num}`;
+    return seatLayout.heldSeats.includes(seatCode);
+  };
+
+  const toggleSeat = (code, seatId) => {
+    setSelectedSeats((prev) => {
+      const exists = prev.some(
+        (s) => (typeof s === "object" ? (s.id === seatId || s.code === code) : s === code)
+      );
+
+      if (exists) {
+        return prev.filter(
+          (s) => (typeof s === "object" ? (s.id !== seatId && s.code !== code) : s !== code)
+        );
+      } else if (prev.length < maxSeats) {
+        return [...prev, { id: seatId, code: code, ticketType: "adult" }];
       }
       return prev;
     });
-    onSubtotalChange(Math.min(maxSeats, (selectedSeats.length+1)) * pricePerSeat)
+  };
+
+  const updateTicketType = (seatIdentifier, ticketType) => {
+    setSelectedSeats((prev) =>
+      prev.map((s) =>
+        s.id === seatIdentifier || s.code === seatIdentifier
+          ? { ...s, ticketType }
+          : s
+      )
+    );
+  };
+
+  const removeSeat = (identifier) => {
+    setSelectedSeats((prev) =>
+      prev.filter(
+        (s) => (typeof s === "object" ? (s.id !== identifier && s.code !== identifier) : s !== identifier)
+      )
+    );
   };
 
   const handleFormDataChange = (data) => {
-    console.log("trying to purchase tickets, data is %s", data) 
-    setCheckoutData(data);
+    setFormData(data || {});
   };
 
-  const removeSeat = (seatId) => {
-    setSelectedSeats((prev) => prev.filter((s) => s !== seatId));  
-    onSubtotalChange(Math.max((selectedSeats.length-1), 0) * pricePerSeat)
-  }
-  
   const subTotal = selectedSeats.length * pricePerSeat;
-  const canProceed = selectedSeats.length > 0;
+
+  useEffect(() => {
+    if (onSubtotalChange) {
+      onSubtotalChange(subTotal);
+    }
+  }, [subTotal, onSubtotalChange]);
+
+  const canProceed = selectedSeats.length > 0 && !!holdData;
+
+  const isFormFilled =
+    formData &&
+    Object.keys(formData).length > 0 &&
+    Object.values(formData).every((val) =>
+      typeof val === "string" ? val.trim().length > 0 : Boolean(val)
+    );
+
+  const canPay = canProceed && isFormFilled;
 
   return {
     activeTab,
     setActiveTab,
     selectedSeats,
     toggleSeat,
-    removeSeat, 
+    removeSeat,
+    updateTicketType,
     isSeatSold,
     isSeatHeldByOther,
     maxSeats,
     subTotal,
     canProceed,
+    canPay,
     handleFormDataChange,
+    errorMessage,
+    expiresAt: holdData?.expiresAt,
+    handleExpire,
+    sections: seatLayout.sections,
+    holdData: holdData,
+    formData: formData
   };
 }

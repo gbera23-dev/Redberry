@@ -50,7 +50,10 @@ export default function Header() {
             <SearchOverlay
               query={query}
               onBrowseAll={() => goToSessionsPage()}
-              onSelectMovie={() => goToMoviePage(null)}
+              onSelectMovie={(slug) => {
+                console.log(slug)
+                goToMoviePage(slug)}
+              }
             />
           </div>
         )}
