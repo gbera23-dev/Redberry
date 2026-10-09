@@ -1,8 +1,10 @@
 import { sessionsApi } from "../api/sessionsApi";
 import { mapApiResponseToSessions, mapFiltersToApiRequest, mapApiResponseToFilters,
-    generateDateOptions
+    generateDateOptions, mapSessionDetailResponse, mapSeatLayoutResponse
  } from "../mappers/sessionsMapper";
 
+var sessionCache = new Map() 
+var sessionSeatCache = new Map() 
 var filterOptionsCache = null;  
 
 async function getFilterOptions() {
@@ -20,21 +22,26 @@ async function getSessions({ filters, sortOrder, currentPage, selectedDate }) {
     const apiRequestArgs = mapFiltersToApiRequest({ filters:filters, sortOrder:sortOrder, currentPage:currentPage, search:"",
         date:selectedDate
     })
-    console.log("api request args")
-    console.log(apiRequestArgs)
     const result = await sessionsApi.getSessions(apiRequestArgs);
-    console.log("sessions request sent")
     return mapApiResponseToSessions(result);
 }
 
 async function getSingleSession(sessionId) {
+    if (sessionCache.has(sessionId)) {
+        return sessionCache.get(sessionId)
+    }
     const result = await sessionsApi.getSingleSession(sessionId);
-    return result;
+    sessionCache.set(sessionId, mapSessionDetailResponse(result))
+    return sessionCache.get(sessionId);
 }
 
 async function getSessionSeats(sessionId) {
+    if (sessionSeatCache.has(sessionId)) {
+        return sessionSeatCache.get(sessionId)
+    }
     const result = await sessionsApi.getSessionSeats(sessionId);
-    return result;
+    sessionSeatCache.set(sessionId, mapSeatLayoutResponse(result))
+    return sessionSeatCache.get(sessionId);
 }
 
 export { getFilterOptions, getSessions, getSingleSession, getSessionSeats };

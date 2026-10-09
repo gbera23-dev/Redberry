@@ -10,8 +10,7 @@ import CheckoutFields from "../components/seatSelectionComponents/CheckoutFields
 const POSSIBLE_TABS = {Seats : "SEATS", Checkout : "CHECKOUT"} 
 
 
-export default function SeatSelectionModal({ movieDetails, onPay, onClose = () => console.log("closing"),
- onSubtotalChange} ) {
+export default function SeatSelectionModal({ session, movieDetails, onPay, onSubtotalChange, onClose} ) {
   const {
     activeTab,
     setActiveTab,
@@ -24,13 +23,13 @@ export default function SeatSelectionModal({ movieDetails, onPay, onClose = () =
     subTotal,
     canProceed,
     handleFormDataChange, 
-  } = useSeatSelections({onSubtotalChange});
+    sections, 
+  } = useSeatSelections({sessionId: session.id, onSubtotalChange: onSubtotalChange, pricePerSeat:session.price});
 
 
-  const title = movieDetails?.title || "THE ODYSSEY";
+  const title = movieDetails?.title;
   const subtitle =
-    movieDetails?.subtitle ||
-    "Galleria Tbilisi · Hall B · Tuesday 15 September · 16:30 · Standard · Original + Subtitles";
+    movieDetails?.subtitle;
 
   //temporary place for functions not written yet, will be later moved onto hooks calling service methods(which in turn send api calls)
   const canPay = true
@@ -51,7 +50,7 @@ export default function SeatSelectionModal({ movieDetails, onPay, onClose = () =
             <button
               type="button"
               className={`seat-tab ${activeTab === POSSIBLE_TABS.Seats ? "seat-tab--active" : ""}`}
-              onClick={() => setActiveTab(POSSIBLE_TABS.Seats )}
+              onClick={() => setActiveTab(POSSIBLE_TABS.Seats)}
             >
               SEATS
             </button>
@@ -70,6 +69,7 @@ export default function SeatSelectionModal({ movieDetails, onPay, onClose = () =
             toggleSeat={toggleSeat}
             isSeatSold={isSeatSold}
             isSeatHeldByOther={isSeatHeldByOther}
+            sections={sections}
           />
           }
           {activeTab==POSSIBLE_TABS.Seats && <SeatLegend />

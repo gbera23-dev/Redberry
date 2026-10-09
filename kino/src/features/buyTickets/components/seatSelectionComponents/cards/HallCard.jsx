@@ -14,7 +14,7 @@ export default function HallCard({ hallName, slots = [], onSlotClick }) {
             lang={slot.lang}
             format={slot.format}
             seatsLeft={slot.seatsLeft}
-            onClick={() => onSlotClick(hallName, slot)}
+            onClick={() => onSlotClick(slot)}
           />
         ))}
       </div>

@@ -1,6 +1,6 @@
 import "./SeatHeader.css"
 
-export default function SeatHeader({ title, subtitle, timer = "7:48" }) {
+export default function SeatHeader({ title, subtitle, timer="0:00" }) {
   return (
     <div className="seat-header">
       <div>

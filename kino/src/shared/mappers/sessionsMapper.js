@@ -100,3 +100,76 @@ export const generateDateOptions = (daysAhead = 7, startDate = new Date()) => {
     };
   });
 };
+
+
+export const mapSessionDetailResponse = (apiResponse) => {
+  const data = apiResponse?.data;
+  if (!data) return null;
+
+  return {
+    id: data.id,
+    time: data.time,
+    date: data.date,
+    price: data.price,
+    seatsLeft: data.seatsLeft,
+    isSoldOut: Boolean(data.isSoldOut),
+    hall: `Hall ${data.hall?.name ?? ""}`,
+    venue: data.venue?.name ?? "",
+    venueCity: data.venue?.city ?? "",
+    format: data.format?.name ?? "",
+    language: data.language?.name ?? "",
+    movie: {
+      id: data.movie?.id,
+      slug: data.movie?.slug,
+      title: data.movie?.title,
+      posterUrl: data.movie?.posterUrl,
+      runtimeMinutes: data.movie?.runtimeMinutes,
+      ageRating: data.movie?.ageRating?.code ?? ""
+    }
+  };
+};
+
+
+export const mapSeatLayoutResponse = (apiResponse) => {
+  const data = apiResponse?.data;
+  if (!data) return { sections: [], soldSeats: [], heldSeats: [] };
+
+  const soldSeats = [];
+  const heldSeats = [];
+
+  const sections = (data.sections || []).map((section) => ({
+    name: section.name,
+    rows: (section.rows || []).map((row) => {
+      const seats = (row.seats || []).map((seat) => {
+        if (seat.state === "sold") {
+          soldSeats.push(seat.code);
+        } else if (seat.state === "held" || seat.state === "reserved") {
+          heldSeats.push(seat.code);
+        }
+
+        return {
+          id: seat.id,
+          code: seat.code,
+          label: seat.label,
+          state: seat.state,
+          aisleAfter: Boolean(seat.aisleAfter),
+          isMine: Boolean(seat.isMine)
+        };
+      });
+
+      return {
+        label: row.label,
+        seats
+      };
+    })
+  }));
+
+  return {
+    sessionId: data.sessionId,
+    hallName: data.hall?.name ?? "",
+    venueName: data.hall?.venue?.name ?? "",
+    sections,
+    soldSeats,
+    heldSeats
+  };
+};

@@ -1,40 +1,78 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getSessionSeats } from "../../../shared/services/sessionsService"; 
 
-
-export default function useSeatSelection({ onSubtotalChange, maxSeats = 3, pricePerSeat = 15 } = {}) {
+export default function useSeatSelection({ 
+  sessionId, 
+  onSubtotalChange, 
+  maxSeats = 3, 
+  pricePerSeat 
+} = {}) {
   const [activeTab, setActiveTab] = useState("SEATS"); 
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [checkoutData, setCheckoutData] = useState(null);
+  const [seatLayout, setSeatLayout] = useState({ sections: [], soldSeats: [], heldSeats: [] });
 
-  const isSeatSold = (row, num) =>
-    (row === "B" && [6, 7, 8, 9].includes(num)) || (row === "D" && num === 2);
+  useEffect(() => {
+    if (!sessionId) return;
 
-  const isSeatHeldByOther = (row, num) =>
-    (row === "A" && num === 8) || (row === "C" && num === 2) || (row === "D" && [6, 7].includes(num));
+    async function getSeatLayout() {
+    try {
+      const res = await getSessionSeats(sessionId);
+      console.log("res")
+      console.log(res)
+      setSeatLayout(res)
+    }
+    catch(err) {
+      console.log("error")
+      console.log(err)
+    }
+  }
+  getSeatLayout()
+  }, [sessionId]
+  );
+
+  const isSeatSold = (row, num) => {
+    const seatCode = `${row}${num}`;
+    return seatLayout.soldSeats.includes(seatCode);
+  };
+
+  const isSeatHeldByOther = (row, num) => {
+    const seatCode = `${row}${num}`;
+    return seatLayout.heldSeats.includes(seatCode);
+  };
 
   const toggleSeat = (seatId) => {
     setSelectedSeats((prev) => {
+      let nextSeats;
       if (prev.includes(seatId)) {
-        return prev.filter((s) => s !== seatId);
+        nextSeats = prev.filter((s) => s !== seatId);
+      } else if (prev.length < maxSeats) {
+        nextSeats = [...prev, seatId];
+      } else {
+        nextSeats = prev;
       }
-      if (prev.length < maxSeats) {
-        return [...prev, seatId];
-      }
-      return prev;
+      return nextSeats;
     });
-    onSubtotalChange(Math.min(maxSeats, (selectedSeats.length+1)) * pricePerSeat)
-  };
-
-  const handleFormDataChange = (data) => {
-    console.log("trying to purchase tickets, data is %s", data) 
-    setCheckoutData(data);
   };
 
   const removeSeat = (seatId) => {
-    setSelectedSeats((prev) => prev.filter((s) => s !== seatId));  
-    onSubtotalChange(Math.max((selectedSeats.length-1), 0) * pricePerSeat)
+    setSelectedSeats((prev) => {
+      const nextSeats = prev.filter((s) => s !== seatId);
+      return nextSeats;
+    });
+  };
+
+  useEffect(() => {
+  if (onSubtotalChange) {
+    onSubtotalChange(selectedSeats.length * pricePerSeat);
   }
-  
+  }, [selectedSeats, pricePerSeat, onSubtotalChange]);
+
+  const handleFormDataChange = (data) => {
+    console.log("trying to purchase tickets, data is %s", data); 
+    setCheckoutData(data);
+  };
+
   const subTotal = selectedSeats.length * pricePerSeat;
   const canProceed = selectedSeats.length > 0;
 
@@ -50,5 +88,6 @@ export default function useSeatSelection({ onSubtotalChange, maxSeats = 3, price
     subTotal,
     canProceed,
     handleFormDataChange,
+    sections: seatLayout.sections,
   };
 }
