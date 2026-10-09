@@ -40,7 +40,7 @@ export default function UserProfileModal({ handleLogout }) {
           )}
           <span
             className={`profile-modal__status-dot ${
-              user.profileComplete
+              user.isProfileComplete
                 ? "profile-modal__status-dot--success"
                 : "profile-modal__status-dot--warning"
             }`}

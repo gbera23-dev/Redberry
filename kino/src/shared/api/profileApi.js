@@ -4,3 +4,5 @@ async function profile(payload) {
   const response = await httpClient.put("/profile", payload);
   return response.data;
 }
+
+export const profileApi = {profile}

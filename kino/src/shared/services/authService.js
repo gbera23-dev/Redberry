@@ -1,7 +1,7 @@
 import { authApi } from "../api/authApi"
 import { setToken } from "../utils/tokenUtils"
 
-    var userProfileRes = null 
+    export var userProfileRes = null 
 
     async function registerUser(payload) {
         const result = await authApi.register(payload); 
@@ -32,6 +32,11 @@ import { setToken } from "../utils/tokenUtils"
         const result = await authApi.me(); 
         userProfileRes = result 
         return result
+    }
+
+    //unique function that clears out all the cache for the use of other services 
+    export function invalidateCaches() {
+        userProfileRes=null; 
     }
 
 

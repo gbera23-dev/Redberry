@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getUserProfile } from "../../../shared/services/authService";
+import { getUserProfile, userProfileRes } from "../../../shared/services/authService";
 
 export default function useUserProfileTrigger() {
   const [user, setUser] = useState(null);
@@ -29,7 +29,7 @@ export default function useUserProfileTrigger() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [userProfileRes]);
 
   const displayName = user?.fullName?.split(" ")[0] || user?.username || "User";
 

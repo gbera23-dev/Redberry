@@ -1,4 +1,5 @@
 import "./InfoTab.css"
+import useInfoTab from "../hooks/useInfoTab.js"
 
 const VENUES = ["Kino XII Rustaveli", "Kino XII East Point", "Kino XII Galleria"];
 
@@ -7,17 +8,8 @@ export default function InfoTab({ form, setForm, active}) {
     if (active !== "info") {
         return null; 
     }
-    
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
-    };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    };
-
-    const saveChanges = () => console.log("save changes");  
+    const { handleChange, handleSubmit, saveChanges } = useInfoTab({form, setForm})
     
     return (
         <form className="profile__form" onSubmit={handleSubmit}>
