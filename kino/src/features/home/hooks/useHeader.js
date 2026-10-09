@@ -13,7 +13,7 @@ export default function useHeader() {
       const { openRegister, openLogin, wrapLogout, userIsAuthorized } = useAuth();
       const { goToHomePage, goToSessionsPage, goToMoviePage } = useNavbar();
     
-      const onSearch = () => goToMoviePage(null) //null for now 
+      const onSearch = (slug) => goToMoviePage(slug)  
     
       const handleSubmit = (event) => {
         event.preventDefault()

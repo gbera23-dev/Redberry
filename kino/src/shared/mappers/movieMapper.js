@@ -83,3 +83,32 @@ export function transformSessionsData(apiResponse) {
     };
   });    
 }
+
+
+export const mapSearchResponseToResults = (apiResponse) => {
+  if (!apiResponse || !Array.isArray(apiResponse.data)) {
+    return [];
+  }
+
+  return apiResponse.data.map((movie) => {
+    const typeFormatted = movie.kind
+      ? movie.kind.charAt(0).toUpperCase() + movie.kind.slice(1)
+      : "Film";
+
+    return {
+      id: movie.id ?? null,
+      title: movie.title ?? "",
+      type: typeFormatted,
+      ageRating: movie.ageRating?.code 
+        ? (movie.ageRating.minAge ? `${movie.ageRating.minAge}+` : movie.ageRating.code)
+        : "12+",
+      duration: movie.runtimeMinutes ? `${movie.runtimeMinutes} min` : "",
+      poster: movie.posterUrl ?? "",
+      priceFrom: movie.fromPrice !== null && movie.fromPrice !== undefined 
+        ? `₾${movie.fromPrice}` 
+        : null,
+      isComingSoon: Boolean(movie.isComingSoon),
+      slug: movie.slug
+    };
+  });
+};
