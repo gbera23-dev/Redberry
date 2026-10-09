@@ -5,7 +5,6 @@ import { updateProfile } from "../../../shared/services/profileService";
 export default function useInfoTab({form, setForm}) {
     
     const clearForm = () => {
-        console.log("clear called")
         setForm({
           fullName: "",
           email: userProfileRes?.data?.email ?? "no email",

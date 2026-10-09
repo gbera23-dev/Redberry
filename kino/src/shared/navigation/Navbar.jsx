@@ -29,8 +29,8 @@ export default function Nav() {
         changePage({url:NAV_HOMEPAGE})
     }
 
-    const goToProfilePage = () => {
-        changePage({url:NAV_PROFILEPAGE})
+    const goToProfilePage = (whichTab) => {
+        changePage({url:NAV_PROFILEPAGE, args:whichTab})
     }
 
     const goToMoviePage = (movieSlug) => {
@@ -49,7 +49,9 @@ export default function Nav() {
             <HomePage />   
             }
             {currentPageUrl==NAV_PROFILEPAGE && 
-            <ProfilePage />
+            <ProfilePage 
+            whichTab={argsForPage}
+            />
             }
             {currentPageUrl==NAV_MOVIEPAGE &&
             <MoviePage 

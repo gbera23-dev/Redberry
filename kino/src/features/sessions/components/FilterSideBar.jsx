@@ -1,5 +1,5 @@
 import "./FilterSideBar.css";
-import { VENUES, DATES, FORMATS, LANGUAGES, TIMES } from "../../../shared/data/filterData"
+import { VENUES, DATES, FORMATS, LANGUAGES, TIMES } from "../../../shared/data/filterData";
 
 export default function FilterSideBar({
   filters,
@@ -21,7 +21,7 @@ export default function FilterSideBar({
   };
 
   const handleDateSelect = (dateVal) => {
-    if (selectedDate != dateVal) {
+    if (selectedDate !== dateVal) {
       setSelectedDate(dateVal);
     }
   };
@@ -33,9 +33,6 @@ export default function FilterSideBar({
     (filters.times?.length || 0) +
     (selectedDate ? 1 : 0);
 
-    console.log("filters are %s %s %s %d", filters.venues, filters.formats, 
-        filters.languages, filters.times );
-    console.log("date is %s", selectedDate); 
   return (
     <aside className="filter-sidebar">
       <h2 className="filter-title">Filters</h2>
@@ -43,19 +40,23 @@ export default function FilterSideBar({
       <div className="filter-group">
         <h3 className="filter-group-title">VENUE</h3>
         <div className="filter-options">
-          {VENUES.map((venue) => (
-            <label key={venue.id} className="checkbox-label">
-              <input
-                type="checkbox"
-                checked={filters.venues?.includes(venue.id) || false}
-                onChange={() => handleCheckboxChange("venues", venue.id)}
-              />
-              <span className="checkbox-text">
-                <span className="venue-name">{venue.label}</span>
-                <span className="venue-city"> · {venue.city}</span>
-              </span>
-            </label>
-          ))}
+          {VENUES.map((venue) => {
+            const isChecked = filters.venues?.includes(venue.slug) || false;
+
+            return (
+              <label key={venue.slug} className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={() => handleCheckboxChange("venues", venue.slug)}
+                />
+                <span className="checkbox-text">
+                  <span className="venue-name">{venue.label}</span>
+                  <span className="venue-city"> · {venue.city}</span>
+                </span>
+              </label>
+            );
+          })}
         </div>
       </div>
 
@@ -134,4 +135,4 @@ export default function FilterSideBar({
       </div>
     </aside>
   );
-};
+}

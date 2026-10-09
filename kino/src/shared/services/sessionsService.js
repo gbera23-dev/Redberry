@@ -22,6 +22,8 @@ async function getSessions({ filters, sortOrder, currentPage, selectedDate }) {
     const apiRequestArgs = mapFiltersToApiRequest({ filters:filters, sortOrder:sortOrder, currentPage:currentPage, search:"",
         date:selectedDate
     })
+    console.log("args")
+    console.log(apiRequestArgs)
     const result = await sessionsApi.getSessions(apiRequestArgs);
     return mapApiResponseToSessions(result);
 }

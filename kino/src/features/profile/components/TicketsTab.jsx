@@ -2,21 +2,16 @@ import { useState } from "react";
 import TicketsFilter from "./TicketsFilter";
 import TicketCard from "./TicketCard";
 import "./TicketsTab.css";
+import { useTicketsTab } from "../hooks/useTicketsTab";
 
 const DEFAULT_PAST_COUNT = 0 
 
-export default function TicketsTab({ active, tickets}) {
-  const [subTab, setSubTab] = useState("upcoming");
-  const onRefund = () => console.log("refund");
-  console.log("tickets") 
-  console.log(tickets)
-  if (active !== "tickets") {
+export default function TicketsTab({ active, tickets }) {
+  if (active !== "tickets" || !tickets) {
     return null;
   }
 
-  const upcomingTickets = tickets.filter(t => t.status === "upcoming");
-  const pastTickets = tickets.filter(t => t.status === "past");
-  const displayedTickets = subTab === "upcoming" ? upcomingTickets : pastTickets;
+  const { subTab, setSubTab, onRefund, upcomingTickets, pastTickets, displayedTickets,} = useTicketsTab(tickets)
 
   return (
     <div className="tickets-tab">
@@ -33,6 +28,7 @@ export default function TicketsTab({ active, tickets}) {
             key={`${ticket.id}-${index}`}
             ticket={ticket}
             onRefund={onRefund}
+            isUpcoming={ticket.status=="upcoming"}
           />
         ))}
       </div>

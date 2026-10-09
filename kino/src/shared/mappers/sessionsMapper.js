@@ -55,7 +55,8 @@ export const mapApiResponseToFilters = (apiResponse) => {
     VENUES: (data.venues || []).map((venue) => ({
       id: venue.name ?? "",
       label: venue.name ?? "",
-      city: venue.city ?? ""
+      city: venue.city ?? "",
+      slug: venue.slug ?? ""
     })),
 
     FORMATS: (data.formats || []).map((fmt) => fmt.slug ?? ""),
