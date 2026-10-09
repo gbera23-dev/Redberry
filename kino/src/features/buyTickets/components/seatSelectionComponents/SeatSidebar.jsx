@@ -1,22 +1,30 @@
-import "./SeatSidebar.css"
-import useSidebarState from "../../hooks/useSidebarState"
-import SelectedSeatItem from "./SelectedSeatItem"
+import "./SeatSidebar.css";
+import useSidebarState from "../../hooks/useSidebarState";
+import SelectedSeatItem from "./SelectedSeatItem";
 import CheckoutSummary from "../bookingConfirmationComponents/CheckoutSummary";
 
-
-const POSSIBLE_TABS = {Seats : "SEATS", Checkout : "CHECKOUT"} 
+const POSSIBLE_TABS = { Seats: "SEATS", Checkout: "CHECKOUT" };
 
 export default function SeatSidebar({ 
-    selectedSeats, maxSeats = 3, 
-    subtotal, canProceed = false, onProceed, canPay = false, onPay, onRemoveSeat, activeTab, movieDetails }) {
+  selectedSeats, 
+  maxSeats = 3, 
+  subtotal, 
+  canProceed = false, 
+  onProceed, 
+  canPay = false, 
+  onPay, 
+  onRemoveSeat, 
+  activeTab, 
+  movieDetails 
+}) {
+  const { getTicketType, handleSelectTicketType, calculateSeatPrice } = useSidebarState();
 
-    const { getTicketType, handleSelectTicketType, calculateSeatPrice } = useSidebarState();
-
-  const formatTicketSummary = () => {subTotal
+  const formatTicketSummary = () => {
     const counts = {};
 
     selectedSeats.forEach((seat) => {
-      const type = getTicketType(seat) || "Adult"; 
+      const seatKey = seat.id || seat.code;
+      const type = getTicketType(seatKey) || "Adult"; 
       counts[type] = (counts[type] || 0) + 1;
     });
 
@@ -25,7 +33,7 @@ export default function SeatSidebar({
       .join(", ");
   };
 
-    return (
+  return (
     <aside className="seat-sidebar">
       <div className="seat-sidebar__body">
         <h3 className="seat-sidebar__title">Your seats · Max {maxSeats}</h3>
@@ -37,23 +45,27 @@ export default function SeatSidebar({
       </div>
 
       <div className="seat-sidebar__list">
-        {activeTab == POSSIBLE_TABS.Seats && selectedSeats.map((seat) => (
-          <SelectedSeatItem
-            key={seat}
-            seat={seat}
-            basePrice={calculateSeatPrice(seat)}
-            selectedType={getTicketType(seat)}
-            onSelectType={handleSelectTicketType}
-            onRemove={onRemoveSeat}
+        {activeTab === POSSIBLE_TABS.Seats &&
+          selectedSeats.map((seat) => {
+            const seatKey = seat.id || seat.code;
+            return (
+              <SelectedSeatItem
+                key={seatKey}
+                seat={seat}
+                basePrice={calculateSeatPrice(seatKey)}
+                selectedType={getTicketType(seatKey)}
+                onSelectType={(typeLabel) => handleSelectTicketType(seatKey, typeLabel)}
+                onRemove={() => onRemoveSeat(seatKey)}
+              />
+            );
+          })}
+        {activeTab === POSSIBLE_TABS.Checkout && (
+          <CheckoutSummary 
+            movieDetails={movieDetails}
+            ticketSummary={formatTicketSummary()}
+            seats={selectedSeats}
           />
-        ))}
-        {activeTab == POSSIBLE_TABS.Checkout && 
-        <CheckoutSummary 
-        movieDetails={movieDetails}
-        ticketSummary={formatTicketSummary()}
-        seats={selectedSeats}
-        />
-        }
+        )}
       </div>
 
       <div className="seat-sidebar__footer">
@@ -62,23 +74,26 @@ export default function SeatSidebar({
           <strong className="seat-sidebar__price">₾ {subtotal}</strong>
         </div>
 
-        {activeTab == POSSIBLE_TABS.Seats && <button
-          type="button"
-          className="seat-sidebar__submit"
-          disabled={!canProceed}
-          onClick={onProceed}
-        >
-          Next: Checkout
-        </button>}
-        {activeTab == POSSIBLE_TABS.Checkout && <button
-          type="button"
-          className="seat-sidebar__submit"
-          disabled={!canPay}
-          onClick={onPay}
-        >
-          Pay: Complete order
-        </button>}
-
+        {activeTab === POSSIBLE_TABS.Seats && (
+          <button
+            type="button"
+            className="seat-sidebar__submit"
+            disabled={!canProceed}
+            onClick={onProceed}
+          >
+            Next: Checkout
+          </button>
+        )}
+        {activeTab === POSSIBLE_TABS.Checkout && (
+          <button
+            type="button"
+            className="seat-sidebar__submit"
+            disabled={!canPay}
+            onClick={onPay}
+          >
+            Pay: Complete order
+          </button>
+        )}
       </div>
     </aside>
   );

@@ -1,35 +1,88 @@
 import { useState, useEffect } from "react";
 import { getSessionSeats } from "../../../shared/services/sessionsService"; 
+import { holdSessionSeats, releaseHold } from "../../../shared/services/bookingService";
 
 export default function useSeatSelection({ 
   sessionId, 
   onSubtotalChange, 
   maxSeats = 3, 
-  pricePerSeat 
+  pricePerSeat = 15,
 } = {}) {
   const [activeTab, setActiveTab] = useState("SEATS"); 
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [checkoutData, setCheckoutData] = useState(null);
   const [seatLayout, setSeatLayout] = useState({ sections: [], soldSeats: [], heldSeats: [] });
+  const [holdData, setHoldData] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  useEffect(() => {
+  const fetchSeatLayout = async () => {
     if (!sessionId) return;
-
-    async function getSeatLayout() {
     try {
       const res = await getSessionSeats(sessionId);
-      console.log("res")
-      console.log(res)
-      setSeatLayout(res)
+      setSeatLayout(res);
+    } catch (err) {
+      console.error("Failed to fetch seat layout:", err);
     }
-    catch(err) {
-      console.log("error")
-      console.log(err)
+  };
+
+  useEffect(() => {
+    fetchSeatLayout();
+  }, [sessionId]);
+
+  useEffect(() => {
+    if (!sessionId || selectedSeats.length === 0) {
+      if (holdData?.holdId) {
+        releaseHold(holdData.holdId).catch(() => {});
+      }
+      
+      setHoldData(null);
+      return;
     }
-  }
-  getSeatLayout()
-  }, [sessionId]
-  );
+
+    async function holdSeats() {
+      const payload = {
+        seats: selectedSeats.map((seatItem) => ({
+          seatId: seatItem.id || seatItem.code,
+          ticketType: seatItem?.ticketType || "adult",
+        })),
+      };
+
+      try {
+        const res = await holdSessionSeats(sessionId, payload);
+        const responseData = res?.data?.expiresAt ? res.data : res;
+        setHoldData(responseData); 
+        setErrorMessage(null);
+      } catch (err) {
+        console.error("Hold failed:", err);
+      }
+    }
+
+    holdSeats();
+  }, [sessionId, selectedSeats]);
+
+  useEffect(() => {
+    if (!holdData?.expiresAt) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const expiry = new Date(holdData.expiresAt).getTime();
+      if (expiry - now <= 0) {
+        clearInterval(interval);
+        handleExpire();
+        alert("Your seat hold has expired. Please select your seats again.");
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [holdData?.expiresAt]);
+
+  const handleExpire = () => {
+    setSelectedSeats([]);
+    setHoldData(null);
+    setActiveTab("SEATS");
+    fetchSeatLayout();
+  };
 
   const isSeatSold = (row, num) => {
     const seatCode = `${row}${num}`;
@@ -41,53 +94,66 @@ export default function useSeatSelection({
     return seatLayout.heldSeats.includes(seatCode);
   };
 
-  const toggleSeat = (seatId) => {
+  const toggleSeat = (code, seatId) => {
     setSelectedSeats((prev) => {
-      let nextSeats;
-      if (prev.includes(seatId)) {
-        nextSeats = prev.filter((s) => s !== seatId);
+      const exists = prev.some(
+        (s) => (typeof s === "object" ? (s.id === seatId || s.code === code) : s === code)
+      );
+
+      if (exists) {
+        return prev.filter(
+          (s) => (typeof s === "object" ? (s.id !== seatId && s.code !== code) : s !== code)
+        );
       } else if (prev.length < maxSeats) {
-        nextSeats = [...prev, seatId];
-      } else {
-        nextSeats = prev;
+        return [...prev, { id: seatId, code: code, ticketType: "adult" }];
       }
-      return nextSeats;
+      return prev;
     });
   };
 
-  const removeSeat = (seatId) => {
-    setSelectedSeats((prev) => {
-      const nextSeats = prev.filter((s) => s !== seatId);
-      return nextSeats;
-    });
+  const updateTicketType = (seatIdentifier, ticketType) => {
+    setSelectedSeats((prev) =>
+      prev.map((s) =>
+        s.id === seatIdentifier || s.code === seatIdentifier
+          ? { ...s, ticketType }
+          : s
+      )
+    );
   };
 
-  useEffect(() => {
-  if (onSubtotalChange) {
-    onSubtotalChange(selectedSeats.length * pricePerSeat);
-  }
-  }, [selectedSeats, pricePerSeat, onSubtotalChange]);
-
-  const handleFormDataChange = (data) => {
-    console.log("trying to purchase tickets, data is %s", data); 
-    setCheckoutData(data);
+  const removeSeat = (identifier) => {
+    setSelectedSeats((prev) =>
+      prev.filter(
+        (s) => (typeof s === "object" ? (s.id !== identifier && s.code !== identifier) : s !== identifier)
+      )
+    );
   };
 
   const subTotal = selectedSeats.length * pricePerSeat;
-  const canProceed = selectedSeats.length > 0;
+
+  useEffect(() => {
+    if (onSubtotalChange) {
+      onSubtotalChange(subTotal);
+    }
+  }, [subTotal, onSubtotalChange]);
+
+  const canProceed = selectedSeats.length > 0 && !!holdData;
 
   return {
     activeTab,
     setActiveTab,
     selectedSeats,
     toggleSeat,
-    removeSeat, 
+    removeSeat,
+    updateTicketType,
     isSeatSold,
     isSeatHeldByOther,
     maxSeats,
     subTotal,
     canProceed,
-    handleFormDataChange,
+    errorMessage,
+    expiresAt: holdData?.expiresAt,
+    handleExpire,
     sections: seatLayout.sections,
   };
 }

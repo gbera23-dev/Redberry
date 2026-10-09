@@ -24,8 +24,9 @@ export default function SeatSelectionModal({ session, movieDetails, onPay, onSub
     canProceed,
     handleFormDataChange, 
     sections, 
+    expiresAt, 
+    handleExpire, 
   } = useSeatSelections({sessionId: session.id, onSubtotalChange: onSubtotalChange, pricePerSeat:session.price});
-
 
   const title = movieDetails?.title;
   const subtitle =
@@ -44,7 +45,7 @@ export default function SeatSelectionModal({ session, movieDetails, onPay, onSub
         onClick={(e) => e.stopPropagation()}
       >
         <div className="seat-modal__main">
-          <SeatHeader title={title} subtitle={subtitle} />
+          <SeatHeader title={title} subtitle={subtitle} expiresAt={expiresAt} />
 
           <div className="seat-tabs">
             <button

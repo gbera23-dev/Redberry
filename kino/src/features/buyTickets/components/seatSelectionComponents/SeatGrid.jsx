@@ -7,7 +7,6 @@ export default function SeatGrid({
   isSeatSold,
   isSeatHeldByOther,
 }) {
-
   return (
     <div className="seat-map">
       {sections.map((section, secIdx) => (
@@ -20,11 +19,13 @@ export default function SeatGrid({
             {section.rows?.map((row) => (
               <div key={row.label} className="seat-row">
                 <span className="seat-row__label">{row.label}</span>
-                
+
                 <div className="seat-row__seats">
                   {row.seats?.map((seat) => {
-                    const seatId = seat.code || `${row.label}${seat.label}`;
-                    const isSelected = selectedSeats.includes(seatId);
+                    const seatCode = seat.code || `${row.label}${seat.label}`;
+                    const isSelected = selectedSeats.some(
+                      (s) => (typeof s === "object" ? (s.id === seat.id || s.code === seatCode) : s === seatCode)
+                    );
                     const isSold = seat.state === "sold" || isSeatSold(row.label, seat.label);
                     const isHeld = seat.state === "held" || isSeatHeldByOther(row.label, seat.label);
 
@@ -35,14 +36,14 @@ export default function SeatGrid({
 
                     return (
                       <button
-                        key={seat.id || seatId}
+                        key={seat.id}
                         type="button"
                         className={`seat-node ${modifier} ${
                           seat.aisleAfter ? "seat-node--aisle" : ""
                         }`}
                         disabled={isSold || isHeld}
                         aria-label={`Row ${row.label} Seat ${seat.label}`}
-                        onClick={() => toggleSeat(seatId)}
+                        onClick={() => toggleSeat(seatCode, seat.id)}
                       >
                         {seat.label}
                       </button>
