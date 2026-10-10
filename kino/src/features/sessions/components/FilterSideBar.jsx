@@ -26,6 +26,21 @@ export default function FilterSideBar({
     }
   };
 
+  const hasActiveFilters =
+    (filters.venues?.length || 0) +
+    (filters.formats?.length || 0) +
+    (filters.languages?.length || 0) +
+    (filters.times?.length || 0) > 0;
+
+  const handleClearFilters = () => {
+    setFilters({
+      venues: [],
+      formats: [],
+      languages: [],
+      times: []
+    });
+  };
+
   const activeCount =
     (filters.venues?.length || 0) +
     (filters.formats?.length || 0) +
@@ -131,6 +146,15 @@ export default function FilterSideBar({
       </div>
 
       <div className="filter-footer">
+        {hasActiveFilters && (
+          <button
+            type="button"
+            className="clear-filters-btn"
+            onClick={handleClearFilters}
+          >
+            Clear filters
+          </button>
+        )}
         <span>{activeCount} filters active</span>
       </div>
     </aside>
