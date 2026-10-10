@@ -1,6 +1,6 @@
 import "./InfoTab.css"
 import useInfoTab from "../hooks/useInfoTab.js"
-import {VENUES} from "../../../shared/data/filterData.js"
+import {VENUES} from "../../../shared/data/filterOptions.js"
 
 export default function InfoTab({ form, setForm, active}) {
 

@@ -4,6 +4,7 @@ import { MovieSessionRow } from "../components/MovieSessionRow";
 import { Pagination } from "../components/Pagination";
 import Header from "../../home/components/Header"
 import Footer from "../../home/components/Footer"
+import { SORTS } from "../../../shared/data/filterOptions"; 
 import "./SessionsPage.css";
 
 export default function SessionsPage() {
@@ -53,8 +54,11 @@ export default function SessionsPage() {
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value)}
               >
-                <option value="time_asc">Showtime: earliest first</option>
-                <option value="time_desc">Showtime: latest first</option>
+                {SORTS.map((sort) => (
+                  <option key={sort.id} value={sort.id}>
+                    {sort.label}
+                  </option>
+                ))}
               </select>
             </div>
           </div> 

@@ -1,5 +1,5 @@
 import "./FilterSideBar.css";
-import { VENUES, DATES, FORMATS, LANGUAGES, TIMES } from "../../../shared/data/filterData";
+import { VENUES, DATES, FORMATS, LANGUAGES, TIMES } from "../../../shared/data/filterOptions";
 
 export default function FilterSideBar({
   filters,

@@ -10,11 +10,10 @@ export default function CheckoutSummary({
   
   const formattedSeats = seats.length > 0 ? seats.join(", ") : "None";
 
-  const title = movieDetails?.title || "THE ODYSSEY";
+  const title = movieDetails?.title
 
   const subtitle =
-    movieDetails?.subtitle ||
-    "Galleria Tbilisi · Hall B · Tuesday 15 September · 16:30 · Standard · Original + Subtitles";
+    movieDetails?.subtitle
 
   return (
     <div className="checkout-summary">

@@ -55,9 +55,9 @@
 }
 
 .sort-dropdown select {
-  background: transparent;
+  background: white;
   border: none;
-  color: var(--text-main);
+  color: black;
   font-weight: 600;
   margin-left: 6px;
   cursor: pointer;

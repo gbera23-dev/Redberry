@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { getSessions } from "../../../shared/services/sessionsService";
+import { SORTS } from "../../../shared/data/filterOptions";
 
 export default function useSessionsPage() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const [sortOrder, setSortOrder] = useState("time_asc"); //for now
+  const [sortOrder, setSortOrder] = useState("time_asc"); 
   const [filters, setFilters] = useState({
     venues: [],
     formats: [],

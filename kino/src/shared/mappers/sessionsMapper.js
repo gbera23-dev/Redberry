@@ -78,10 +78,33 @@ export const mapApiResponseToFilters = (apiResponse) => {
         label,
         info
       };
-    })
+    }),
+
+    SORTS: (data.sorts || []).map((sort) => ({
+      id: sort.id ?? "",
+      label: sort.label ?? ""
+    })),
+
+    TICKET_TYPES: (data.ticketTypes || []).map((tt) => ({
+      id: tt.id ?? null,
+      slug: tt.slug ?? "",
+      name: tt.name ?? "",
+      priceRatio: tt.priceRatio ?? 1,
+      note: tt.note ?? null,
+      blockedFromRatingAge: tt.blockedFromRatingAge ?? null
+    })),
+
+    AGE_RATINGS: (data.ageRatings || []).map((ar) => ({
+      code: ar.code ?? "",
+      minAge: ar.minAge ?? 0,
+      description: ar.description ?? ""
+    })),
+
+    MAX_SEATS_PER_ORDER: data.maxSeatsPerOrder ?? null,
+
+    HOLD_MINUTES: data.holdMinutes ?? null
   };
 };
-
 
 export const generateDateOptions = (daysAhead = 7, startDate = new Date()) => {
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
