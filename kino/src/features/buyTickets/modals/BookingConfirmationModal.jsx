@@ -1,5 +1,6 @@
 import "./BookingConfirmationModal.css";
 import CheckoutSummary from "../components/bookingConfirmationComponents/CheckoutSummary";
+import { useNavbar } from "../../../shared/navigation/Navbar";
 
 export default function BookingConfirmationModal({
   orderNumber,
@@ -7,10 +8,11 @@ export default function BookingConfirmationModal({
   seats,
   ticketSummary,
   totalPaid,
-  onViewTickets,
-  onBackToHome,
   onClose
 }) {
+
+  const { goToProfilePage, goToHomePage } = useNavbar();
+
   return (
     <div className="booking-confirm-modal-overlay" onClick={onClose}>
     <div className="booking-confirm-modal">
@@ -52,14 +54,14 @@ export default function BookingConfirmationModal({
           <button
             type="button"
             className="booking-confirm-modal__btn booking-confirm-modal__btn--primary"
-            onClick={onViewTickets}
+            onClick={() => goToProfilePage("tickets")}
           >
             View my tickets
           </button>
           <button
             type="button"
             className="booking-confirm-modal__btn booking-confirm-modal__btn--secondary"
-            onClick={onBackToHome}
+            onClick={goToHomePage}
           >
             Back to home
           </button>

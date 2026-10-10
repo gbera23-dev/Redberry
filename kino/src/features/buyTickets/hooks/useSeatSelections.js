@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { getSessionSeats } from "../../../shared/services/sessionsService"; 
 import { holdSessionSeats, releaseHold } from "../../../shared/services/bookingService";
+import { MAX_SEATS_PER_ORDER } from "../../../shared/data/filterOptions";
 
 export default function useSeatSelection({ 
   sessionId, 
   onSubtotalChange, 
-  maxSeats = 3, 
+  maxSeats = MAX_SEATS_PER_ORDER, 
   pricePerSeat = 15,
 } = {}) {
   const [activeTab, setActiveTab] = useState("SEATS"); 

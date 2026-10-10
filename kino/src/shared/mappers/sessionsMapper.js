@@ -5,6 +5,8 @@ export const mapApiResponseToSessions = (apiResponse) => {
   }
 
   return apiResponse.data.map((item) => {
+    console.log("item:")
+    console.log(item)
     const movie = item.movie || {};
     const apiSessions = item.sessions || [];
 
@@ -28,7 +30,8 @@ export const mapApiResponseToSessions = (apiResponse) => {
         price: session.price !== undefined ? `₾${session.price}` : "",
         seatsLeft: session.seatsLeft ?? 0,
         isSoldOut: Boolean(session.isSoldOut)
-      }))
+      })),
+      slug: movie.slug
     };
   });
 };

@@ -3,7 +3,7 @@ import HomePage from "../../features/home/pages/HomePage";
 import ProfilePage from "../../features/profile/pages/ProfilePage"
 import MoviePage from "../../features/buyTickets/pages/MoviePage"
 import SessionsPage from '../../features/sessions/pages/SessionsPage'
-
+import { BookingProvider } from "../../features/buyTickets/context/BookingContext";
 /**
  * All the frontend side URLS per page 
  */
@@ -45,6 +45,7 @@ export default function Nav() {
     console.log(currentPageUrl)
     return (
         <NavContext.Provider value={nav}>
+            <BookingProvider>
             {currentPageUrl==NAV_HOMEPAGE && 
             <HomePage />   
             }
@@ -61,6 +62,7 @@ export default function Nav() {
             {currentPageUrl==NAV_SESSIONSPAGE && 
             <SessionsPage />
             }
+            </BookingProvider>
         </NavContext.Provider>
     )
 }

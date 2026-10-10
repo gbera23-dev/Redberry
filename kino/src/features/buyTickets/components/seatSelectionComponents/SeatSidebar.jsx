@@ -2,13 +2,12 @@ import "./SeatSidebar.css";
 import useSidebarState from "../../hooks/useSidebarState";
 import SelectedSeatItem from "./SelectedSeatItem";
 import CheckoutSummary from "../bookingConfirmationComponents/CheckoutSummary";
-import { MAX_SEATS_PER_ORDER } from "../../../../shared/data/filterOptions";
 
 const POSSIBLE_TABS = { Seats: "SEATS", Checkout: "CHECKOUT" };
 
 export default function SeatSidebar({ 
   selectedSeats, 
-  maxSeats = MAX_SEATS_PER_ORDER, 
+  maxSeats, 
   subtotal, 
   canProceed = false, 
   onProceed, 

@@ -4,6 +4,7 @@ import SignupModal from "./features/auth/modals/SignUpModal";
 import LoginModal from "./features/auth/modals/LoginModal";
 import { populateFilterOptions } from "./shared/data/filterOptions";
 import { useEffect } from "react" 
+import { BookingProvider } from "./features/buyTickets/context/BookingContext";
 
 function App() {
 
@@ -16,8 +17,7 @@ function App() {
       <Auth>
         <SignupModal />
         <LoginModal />
-        <Nav>
-        </Nav>
+        <Nav />
       </Auth>
     </section>
   ); 

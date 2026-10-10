@@ -1,13 +1,12 @@
 import "./SelectedSeatItem.css";
-
-const TICKET_TYPES = [
-  { label: "Child 50%", discount: 0.5 },
-  { label: "Student 75%", discount: 0.75 },
-  { label: "Adult 100%", discount: 1.0 },
-];
+import { TICKET_TYPES } from "../../../../shared/data/filterOptions";
 
 export default function SelectedSeatItem({ seat, basePrice = 16, selectedType = "Adult 100%", onSelectType, onRemove }) {
   const seatCode = typeof seat === "object" ? seat.code : seat;
+
+  const ticketTypesList = Array.isArray(TICKET_TYPES) 
+    ? [...TICKET_TYPES].sort((a, b) => (a.priceRatio ?? 1) - (b.priceRatio ?? 1))
+    : [];
 
   return (
     <div className="selected-seat-card">
@@ -21,24 +20,25 @@ export default function SelectedSeatItem({ seat, basePrice = 16, selectedType = 
             aria-label={`Remove seat ${seatCode}`}
             onClick={onRemove}
           >
-            ×
           </button>
         </div>
       </div>
 
       <div className="selected-seat-card__pills">
-        {TICKET_TYPES.map((type) => {
-          const isActive = selectedType === type.label;
+        {ticketTypesList.map((type) => {
+          const labelText = `${type.name} ${Math.round(type.priceRatio * 100)}%`;
+          const isActive = selectedType === labelText || selectedType === type.name;
+          
           return (
             <button
-              key={type.label}
+              key={type.slug || type.name}
               type="button"
               className={`selected-seat-card__pill ${
                 isActive ? "selected-seat-card__pill--active" : ""
               }`}
-              onClick={() => onSelectType(type.label)}
+              onClick={() => onSelectType(labelText)}
             >
-              {type.label}
+              {labelText}
             </button>
           );
         })}

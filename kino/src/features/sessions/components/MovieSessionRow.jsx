@@ -1,10 +1,11 @@
 import SimpleMovieCard from "../components/SimpleMovieCard";
 import SessionCard from "../components/SessionCard";
 import "./MovieSessionRow.css";
+import { useBooking } from "../../buyTickets/context/BookingContext"; 
 
 export const MovieSessionRow = ({ movie }) => {
 
-  const onSelectSession = () => console.log("select session"); 
+  const { openBooking } = useBooking();
 
   return (
     <div className="movie-session-row">
@@ -20,7 +21,10 @@ export const MovieSessionRow = ({ movie }) => {
           <SessionCard
             key={session.id}
             session={session}
-            onSelectSession={onSelectSession}
+            onSelectSession={() => {
+              openBooking({sessionId: session.id, slug: movie.slug})
+            }
+            }
           />
         ))}
       </div>
