@@ -64,6 +64,5 @@ export async function populateFilterOptions() {
       throw err;
     }
   })();
-
   return fetchPromise;
 }

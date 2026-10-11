@@ -11,7 +11,6 @@ export function useAuthModal() {
         setActiveModal("login");
         if (typeof action === "function") {
             pendingActionRef.current = action; 
-            console.log("action set");
         } else {
             pendingActionRef.current = null;
         }

@@ -6,7 +6,8 @@ export default function FilterSideBar({
   filters,
   setFilters,
   selectedDate,
-  setSelectedDate
+  setSelectedDate,
+  setCurrentPage,
 }) {
   const [options, setOptions] = useState({
     venues: [],
@@ -43,12 +44,14 @@ export default function FilterSideBar({
           : [...currentList, value]
       };
     });
+    setCurrentPage?.(1);
   };
 
   const handleDateSelect = (dateVal) => {
     if (selectedDate !== dateVal) {
       setSelectedDate(dateVal);
     }
+    setCurrentPage?.(1);
   };
 
   const hasActiveFilters =
@@ -64,6 +67,7 @@ export default function FilterSideBar({
       languages: [],
       times: []
     });
+    setCurrentPage?.(1);
   };
 
   const activeCount =

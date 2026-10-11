@@ -39,6 +39,7 @@ export function transformMovieData(apiData) {
         ratingNote: apiData.ageRating?.description 
             ? `${apiData.ageRating.code} ${apiData.ageRating.description}`
             : "",
+        ageRating: apiData.ageRating?.minAge,
     };
 
     return { movie, dates, venues: [], details };

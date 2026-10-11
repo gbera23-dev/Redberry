@@ -54,6 +54,7 @@ export default function SessionsPage() {
           setFilters={setFilters}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
+          setCurrentPage={setCurrentPage}
         />
 
         <section className="main-sessions-view">

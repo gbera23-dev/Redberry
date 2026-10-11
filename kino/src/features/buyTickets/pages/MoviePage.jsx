@@ -19,7 +19,7 @@ export default function MoviePage({ slug }) {
   } = useMoviePage({ slug:actualSlug });
 
   const { openBooking } = useBooking();
-
+  
   return (
     <div className="movie-page">
       <Header />

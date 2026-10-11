@@ -39,7 +39,15 @@ import { setToken } from "../utils/tokenUtils"
             await getUserProfile();
         }
         return userProfileRes.profileComplete; 
-    } 
+    }
+    
+    //finds user age 
+    export async function getUserAge() {
+        if(!userProfileRes) {
+            await getUserProfile();
+        }
+        return userProfileRes.data.age; 
+    }
 
 
 export {registerUser, loginUser, logoutUser, getUserProfile}
