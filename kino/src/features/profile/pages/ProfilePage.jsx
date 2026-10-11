@@ -6,10 +6,9 @@ import ProfileTab from "../components/ProfileTab"
 import InfoTab from "../components/InfoTab"
 import TicketsTab from "../components/TicketsTab"
 
+
 export default function ProfilePage({ whichTab }) {
-  const {activeTab, setActiveTab, form, setForm, ticketsData} = useProfilePage({ whichTab }); 
-  console.log("whichtab")
-  console.log(whichTab)
+  const {activeTab, setActiveTab, form, setForm, ticketsData, goToProfilePage} = useProfilePage({ whichTab }); 
   return (
     <div className="profile-page">
       <Header />
@@ -17,7 +16,7 @@ export default function ProfilePage({ whichTab }) {
       <h1 className="profile__title">My Profile</h1>
 
       <ProfileTab 
-      activate={setActiveTab}
+      activate={(tab) => {setActiveTab(tab); goToProfilePage(tab);}}
       active={activeTab}
       count={ticketsData.length}
       />
