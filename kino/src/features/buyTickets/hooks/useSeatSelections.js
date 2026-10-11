@@ -44,7 +44,7 @@ export default function useSeatSelection({
       const payload = {
         seats: selectedSeats.map((seatItem) => ({
           seatId: seatItem.id || seatItem.code,
-          ticketType: seatItem?.ticketType || "adult",
+          ticketType: seatItem?.ticketType.split(" ")[0].toLowerCase() || "adult",
         })),
       };
 

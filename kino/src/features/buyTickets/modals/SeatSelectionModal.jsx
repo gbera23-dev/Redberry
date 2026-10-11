@@ -15,6 +15,7 @@ export default function SeatSelectionModal({ session, movieDetails, onPay, onSub
     selectedSeats,
     toggleSeat,
     removeSeat,
+    updateTicketType,
     isSeatSold,
     isSeatHeldByOther,
     maxSeats,
@@ -85,8 +86,10 @@ export default function SeatSelectionModal({ session, movieDetails, onPay, onSub
           canPay={canPay}
           onPay={() => onPay({holdData:holdData, formData:formData})}
           onRemoveSeat={removeSeat}
+          onUpdateTicketType={updateTicketType}
           activeTab={activeTab}
           movieDetails={movieDetails}
+          pricePerSeat={session.price}
         />
       </div>
     </div>
