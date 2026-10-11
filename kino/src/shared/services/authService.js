@@ -34,8 +34,10 @@ import { setToken } from "../utils/tokenUtils"
     }
 
     //checks that user's profile is complete or not(depends on the cache)
-    export function isProfileComplete() {
-        if(!userProfileRes)return false; 
+    export async function isProfileComplete() {
+        if(!userProfileRes) {
+            await getUserProfile();
+        }
         return userProfileRes.profileComplete; 
     } 
 
