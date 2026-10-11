@@ -60,6 +60,24 @@ export default function useSessionsPage() {
     goToSessionsPage({ filters:filters, searchString: params.toString() });
 }, [filters, selectedDate, currentPage, sortOrder]);
 
+useEffect(() => {
+    const handlePopState = () => {
+      const params = getInitialUrlParams();
+      setSelectedDate(params.date);
+      setSortOrder(params.sort);
+      setCurrentPage(params.page);
+      setFilters({
+        venues: params.venues,
+        formats: params.formats,
+        languages: params.languages,
+        times: params.times,
+      });
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
   return {
     selectedDate,
     setSelectedDate,

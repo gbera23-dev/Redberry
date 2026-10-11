@@ -13,8 +13,12 @@ export const NAV_SESSIONSPAGE = "/sessions"
 const NavContext = createContext(null);
 
 export default function Nav() {
-    const [currentPageUrl, setCurrentPageUrl] = useState("/")   
-    const [argsForPage, setArgsForPage] = useState(null) 
+    const [currentPageUrl, setCurrentPageUrl] = useState(window.location.pathname)   
+    const [argsForPage, setArgsForPage] = useState(() => {
+        const path = window.location.pathname;
+        const parts = path.split("/");
+        return parts.length > 2 ? parts[2] : null;
+    }) 
 
     const changePage = ({url, args, search}) => {
         if (url === NAV_SESSIONSPAGE && search !== undefined) {
@@ -62,12 +66,22 @@ export default function Nav() {
     const nav = {currentPageUrl, changePage, goToHomePage, goToProfilePage, goToSessionsPage, goToMoviePage}
 
     useEffect(() => {
-        setCurrentPageUrl(window.location.pathname)
-    }, [window.location.pathname]);
+        const handlePopState = () => {
+            const path = window.location.pathname;
+            setCurrentPageUrl(path);
+
+            const parts = path.split("/");
+            setArgsForPage(parts.length > 2 ? parts[2] : null);
+        };
+
+        window.addEventListener("popstate", handlePopState);
+        return () => window.removeEventListener("popstate", handlePopState);
+    }, []);
+
     return (
         <NavContext.Provider value={nav}>
             <BookingProvider>
-            {currentPageUrl==NAV_HOMEPAGE && 
+            {currentPageUrl === NAV_HOMEPAGE && 
             <HomePage />   
             }
             {currentPageUrl.startsWith(NAV_PROFILEPAGE) && 
