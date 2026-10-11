@@ -10,7 +10,6 @@ export default function NowPlaying() {
 
   const onBuy = (slug) => {
     goToMoviePage(slug)
-    console.log("buy %s", slug) 
   }
 
   if (loading) return <div className="now-playing__loading">Loading...</div>;

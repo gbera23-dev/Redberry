@@ -2,9 +2,10 @@ import useSessionsPage from "../hooks/useSessionsPage";
 import FilterSideBar  from "../components/FilterSideBar";
 import { MovieSessionRow } from "../components/MovieSessionRow";
 import { Pagination } from "../components/Pagination";
-import Header from "../../home/components/Header"
-import Footer from "../../home/components/Footer"
-import { SORTS } from "../../../shared/data/filterOptions"; 
+import Header from "../../home/components/Header";
+import Footer from "../../home/components/Footer";
+import { populateFilterOptions } from "../../../shared/data/filterOptions"; 
+import { useState, useEffect } from "react";
 import "./SessionsPage.css";
 
 export default function SessionsPage() {
@@ -20,8 +21,19 @@ export default function SessionsPage() {
     sessions, 
   } = useSessionsPage();
 
+  const [sorts, setSorts] = useState([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    populateFilterOptions().then((data) => {
+      if (isMounted && data) {
+        setSorts(data.SORTS);
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
+
   const changePage = (p) => {
-    console.log("changing page to %d", p); 
     setCurrentPage(p);
   };
 
@@ -54,7 +66,7 @@ export default function SessionsPage() {
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value)}
               >
-                {SORTS.map((sort) => (
+                {sorts.map((sort) => (
                   <option key={sort.id} value={sort.id}>
                     {sort.label}
                   </option>

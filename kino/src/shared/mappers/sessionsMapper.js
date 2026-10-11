@@ -5,8 +5,6 @@ export const mapApiResponseToSessions = (apiResponse) => {
   }
 
   return apiResponse.data.map((item) => {
-    console.log("item:")
-    console.log(item)
     const movie = item.movie || {};
     const apiSessions = item.sessions || [];
 

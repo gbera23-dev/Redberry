@@ -7,6 +7,8 @@ import { useBooking } from "../context/BookingContext.jsx";
 import "./MoviePage.css";
 
 export default function MoviePage({ slug }) {
+  const path = window.location.pathname;
+  const actualSlug = slug ? slug : (path.slice(path.lastIndexOf('/') + 1))
   const { 
     movie, 
     dates, 
@@ -14,7 +16,7 @@ export default function MoviePage({ slug }) {
     venues, 
     setCurrentDate, 
     currentDate,
-  } = useMoviePage({ slug });
+  } = useMoviePage({ slug:actualSlug });
 
   const { openBooking } = useBooking();
 
@@ -28,7 +30,7 @@ export default function MoviePage({ slug }) {
           dates={dates}
           venues={venues}
           movieDetails={details}
-          onSlotClick={(session) => openBooking({ sessionId: session.id, slug: slug })} 
+          onSlotClick={(session) => openBooking({ sessionId: session.id, slug: actualSlug })} 
           onDateCardClick={setCurrentDate}
           chosenDate={currentDate}
         />

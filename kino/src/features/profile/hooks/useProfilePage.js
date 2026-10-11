@@ -7,7 +7,6 @@ import { useNavbar } from "../../../shared/navigation/Navbar"
 export default function useProfilePage({ whichTab }) {
    const [activeTab, setActiveTab] = useState(whichTab);
    const [ticketsData, setTicketsData] = useState(""); 
-
    const { goToProfilePage } = useNavbar() 
 
      useEffect(() => {

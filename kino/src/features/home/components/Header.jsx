@@ -49,9 +49,8 @@ export default function Header() {
           <div className="header__search-dropdown">
             <SearchOverlay
               query={query}
-              onBrowseAll={() => goToSessionsPage()}
+              onBrowseAll={() => goToSessionsPage({filter:null, searchString: query})}
               onSelectMovie={(slug) => {
-                console.log(slug)
                 goToMoviePage(slug)}
               }
             />

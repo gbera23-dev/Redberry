@@ -8,7 +8,9 @@ import TicketsTab from "../components/TicketsTab"
 
 
 export default function ProfilePage({ whichTab }) {
-  const {activeTab, setActiveTab, form, setForm, ticketsData, goToProfilePage} = useProfilePage({ whichTab }); 
+  const tab = whichTab ? whichTab : (window.location.pathname.endsWith("tickets") ? "tickets" : "info");
+  const {activeTab, setActiveTab, form, setForm, ticketsData, goToProfilePage} = useProfilePage({ whichTab:tab }); 
+
   return (
     <div className="profile-page">
       <Header />

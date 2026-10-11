@@ -64,19 +64,18 @@ export default function Nav() {
     useEffect(() => {
         setCurrentPageUrl(window.location.pathname)
     }, [window.location.pathname]);
-
     return (
         <NavContext.Provider value={nav}>
             <BookingProvider>
             {currentPageUrl==NAV_HOMEPAGE && 
             <HomePage />   
             }
-            {currentPageUrl==(NAV_PROFILEPAGE+"/"+argsForPage) && 
+            {currentPageUrl.startsWith(NAV_PROFILEPAGE) && 
             <ProfilePage 
             whichTab={argsForPage}
             />
             }
-            {currentPageUrl==(NAV_MOVIEPAGE+"/"+argsForPage) &&
+            {currentPageUrl.startsWith(NAV_MOVIEPAGE) &&
             <MoviePage 
             slug={argsForPage} 
             />

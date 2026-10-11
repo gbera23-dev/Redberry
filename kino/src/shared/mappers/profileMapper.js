@@ -9,7 +9,5 @@ export function mapFormToPayload({form}) {
         preferredVenueId:1, 
         avatar:"",
     }
-    console.log("payload:")
-    console.log(payload)
     return payload
 }

@@ -16,7 +16,6 @@ export default function useInfoTab({form, setForm}) {
     
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(e.target)
         setForm((prev) => ({ ...prev, [name]: value }));
     };
 
