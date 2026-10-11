@@ -1,12 +1,38 @@
 import "./FilterSideBar.css";
-import { VENUES, DATES, FORMATS, LANGUAGES, TIMES } from "../../../shared/data/filterData";
+import { useEffect, useState } from "react";
+import { populateFilterOptions } from "../../../shared/data/filterOptions";
 
 export default function FilterSideBar({
   filters,
   setFilters,
   selectedDate,
-  setSelectedDate
+  setSelectedDate,
+  setCurrentPage,
 }) {
+  const [options, setOptions] = useState({
+    venues: [],
+    dates: [],
+    formats: [],
+    languages: [],
+    times: []
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    populateFilterOptions().then((data) => {
+      if (isMounted && data) {
+        setOptions({
+          venues: data.VENUES,
+          dates: data.DATES,
+          formats: data.FORMATS,
+          languages: data.LANGUAGES,
+          times: data.TIMES
+        });
+      }
+    });
+    return () => { isMounted = false; };
+  }, []);
+
   const handleCheckboxChange = (category, value) => {
     setFilters((prev) => {
       const currentList = prev[category] || [];
@@ -18,12 +44,30 @@ export default function FilterSideBar({
           : [...currentList, value]
       };
     });
+    setCurrentPage?.(1);
   };
 
   const handleDateSelect = (dateVal) => {
     if (selectedDate !== dateVal) {
       setSelectedDate(dateVal);
     }
+    setCurrentPage?.(1);
+  };
+
+  const hasActiveFilters =
+    (filters.venues?.length || 0) +
+    (filters.formats?.length || 0) +
+    (filters.languages?.length || 0) +
+    (filters.times?.length || 0) > 0;
+
+  const handleClearFilters = () => {
+    setFilters({
+      venues: [],
+      formats: [],
+      languages: [],
+      times: []
+    });
+    setCurrentPage?.(1);
   };
 
   const activeCount =
@@ -40,7 +84,7 @@ export default function FilterSideBar({
       <div className="filter-group">
         <h3 className="filter-group-title">VENUE</h3>
         <div className="filter-options">
-          {VENUES.map((venue) => {
+          {options.venues.map((venue) => {
             const isChecked = filters.venues?.includes(venue.slug) || false;
 
             return (
@@ -63,7 +107,7 @@ export default function FilterSideBar({
       <div className="filter-group">
         <h3 className="filter-group-title">DATE</h3>
         <div className="date-strip">
-          {DATES.map((d) => (
+          {options.dates.map((d) => (
             <button
               key={d.full}
               type="button"
@@ -82,7 +126,7 @@ export default function FilterSideBar({
       <div className="filter-group">
         <h3 className="filter-group-title">FORMAT</h3>
         <div className="filter-options">
-          {FORMATS.map((format) => (
+          {options.formats.map((format) => (
             <label key={format} className="checkbox-label">
               <input
                 type="checkbox"
@@ -98,7 +142,7 @@ export default function FilterSideBar({
       <div className="filter-group">
         <h3 className="filter-group-title">LANGUAGE</h3>
         <div className="filter-options">
-          {LANGUAGES.map((lang) => (
+          {options.languages.map((lang) => (
             <label key={lang} className="checkbox-label">
               <input
                 type="checkbox"
@@ -114,7 +158,7 @@ export default function FilterSideBar({
       <div className="filter-group">
         <h3 className="filter-group-title">TIME OF DAY</h3>
         <div className="filter-options">
-          {TIMES.map((time) => (
+          {options.times.map((time) => (
             <label key={time.id} className="checkbox-label">
               <input
                 type="checkbox"
@@ -131,6 +175,15 @@ export default function FilterSideBar({
       </div>
 
       <div className="filter-footer">
+        {hasActiveFilters && (
+          <button
+            type="button"
+            className="clear-filters-btn"
+            onClick={handleClearFilters}
+          >
+            Clear filters
+          </button>
+        )}
         <span>{activeCount} filters active</span>
       </div>
     </aside>

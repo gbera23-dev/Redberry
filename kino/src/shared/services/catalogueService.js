@@ -10,8 +10,6 @@ var queriedMoviesCache = new Map()
 var featuredCache = null
 
 async function searchMovies(query) {
-    console.log("search movies request sent")
-    console.log(query)
     if (queriedMoviesCache.has(query)) {
         return queriedMoviesCache.get(query)
     }

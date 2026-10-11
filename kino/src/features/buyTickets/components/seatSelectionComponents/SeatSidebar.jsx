@@ -7,17 +7,28 @@ const POSSIBLE_TABS = { Seats: "SEATS", Checkout: "CHECKOUT" };
 
 export default function SeatSidebar({ 
   selectedSeats, 
-  maxSeats = 3, 
-  subtotal, 
+  maxSeats, 
   canProceed = false, 
   onProceed, 
   canPay = false, 
   onPay, 
   onRemoveSeat, 
+  onUpdateTicketType, 
   activeTab, 
-  movieDetails 
+  movieDetails,
+  pricePerSeat,
 }) {
-  const { getTicketType, handleSelectTicketType, calculateSeatPrice } = useSidebarState();
+  const { getTicketType, handleSelectTicketType, calculateSeatPrice, totalPrice } = useSidebarState({
+    basePrice: pricePerSeat, 
+    selectedSeats: selectedSeats
+  });
+
+  const handleTypeChange = (seatKey, typeLabel) => {
+    handleSelectTicketType(seatKey, typeLabel);
+    if (onUpdateTicketType) {
+      onUpdateTicketType(seatKey, typeLabel); 
+    }
+  };
 
   const formatTicketSummary = () => {
     const counts = {};
@@ -54,7 +65,7 @@ export default function SeatSidebar({
                 seat={seat}
                 basePrice={calculateSeatPrice(seatKey)}
                 selectedType={getTicketType(seatKey)}
-                onSelectType={(typeLabel) => handleSelectTicketType(seatKey, typeLabel)}
+                onSelectType={(typeLabel) => handleTypeChange(seatKey, typeLabel)}
                 onRemove={() => onRemoveSeat(seatKey)}
               />
             );
@@ -64,6 +75,7 @@ export default function SeatSidebar({
             movieDetails={movieDetails}
             ticketSummary={formatTicketSummary()}
             seats={selectedSeats.map(s => s.code)}
+            totalPaid={totalPrice}
           />
         )}
       </div>
@@ -71,7 +83,7 @@ export default function SeatSidebar({
       <div className="seat-sidebar__footer">
         <div className="seat-sidebar__subtotal">
           <span>SUBTOTAL</span>
-          <strong className="seat-sidebar__price">₾ {subtotal}</strong>
+          <strong className="seat-sidebar__price">₾ {totalPrice}</strong>
         </div>
 
         {activeTab === POSSIBLE_TABS.Seats && (

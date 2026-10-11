@@ -139,3 +139,23 @@
   color: var(--text-sub, #8e95a5);
   text-align: center;
 }
+
+
+.clear-filters-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border-color, #23273e);
+  border-radius: 8px;
+  color: var(--text-main, #ffffff);
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+}
+
+.clear-filters-btn:hover {
+  background: var(--bg-card-hover, #1b1e34);
+  border-color: var(--text-sub, #8e95a5);
+}

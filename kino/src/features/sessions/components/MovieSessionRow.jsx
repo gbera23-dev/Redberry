@@ -1,11 +1,13 @@
 import SimpleMovieCard from "../components/SimpleMovieCard";
 import SessionCard from "../components/SessionCard";
 import "./MovieSessionRow.css";
+import { useBooking } from "../../buyTickets/context/BookingContext"; 
+import { useAuth } from "../../auth/providers/Auth";
 
 export const MovieSessionRow = ({ movie }) => {
 
-  const onSelectSession = () => console.log("select session"); 
-
+  const { openBooking } = useBooking();
+  const { userIsAuthorized, openLogin } = useAuth();
   return (
     <div className="movie-session-row">
       <SimpleMovieCard
@@ -20,7 +22,17 @@ export const MovieSessionRow = ({ movie }) => {
           <SessionCard
             key={session.id}
             session={session}
-            onSelectSession={onSelectSession}
+            onSelectSession={() => {
+              if(userIsAuthorized) {
+                openBooking({sessionId: session.id, slug: movie.slug})
+              }
+              else {
+                openLogin(async () => {
+                  await openBooking({sessionId: session.id, slug: movie.slug})
+                })
+              }
+            }
+            }
           />
         ))}
       </div>

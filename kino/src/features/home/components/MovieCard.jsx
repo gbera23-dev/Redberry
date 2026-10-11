@@ -1,11 +1,13 @@
 import { formatDuration, formatPrice } from '../../../shared/utils/format.js';
 import './MovieCard.css';
 import useMovie from "../hooks/useMovie.js"
+import { useAuth } from "../../auth/providers/Auth";
 
 const CURRENCY = "₾"; 
 
 export default function MovieCard( { slug, movie, onBuy } ) {
 
+  const { userIsAuthorized, openLogin } = useAuth();
   const { movie: fetchedMovie, loading } = useMovie(movie ? null : slug);
 
   if (fetchedMovie != null) {
@@ -46,7 +48,17 @@ export default function MovieCard( { slug, movie, onBuy } ) {
           <span className="movie-card__price">
             From {CURRENCY} {movie.fromPrice}
           </span>
-          <button type="button" className="btn btn--primary" onClick={() => onBuy?.(movie.slug)}>
+          <button type="button" className="btn btn--primary" onClick={() => 
+            {
+              if(userIsAuthorized) {
+                onBuy?.(movie.slug)
+              } else {
+                openLogin(async () => {
+                  await onBuy?.(movie.slug)
+                })
+              }
+            }
+            }>
             Buy Ticket
           </button>
         </div>

@@ -2,10 +2,12 @@ import { formatDuration } from '../../../shared/utils/format.js';
 import { BellIcon } from './Icons.jsx';
 import './ComingSoonMovieCard.css';
 import useMovie from "../hooks/useMovie.js";
+import { useAuth } from "../../auth/providers/Auth";
 
 export default function ComingSoonMovieCard({ slug, movie, onNotify }) {
 
   const { movie: fetchedMovie, loading } = useMovie(movie ? null : slug);
+  const { userIsAuthorized, openLogin } = useAuth();
 
   if (fetchedMovie != null) {
     movie = fetchedMovie;
@@ -62,7 +64,17 @@ export default function ComingSoonMovieCard({ slug, movie, onNotify }) {
           <button 
             type="button" 
             className={`coming-soon-movie-card__notify-btn coming-soon-movie-card__notify-btn--active`}
-            onClick={() => onNotify(movie.slug)}
+            onClick={() => {
+              if(userIsAuthorized) {
+                onNotify(movie.slug)
+              }
+              else {
+                openLogin(async () => {
+                  await onNotify(movie.slug)
+                } );
+              }
+            }
+          }
           >
             <BellIcon />
             <span>{'Notify Me'}</span>

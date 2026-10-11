@@ -19,10 +19,7 @@ async function releaseHold(holdId) {
 async function payAndCompleteOrder({holdData, formData}) {
     const requestBody = mapCheckoutToApiRequest({holdData:holdData, formData:formData})
     const result = await bookingApi.payAndCompleteOrder(requestBody);
-    console.log("pay and complete api request was sent, result is: ")
     const transRes = mapPaymentResponseToConfirmation(result);
-    console.log("transres")
-    console.log(transRes)
     return transRes
 }
 

@@ -1,6 +1,7 @@
 import "./AuthModal.css";
 import useLoginForm from "../hooks/useLoginForm"
 import { useAuth } from "../providers/Auth"
+import { useState } from "react";
 
 export default function LoginModal() {
   
@@ -8,16 +9,26 @@ export default function LoginModal() {
 
   const { closeModal, openRegister, wrapLogin, activeModal } = useAuth();
 
+  const [errorMessage, setErrorMessage] = useState("");
+
 
   if (activeModal !== "login") {
       return null; 
   }
 
-  const canSubmit = email.trim() !== "" && password !== "";
+  const isValidEmail = (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+  const canSubmit = isValidEmail(email) && password.length >= 3;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (canSubmit) wrapLogin?.({ email, password });
+    setErrorMessage("");
+    if (canSubmit) {
+      try {
+        await wrapLogin?.({payload:{ email, password }});
+      } catch (err) {
+        setErrorMessage(err?.message || "Invalid email or password.");
+      }
+    }
   };
 
   return (
@@ -41,6 +52,12 @@ export default function LoginModal() {
           </button>
         </div>
 
+        {errorMessage && (
+          <div className="auth-error-banner" role="alert">
+            {errorMessage}
+          </div>
+        )}
+
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <div className="auth-field">
             <label className="auth-label" htmlFor="login-email">Email</label>
@@ -53,6 +70,9 @@ export default function LoginModal() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {email && !isValidEmail(email) && (
+              <p className="auth-field-error">Please enter a valid email address.</p>
+            )}
           </div>
 
           <div className="auth-field">
@@ -66,6 +86,9 @@ export default function LoginModal() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            {password && password.length < 3 && (
+              <p className="auth-field-error">Password must be at least 3 characters.</p>
+            )}
           </div>
 
           <button type="submit" className="auth-submit" disabled={!canSubmit}>

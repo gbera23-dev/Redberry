@@ -3,7 +3,6 @@
 const hasIntersection = (ls1, ls2, compFunct) => {
     for (const elem1 of ls1) {
       for (const elem2 of ls2) {
-        console.log("elem1 %s, elem 2 %s", elem1, elem2); 
         if (compFunct(elem1, elem2)) return true; 
       }
     }
@@ -18,15 +17,12 @@ const survivesFiltering = (ls1, ls2, compFunct) => {
 const compTimeFunct = (dayTime, time) => {
   const hour = parseInt(time.split(":")[0]);
   if (dayTime === "morning") {
-    console.log("morning %s", dayTime);
     return hour < 12; 
   }
   if (dayTime == "afternoon") {
-    console.log("afternoon %s", dayTime);
     return hour >= 12 && hour <= 18; 
   }
   if (dayTime == "evening") {
-    console.log("evening %s", dayTime);
     return hour > 18;
   }
   return false; 

@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react"
 import { userProfileRes } from "../../../shared/services/authService";
 import { getTickets } from "../../../shared/services/ticketsService";
+import { useNavbar } from "../../../shared/navigation/Navbar"
+
 
 export default function useProfilePage({ whichTab }) {
    const [activeTab, setActiveTab] = useState(whichTab);
    const [ticketsData, setTicketsData] = useState(""); 
+   const { goToProfilePage } = useNavbar() 
 
      useEffect(() => {
        async function fetchTicketsData() {
          try {
            const res = await getTickets();
-           console.log("res???")
-           console.log(res)
            setTicketsData(res)
 
          } catch (err) {
@@ -30,5 +31,5 @@ export default function useProfilePage({ whichTab }) {
      dob: "",
      venue: "",
    });
-   return {activeTab, setActiveTab, form, setForm, ticketsData};
+   return {activeTab, setActiveTab, form, setForm, ticketsData, goToProfilePage};
 }

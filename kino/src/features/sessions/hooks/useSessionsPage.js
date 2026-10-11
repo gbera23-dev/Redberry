@@ -1,25 +1,41 @@
 import { useState, useEffect } from "react";
 import { getSessions } from "../../../shared/services/sessionsService";
+import { useNavbar } from "../../../shared/navigation/Navbar";
+
+const getInitialUrlParams = () => {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    venues: params.get("venue") ? params.get("venue").split(",") : [],
+    formats: params.get("format") ? params.get("format").split(",") : [],
+    languages: params.get("language") ? params.get("language").split(",") : [],
+    times: params.get("time") ? params.get("time").split(",") : [],
+    date: params.get("date") || null,
+    sort: params.get("sort") || "price_asc", 
+    page: parseInt(params.get("page") || "1", 10),
+  };
+};
+
 
 export default function useSessionsPage() {
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const [sortOrder, setSortOrder] = useState("time_asc"); //for now
+  const initialParams = getInitialUrlParams();
+
+  const [selectedDate, setSelectedDate] = useState(initialParams.date);
+  const [sortOrder, setSortOrder] = useState(initialParams.sort);
+  const [currentPage, setCurrentPage] = useState(initialParams.page);
   const [filters, setFilters] = useState({
-    venues: [],
-    formats: [],
-    languages: [],
-    times: [],
+    venues: initialParams.venues,
+    formats: initialParams.formats,
+    languages: initialParams.languages,
+    times: initialParams.times,
   });
   const [sessions, setSessions] = useState([])
-  const [currentPage, setCurrentPage] = useState(1); 
-
+  const { goToSessionsPage } = useNavbar();
   useEffect(() => {
   
       async function fetchMovieData() {
         try {
           const res = await getSessions({filters, sortOrder, currentPage, selectedDate}) 
           setSessions(res)
-          console.log(res)
         } catch (err) {
           console.log("err happened")
           console.log(err.errors)
@@ -28,6 +44,39 @@ export default function useSessionsPage() {
   
       fetchMovieData();
     }, [filters, sortOrder, currentPage, selectedDate]);
+
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    
+    if (filters.venues?.length) params.set("venue", filters.venues.join(","));
+    if (selectedDate) params.set("date", selectedDate);
+    if (filters.formats?.length) params.set("format", filters.formats.join(","));
+    if (filters.languages?.length) params.set("language", filters.languages.join(","));
+    if (filters.times?.length) params.set("time", filters.times.join(","));
+    if (sortOrder) params.set("sort", sortOrder)
+    if (currentPage) params.set("page", currentPage)
+
+    goToSessionsPage({ filters:filters, searchString: params.toString() });
+}, [filters, selectedDate, currentPage, sortOrder]);
+
+useEffect(() => {
+    const handlePopState = () => {
+      const params = getInitialUrlParams();
+      setSelectedDate(params.date);
+      setSortOrder(params.sort);
+      setCurrentPage(params.page);
+      setFilters({
+        venues: params.venues,
+        formats: params.formats,
+        languages: params.languages,
+        times: params.times,
+      });
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   return {
     selectedDate,
