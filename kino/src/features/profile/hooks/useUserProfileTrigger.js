@@ -18,7 +18,7 @@ export default function useUserProfileTrigger() {
           setUser(res.data);
         }
       } catch (err) {
-        console.error("Failed to load header user trigger data", err);
+          alert(err.cleanMessage)
       } finally {
         if (isMounted) setIsLoading(false);
       }

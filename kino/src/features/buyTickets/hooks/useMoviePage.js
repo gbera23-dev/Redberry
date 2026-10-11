@@ -18,7 +18,7 @@ export default function useMoviePage({ slug }) {
         const venuesData = await catalogueService.getMovieSessions(slug, currDate);
         setVenues(venuesData);
       } catch (err) {
-        console.log(err)
+        alert(err.cleanMessage)
       }
     }
 

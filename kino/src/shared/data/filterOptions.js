@@ -59,7 +59,7 @@ export async function populateFilterOptions() {
         VENUES, DATES, FORMATS, LANGUAGES, TIMES, SORTS, TICKET_TYPES, AGE_RATINGS
       };
     } catch (err) {
-      console.error("Could not populate filter options", err);
+      alert(err.cleanMessage)
       fetchPromise = null; 
       throw err;
     }

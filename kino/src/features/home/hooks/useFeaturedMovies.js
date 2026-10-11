@@ -22,7 +22,7 @@ export default function useFeaturedMovies() {
           setSlides(data);
         }
       } catch (err) {
-        console.error("Failed to fetch featured movies:", err);
+        alert(err.cleanMessage)
         if (isMounted) {
           setError("Failed to load featured movies.");
         }

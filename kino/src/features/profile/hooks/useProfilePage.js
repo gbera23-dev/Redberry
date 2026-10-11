@@ -16,8 +16,7 @@ export default function useProfilePage({ whichTab }) {
            setTicketsData(res)
 
          } catch (err) {
-          console.log("err")
-          console.log(err)
+            alert(error.cleanMessage)
          }
        }
    

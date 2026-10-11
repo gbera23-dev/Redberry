@@ -11,7 +11,7 @@ export default function useMovie(slug) {
       const response = await catalogueApi.getMovie(slug);
       return response?.data || response; 
     } catch (error) {
-      console.error("Failed to fetch movie:", error); 
+      alert(error.cleanMessage)
       return null;
     }
   }

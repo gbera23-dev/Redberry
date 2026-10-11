@@ -27,8 +27,7 @@ export default function useInfoTab({form, setForm}) {
       try {
         await updateProfile(form);
       } catch(err) {
-        console.log("error message placeholder")
-        console.log(err)
+          alert(err.cleanMessage)
       } 
       finally {
         clearForm()

@@ -37,8 +37,7 @@ export default function useSessionsPage() {
           const res = await getSessions({filters, sortOrder, currentPage, selectedDate}) 
           setSessions(res)
         } catch (err) {
-          console.log("err happened")
-          console.log(err.errors)
+            alert(err.cleanMessage)
         }
       }
   

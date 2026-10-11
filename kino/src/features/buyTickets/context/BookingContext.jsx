@@ -4,7 +4,7 @@ import { catalogueService } from "../../../shared/services/catalogueService";
 import { payAndCompleteOrder } from "../../../shared/services/bookingService"; 
 import SeatSelectionModal from "../modals/SeatSelectionModal";
 import BookingConfirmationModal from "../modals/BookingConfirmationModal";
-import { isProfileComplete } from "../../../shared/services/authService"
+import { isProfileComplete as checkIsProfileComplete } from "../../../shared/services/authService";
 import { useNavbar } from "../../../shared/navigation/Navbar";
 
 const BookingContext = createContext();
@@ -18,6 +18,7 @@ export function BookingProvider({ children }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [confirmationData, setConfirmationData] = useState(null);
   const { goToProfilePage } = useNavbar(); 
+
   useEffect(() => {
     async function fetchData() {
       if (!selectedSessionId) {
@@ -34,21 +35,25 @@ export function BookingProvider({ children }) {
           setMovieData(movieRes);
         }
       } catch (err) {
-        console.error("Failed to fetch booking data", err);
+        alert(err.cleanMessage);
       }
     }
     fetchData();
   }, [selectedSessionId, selectedMovieSlug]);
 
-  const openBooking = ({ sessionId, slug }) => {
-    if (isProfileComplete()) {
-      setSelectedSessionId(sessionId);
-      setSelectedMovieSlug(slug);
-      setActiveModal("SEAT_MODAL");
-    }
-    else {
-      alert("Your profile is not complete, please, complete it and then try to book a ticket")
-      goToProfilePage("info")
+  const openBooking = async ({ sessionId, slug }) => {
+    try {
+      const complete = await checkIsProfileComplete();
+      if (complete) {
+        setSelectedSessionId(sessionId);
+        setSelectedMovieSlug(slug);
+        setActiveModal("SEAT_MODAL");
+      } else {
+        alert("Your profile is not complete, please, complete it and then try to book a ticket");
+        goToProfilePage("info");
+      }
+    } catch (err) {
+      alert(err.cleanMessage);
     }
   };
 
@@ -66,8 +71,7 @@ export function BookingProvider({ children }) {
       setConfirmationData(res);
       setActiveModal("BOOKING_MODAL");
     } catch (err) {
-      alert("Error happened while completing transaction");
-      console.error(err);
+      alert(err.cleanMessage);
     }
   };
 
@@ -78,7 +82,7 @@ export function BookingProvider({ children }) {
     <BookingContext.Provider value={{ openBooking, handleCloseModal }}>
       {children}
 
-    {activeModal === "SEAT_MODAL" && selectedSession && (
+      {activeModal === "SEAT_MODAL" && selectedSession && (
         <SeatSelectionModal
           session={selectedSession}
           movieDetails={{
