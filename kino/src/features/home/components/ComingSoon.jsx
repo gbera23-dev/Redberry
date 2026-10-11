@@ -11,8 +11,7 @@ export default function ComingSoon() {
     try { 
       await catalogueService.notifyOnMovieTitle(slug)
     } catch(err) {
-      console.log("error happened during sending notify")
-      console.log(err)
+      alert(err.cleanMessage)
     }
   }
 

@@ -16,7 +16,7 @@ export default function useMovies( apiCall ) {
         const data = response?.data || response || [];
         setMovies(data);
       } catch (err) {
-        console.error('Failed to fetch movies:', err);
+        alert(error.cleanMessage)
         setError('Failed to load movies.');
       } finally {
         setLoading(false);

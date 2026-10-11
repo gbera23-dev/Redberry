@@ -9,8 +9,7 @@ export function useTicketsTab(tickets) {
             const res = await refundOrder(orderId)
             setSubTab(null)
         } catch (err) {
-            alert("something went wrong with a refund!")
-            alert(err?.message)
+            alert(err.cleanMessage)
         }
     }
 

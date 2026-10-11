@@ -35,7 +35,7 @@ export function useAuthModal() {
             }
         } catch (error) {
             clearToken();
-            console.log("Authorization error", error); 
+            alert(error.cleanMessage); 
         } finally {
             closeModal();
         }        
@@ -50,7 +50,7 @@ export function useAuthModal() {
             }
         } catch (error) {
             clearToken();
-            console.log("Authorization error", error); 
+            alert(error.cleanMessage); 
         } finally {
             closeModal();
         }         
@@ -61,7 +61,7 @@ export function useAuthModal() {
             await logoutUser(); 
             setUserIsAuthorized(false);
         } catch (error) {
-            console.log("Authorization error", error); 
+            alert(error.cleanMessage); 
         } finally {
             clearToken();
         }         

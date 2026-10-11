@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getSessionSeats } from "../../../shared/services/sessionsService"; 
 import { holdSessionSeats, releaseHold } from "../../../shared/services/bookingService";
 import { MAX_SEATS_PER_ORDER } from "../../../shared/data/filterOptions";
+import { useNavbar } from "../../../shared/navigation/Navbar";
 
 export default function useSeatSelection({ 
   sessionId, 
@@ -15,14 +16,14 @@ export default function useSeatSelection({
   const [holdData, setHoldData] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [formData, setFormData] = useState({});
-
+  const { goToProfilePage } = useNavbar()
   const fetchSeatLayout = async () => {
     if (!sessionId) return;
     try {
       const res = await getSessionSeats(sessionId);
       setSeatLayout(res);
     } catch (err) {
-      console.error("Failed to fetch seat layout:", err);
+      alert(err.cleanMessage)
     }
   };
 
@@ -54,9 +55,9 @@ export default function useSeatSelection({
         setHoldData(responseData); 
         setErrorMessage(null);
       } catch (err) {
-        alert("something went wrong...")
-        alert(err?.response?.message)
-        console.error("Hold failed:", err);
+        alert(err.cleanMessage)
+        setErrorMessage(err)
+        goToProfilePage("info")
       }
     }
 

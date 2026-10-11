@@ -29,7 +29,7 @@ export default function useSearchOverlay(query) {
           setError(null);
         }
       } catch (err) {
-        if (isMounted) setError(err.message || "Search failed");
+        if (isMounted) console.log("movies not found");
       } finally {
         if (isMounted) setIsLoading(false);
       }

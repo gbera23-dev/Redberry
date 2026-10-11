@@ -59,33 +59,44 @@ export default function SessionsPage() {
 
         <section className="main-sessions-view">
 
-          <div className="sessions-top-bar">
-            <span className="sessions-count">Showing {numMovies} sessions</span>
-            <div className="sort-dropdown">
-              <span>Sort:</span>
-              <select
-                value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value)}
-              >
-                {sorts.map((sort) => (
-                  <option key={sort.id} value={sort.id}>
-                    {sort.label}
-                  </option>
+        {numMovies > 0 && (
+            <>
+              <div className="sessions-top-bar">
+                <span className="sessions-count">Showing {numMovies} sessions</span>
+                <div className="sort-dropdown">
+                  <span>Sort:</span>
+                  <select
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
+                  >
+                    {sorts.map((sort) => (
+                      <option key={sort.id} value={sort.id}>
+                        {sort.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div> 
+
+              <div className="movies-list">
+                {sessions.map((movie) => (
+                  <MovieSessionRow key={movie.id} movie={movie} />
                 ))}
-              </select>
+              </div>
+
+              <Pagination 
+                currentPage={ currentPage }
+                onPageChange={ changePage }
+              />
+            </>
+          )}
+
+          {numMovies === 0 && (
+            <div className="no-sessions-found">
+              <p>No sessions found</p>
             </div>
-          </div> 
+          )}
 
-          <div className="movies-list">
-            {sessions.map((movie) => (
-              <MovieSessionRow key={movie.id} movie={movie} />
-            ))}
-          </div>
-
-          <Pagination 
-            currentPage={ currentPage }
-            onPageChange={ changePage }
-          />
         </section>
       </div>
     </main>

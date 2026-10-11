@@ -39,7 +39,7 @@ export default function useUserProfileModal() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err.message || "Failed to load profile");
+          alert(err.cleanMessage)
         }
       } finally {
         if (isMounted) {

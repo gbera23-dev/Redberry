@@ -33,12 +33,12 @@ import { setToken } from "../utils/tokenUtils"
         userProfileRes=null; 
     }
 
-    //checks that user's profile is complete or not(depends on the cache)
     export async function isProfileComplete() {
         if(!userProfileRes) {
             await getUserProfile();
         }
-        return userProfileRes.profileComplete; 
+        console.log(userProfileRes.data.profileComplete)
+        return userProfileRes.data.profileComplete; 
     }
     
     //finds user age 
