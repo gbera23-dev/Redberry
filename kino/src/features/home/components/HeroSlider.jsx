@@ -43,8 +43,6 @@ export default function HeroSlider() {
           slide={item}
           isActive={i === index}
           onBuyTickets={() => {
-            console.log("item: ")
-            console.log(item.slug)
             onBuyTickets(item.slug)
           }
         }

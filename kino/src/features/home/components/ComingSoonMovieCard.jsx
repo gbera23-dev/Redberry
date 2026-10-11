@@ -69,7 +69,9 @@ export default function ComingSoonMovieCard({ slug, movie, onNotify }) {
                 onNotify(movie.slug)
               }
               else {
-                openLogin();
+                openLogin(async () => {
+                  await onNotify(movie.slug)
+                } );
               }
             }
           }

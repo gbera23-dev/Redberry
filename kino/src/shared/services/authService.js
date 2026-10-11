@@ -33,5 +33,11 @@ import { setToken } from "../utils/tokenUtils"
         userProfileRes=null; 
     }
 
+    //checks that user's profile is complete or not(depends on the cache)
+    export function isProfileComplete() {
+        if(!userProfileRes)return false; 
+        return userProfileRes.profileComplete; 
+    } 
+
 
 export {registerUser, loginUser, logoutUser, getUserProfile}

@@ -48,7 +48,7 @@ export default function SignupModal() {
 
     if (canSubmit) {
       try {
-        await wrapRegister?.({ username, email, password, password_confirmation, avatar });
+        await wrapRegister?.({payload:{ username, email, password, password_confirmation, avatar }});
       } catch (err) {
         if (err?.errors) {
           setFieldErrors(err.errors);

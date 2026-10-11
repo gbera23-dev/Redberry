@@ -21,6 +21,7 @@ httpClient.interceptors.request.use((config) => {
   return config;
 });
 
+
 /**
  * If on client's API request, API returns 401, which means that user is not authenticated, 
  * stored token becomes useless, it is either expired or corrupted, therefore we clear it.   
@@ -30,10 +31,8 @@ httpClient.interceptors.response.use(
   (error) => {
     
     if (error.response && error.response.status === 401) {
+      alert("Login was unsuccessful")
       clearToken(); 
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
-      }
     }
 
     return Promise.reject(error);

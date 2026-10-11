@@ -4,6 +4,8 @@ import { catalogueService } from "../../../shared/services/catalogueService";
 import { payAndCompleteOrder } from "../../../shared/services/bookingService"; 
 import SeatSelectionModal from "../modals/SeatSelectionModal";
 import BookingConfirmationModal from "../modals/BookingConfirmationModal";
+import { isProfileComplete } from "../../../shared/services/authService"
+import { useNavbar } from "../../../shared/navigation/Navbar";
 
 const BookingContext = createContext();
 
@@ -15,7 +17,7 @@ export function BookingProvider({ children }) {
   const [activeModal, setActiveModal] = useState(null); 
   const [totalPrice, setTotalPrice] = useState(0);
   const [confirmationData, setConfirmationData] = useState(null);
-
+  const { goToProfilePage } = useNavbar(); 
   useEffect(() => {
     async function fetchData() {
       if (!selectedSessionId) {
@@ -39,9 +41,15 @@ export function BookingProvider({ children }) {
   }, [selectedSessionId, selectedMovieSlug]);
 
   const openBooking = ({ sessionId, slug }) => {
-    setSelectedSessionId(sessionId);
-    setSelectedMovieSlug(slug);
-    setActiveModal("SEAT_MODAL");
+    if (isProfileComplete()) {
+      setSelectedSessionId(sessionId);
+      setSelectedMovieSlug(slug);
+      setActiveModal("SEAT_MODAL");
+    }
+    else {
+      alert("Your profile is not complete, please, complete it and then try to book a ticket")
+      goToProfilePage("info")
+    }
   };
 
   const handleCloseModal = () => {

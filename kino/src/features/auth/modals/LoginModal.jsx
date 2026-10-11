@@ -24,7 +24,7 @@ export default function LoginModal() {
     setErrorMessage("");
     if (canSubmit) {
       try {
-        await wrapLogin?.({ email, password });
+        await wrapLogin?.({payload:{ email, password }});
       } catch (err) {
         setErrorMessage(err?.message || "Invalid email or password.");
       }

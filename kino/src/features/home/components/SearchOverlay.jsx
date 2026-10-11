@@ -98,7 +98,9 @@ export default function SearchOverlay({ query = "", onBrowseAll, onSelectMovie }
               if(userIsAuthorized) {
                 onSelectMovie(movie.slug)
               } else {
-                openLogin()
+                openLogin(async () => {
+                  await onSelectMovie(movie.slug)
+                })
               }
             }
           }

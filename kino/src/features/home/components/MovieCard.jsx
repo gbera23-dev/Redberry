@@ -53,7 +53,9 @@ export default function MovieCard( { slug, movie, onBuy } ) {
               if(userIsAuthorized) {
                 onBuy?.(movie.slug)
               } else {
-                openLogin()
+                openLogin(async () => {
+                  await onBuy?.(movie.slug)
+                })
               }
             }
             }>

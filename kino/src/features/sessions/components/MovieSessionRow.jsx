@@ -27,7 +27,9 @@ export const MovieSessionRow = ({ movie }) => {
                 openBooking({sessionId: session.id, slug: movie.slug})
               }
               else {
-                openLogin()
+                openLogin(async () => {
+                  await openBooking({sessionId: session.id, slug: movie.slug})
+                })
               }
             }
             }
