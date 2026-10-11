@@ -1,10 +1,12 @@
 import useSearchOverlay from "../hooks/useSearchOverlay";
 import SearchResultCard from "../components/SearchResultCard";
+import { useAuth } from "../../auth/providers/Auth";
 import "./SearchOverlay.css";
 
 export default function SearchOverlay({ query = "", onBrowseAll, onSelectMovie }) {
   const { results, isLoading } = useSearchOverlay(query);
   const trimmedQuery = query.trim();
+  const { userIsAuthorized, openLogin } = useAuth();
 
   if (!trimmedQuery) {
     return (
@@ -92,7 +94,14 @@ export default function SearchOverlay({ query = "", onBrowseAll, onSelectMovie }
           <SearchResultCard
             key={movie.id}
             {...movie}
-            onClick={() => onSelectMovie(movie.slug)}
+            onClick={() => {
+              if(userIsAuthorized) {
+                onSelectMovie(movie.slug)
+              } else {
+                openLogin()
+              }
+            }
+          }
           />
         ))}
       </div>

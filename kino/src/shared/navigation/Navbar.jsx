@@ -43,7 +43,7 @@ export default function Nav() {
         changePage({url:NAV_PROFILEPAGE, args:whichTab})
     }
 
-    const goToMoviePage = (movieSlug) => {
+    const goToMoviePage = ({movieSlug}) => {
         changePage({url:NAV_MOVIEPAGE, args:movieSlug})
     }
 

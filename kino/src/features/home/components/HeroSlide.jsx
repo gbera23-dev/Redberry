@@ -1,8 +1,11 @@
 import { formatDuration } from '../../../shared/utils/format.js';
 import { ClockIcon, TicketIcon } from './Icons.jsx';
+import { useAuth } from "../../auth/providers/Auth";
 
 export default function HeroSlide({ slide, isActive, onBuyTickets, onAllSessions }) {
   if (!slide) return null;
+
+  const { userIsAuthorized, openLogin } = useAuth();
 
   const ageRatingCode = slide.ageRating?.code;
   const duration = formatDuration 
@@ -46,7 +49,14 @@ export default function HeroSlide({ slide, isActive, onBuyTickets, onAllSessions
           )}
 
           <div className="hero__actions">
-            <button type="button" className="btn btn--primary" onClick={() => onBuyTickets?.(slide)}>
+            <button type="button" className="btn btn--primary" onClick={() => {
+              if(userIsAuthorized) {
+                onBuyTickets?.(slide)
+              } else {
+                openLogin()
+              }
+            }
+            }>
               <TicketIcon width={13} height={13} />
               Buy tickets
             </button>

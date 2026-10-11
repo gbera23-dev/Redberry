@@ -1,6 +1,7 @@
 import "./AuthModal.css";
 import useRegistrationForm from "../hooks/useRegistrationForm";
 import { useAuth } from "../providers/Auth"
+import { useState } from "react";
 
 export default function SignupModal() {
 
@@ -8,27 +9,54 @@ export default function SignupModal() {
     email, setEmail, password, setPassword, password_confirmation, setConfirm} = useRegistrationForm(); 
 
   const { closeModal, openLogin, wrapRegister, activeModal } = useAuth();
+  
+  const [fileError, setFileError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [apiError, setApiError] = useState("");
     
   if (activeModal !== "register") {
     return null; 
   }
 
+  const isValidEmail = (val) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
   const canSubmit =
-    username.trim() !== "" &&
-    email.trim() !== "" &&
-    password !== "" &&
+    username.trim().length >= 3 &&
+    isValidEmail(email) &&
+    password.length >= 3 &&
     password === password_confirmation;
 
   const handleFile = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!validTypes.includes(file.type)) {
+      setFileError("Only JPG, PNG, or WEBP file formats are supported.");
+      setAvatar(null);
+      setPreview(null);
+      return;
+    }
+    setFileError("");
     setAvatar(file);
     setPreview(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (canSubmit) wrapRegister?.({ username, email, password, password_confirmation, avatar });
+    setApiError("");
+    setFieldErrors({});
+
+    if (canSubmit) {
+      try {
+        await wrapRegister?.({ username, email, password, password_confirmation, avatar });
+      } catch (err) {
+        if (err?.errors) {
+          setFieldErrors(err.errors);
+        } else {
+          setApiError(err?.message || "Registration failed. Please try again.");
+        }
+      }
+    }
   };
 
   return (
@@ -51,6 +79,12 @@ export default function SignupModal() {
             </svg>
           </button>
         </div>
+
+        {apiError && (
+          <div className="auth-error-banner" role="alert">
+            {apiError}
+          </div>
+        )}
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <div className="auth-avatar">
@@ -78,6 +112,7 @@ export default function SignupModal() {
             <div>
               <p className="auth-avatar__title">Upload avatar (optional)</p>
               <p className="auth-avatar__hint">JPG, PNG or WEBP</p>
+              {fileError && <p className="auth-field-error">{fileError}</p>}
             </div>
           </div>
 
@@ -92,6 +127,12 @@ export default function SignupModal() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
+            {username && username.trim().length < 3 && (
+              <p className="auth-field-error">Username must be at least 3 characters.</p>
+            )}
+            {fieldErrors.username && (
+              <p className="auth-field-error">{fieldErrors.username}</p>
+            )}
           </div>
 
           <div className="auth-field">
@@ -105,6 +146,12 @@ export default function SignupModal() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {email && !isValidEmail(email) && (
+              <p className="auth-field-error">Please enter a valid email address.</p>
+            )}
+            {fieldErrors.email && (
+              <p className="auth-field-error">{fieldErrors.email}</p>
+            )}
           </div>
 
           <div className="auth-row">
@@ -119,6 +166,9 @@ export default function SignupModal() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {password && password.length < 3 && (
+                <p className="auth-field-error">At least 3 characters.</p>
+              )}
             </div>
             <div className="auth-field">
               <label className="auth-label" htmlFor="signup-confirm">Confirm password</label>
@@ -131,6 +181,9 @@ export default function SignupModal() {
                 value={password_confirmation}
                 onChange={(e) => setConfirm(e.target.value)}
               />
+              {password_confirmation && password_confirmation !== password && (
+                <p className="auth-field-error">Passwords do not match.</p>
+              )}
             </div>
           </div>
 

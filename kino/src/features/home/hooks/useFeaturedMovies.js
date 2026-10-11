@@ -41,7 +41,7 @@ export default function useFeaturedMovies() {
   }, []);
 
 
-  const onBuyTickets = () => goToSessionsPage({filters:null}) 
+  const onBuyTickets = (slug) => goToMoviePage({movieSlug:slug}) 
   const onAllSessions = () => goToSessionsPage({filters:null})
 
   return { index, setIndex, slides, loading, error, onBuyTickets, onAllSessions };

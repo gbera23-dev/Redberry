@@ -9,7 +9,7 @@ export default function NowPlaying() {
   const { movies, loading, error, goToMoviePage, goToSessionsPage } = useMovies( catalogueService.getNowPlaying );
 
   const onBuy = (slug) => {
-    goToMoviePage(slug)
+    goToMoviePage({movieSlug:slug})
   }
 
   if (loading) return <div className="now-playing__loading">Loading...</div>;

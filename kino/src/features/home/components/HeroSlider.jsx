@@ -35,7 +35,6 @@ export default function HeroSlider() {
   }
 
   if (!total) return null;
-
   return (
     <section className="hero">
       {slides.map((item, i) => (
@@ -43,7 +42,12 @@ export default function HeroSlider() {
           key={item.id}
           slide={item}
           isActive={i === index}
-          onBuyTickets={onBuyTickets}
+          onBuyTickets={() => {
+            console.log("item: ")
+            console.log(item.slug)
+            onBuyTickets(item.slug)
+          }
+        }
           onAllSessions={onAllSessions}
         />
       ))}

@@ -51,7 +51,7 @@ export default function Header() {
               query={query}
               onBrowseAll={() => goToSessionsPage({filter:null, searchString: query})}
               onSelectMovie={(slug) => {
-                goToMoviePage(slug)}
+                goToMoviePage({movieSlug:slug})}
               }
             />
           </div>
